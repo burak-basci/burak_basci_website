@@ -1,23 +1,35 @@
 {
-    "name": "David Legend Portfolio",
-    "short_name": "David Legend Portfolio",
+    "name": "burak_basci_website",
+    "short_name": "burak_basci_website",
     "start_url": ".",
-    "display": "minimal-ui",
+    "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Portfolio website for David Legend Portfolio. This portfolio chowcases his education, skills & expertise, experience, acheivements and hobbies.",
+    "description": "A beautifully crafted portfolio site built with flutter",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
         {
-            "src": "icons/logo-aerium-2.png",
+            "src": "icons/Icon-192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "icons/logo-aerium-2.png",
+            "src": "icons/Icon-512.png",
             "sizes": "512x512",
             "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
         }
     ]
 }
