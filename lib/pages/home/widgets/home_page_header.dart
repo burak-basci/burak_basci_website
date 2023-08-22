@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:layout/layout.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../../utils/adaptive_layout.dart';
@@ -127,42 +128,52 @@ class HomePageHeaderState extends State<HomePageHeader> with TickerProviderState
           const Center(
             child: WhiteCircle(),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              // Container(
-              //   padding: padding,
-              //   child: AnimatedSlideTransition(
-              //     controller: controller,
-              //     position: animation,
-              //     child: Stack(
-              //       children: <Widget>[
-              //         RotationTransition(
-              //           turns: rotationController,
-              //           child: Image.asset(
-              //             ImagePath.DEV_SKILLS_2,
-              //             width: screenWidth,
-              //           ),
-              //         ),
-              //         Image.asset(
-              //           ImagePath.DEV_MEDITATE,
-              //           width: screenWidth,
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              Container(
-                padding: padding,
-                child: SizedBox(
+          Positioned(
+            left: 0,
+            bottom: 0,
+            child: Padding(
+              padding: padding,
+              child: SizedBox(
+                width: screenWidth,
+                child: HomeAboutDev(
+                  controller: widget.controller,
                   width: screenWidth,
-                  child: HomeAboutDev(
-                    controller: widget.controller,
-                    width: screenWidth,
-                  ),
                 ),
               ),
-            ],
+            ),
+          ),
+          Positioned(
+            right: 0,
+            bottom: -screenHeight * 0.1,
+            child: Padding(
+              padding: padding.copyWith(bottom: 0.0),
+              child: AnimatedSlideTransition(
+                controller: controller,
+                position: animation,
+                child: Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.diagonal3Values(1, 0.8, 1),
+                  child: LayoutBuilder(builder: (context, constraints) {
+                    double size;
+
+                    if (screenWidth > screenHeight) {
+                      size = screenHeight * 0.6;
+                    } else {
+                      size = screenWidth * 0.6;
+                    }
+
+                    return Text(
+                      'X',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: size,
+                        color: Colors.black,
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ),
           ),
           Positioned(
             right: 0,
@@ -181,7 +192,7 @@ class HomePageHeaderState extends State<HomePageHeader> with TickerProviderState
                         duration: kDuration,
                       );
                     },
-                    child: Container(
+                    child: Margin(
                       margin: const EdgeInsets.only(right: 24, bottom: 40),
                       child: MouseRegion(
                         onEnter: (e) => scrollDownButtonController.forward(),

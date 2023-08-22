@@ -22,6 +22,8 @@ class WorksPage extends StatefulWidget {
 }
 
 class WorksPageState extends State<WorksPage> with TickerProviderStateMixin {
+  final ScrollController _scrollController = ScrollController();
+
   late AnimationController _controller;
   late AnimationController _headingTextController;
 
@@ -73,12 +75,14 @@ class WorksPageState extends State<WorksPage> with TickerProviderStateMixin {
         _headingTextController.forward();
       },
       child: ListView(
+        controller: _scrollController,
         padding: EdgeInsets.zero,
         physics: const BouncingScrollPhysics(
           parent: AlwaysScrollableScrollPhysics(),
         ),
         children: <Widget>[
           DefaultPageHeader(
+            scrollController: _scrollController,
             headingText: StringConst.WORK,
             headingTextController: _headingTextController,
           ),

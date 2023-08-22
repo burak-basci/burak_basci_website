@@ -1,9 +1,9 @@
-import 'package:burak_basci_website/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:layout/layout.dart';
 
+import 'firebase_options.dart';
 import 'pages/home/home_page.dart';
 import 'utils/configure_web.dart';
 import 'utils/routes.dart';
@@ -12,14 +12,13 @@ import 'utils/values/values.dart';
 
 // Home
 // TODO: Add an Animation to the White Circle
-// TODO: Add an X to the Home Page Header
-
-// Contact
-// TODO:: Fix email service
 
 // Text
-// TODO: Fix Background Color
+// TODO: Fix Text Background Color
 // TODO: Make Text properly Selectable
+
+// Animations
+// TODO: Adjust the Curves
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

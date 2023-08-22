@@ -30,7 +30,7 @@ class TechnologySection extends StatelessWidget {
       width: width,
       child: ResponsiveBuilder(
         builder: (context, sizingInformation) {
-          double screenWidth = sizingInformation.screenSize.width;
+          final double screenWidth = sizingInformation.screenSize.width;
 
           if (screenWidth < const RefinedBreakpoints().tabletNormal) {
             return Column(
@@ -39,17 +39,17 @@ class TechnologySection extends StatelessWidget {
                 AnimatedTextSlideBoxTransition(
                   controller: controller,
                   width: screenWidth,
-                  text: StringConst.MOBILE_TECH,
+                  text: StringConst.PROGRAMMING_LANGUAGES,
                   textStyle: titleStyle,
                 ),
                 const SpaceH20(),
                 Wrap(
                   direction: Axis.vertical,
-                  spacing: 20,
+                  spacing: 16,
                   children: _buildTechnologies(
                     context,
-                    data: Data.mobileTechnologies,
                     controller: controller,
+                    data: Data.programmingLanguages,
                     width: screenWidth,
                   ),
                 ),
@@ -57,18 +57,36 @@ class TechnologySection extends StatelessWidget {
                 AnimatedTextSlideBoxTransition(
                   controller: controller,
                   width: screenWidth,
-                  text: StringConst.OTHER_TECH,
+                  text: StringConst.APPLICATIONS,
                   textStyle: titleStyle,
                 ),
                 const SpaceH20(),
                 Wrap(
-                  spacing: (width * 0.1) / 3,
-                  runSpacing: 20,
+                  direction: Axis.vertical,
+                  spacing: 16,
                   children: _buildTechnologies(
                     context,
                     controller: controller,
-                    data: Data.otherTechnologies,
-                    width: width * 0.3,
+                    data: Data.applications,
+                    width: screenWidth,
+                  ),
+                ),
+                const SpaceH40(),
+                AnimatedTextSlideBoxTransition(
+                  controller: controller,
+                  width: screenWidth,
+                  text: StringConst.OTHER_SOFTWARE,
+                  textStyle: titleStyle,
+                ),
+                const SpaceH20(),
+                Wrap(
+                  direction: Axis.vertical,
+                  spacing: 16,
+                  children: _buildTechnologies(
+                    context,
+                    controller: controller,
+                    data: Data.otherSoftware,
+                    width: screenWidth,
                   ),
                 ),
               ],
@@ -76,58 +94,99 @@ class TechnologySection extends StatelessWidget {
           } else {
             return Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SizedBox(
-                  width: width * 0.25,
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       AnimatedTextSlideBoxTransition(
                         controller: controller,
                         width: width * 0.25,
-                        text: StringConst.MOBILE_TECH,
+                        text: StringConst.PROGRAMMING_LANGUAGES,
                         textStyle: titleStyle,
                       ),
                       const SpaceH20(),
-                      Wrap(
-                        direction: Axis.vertical,
-                        spacing: spacing,
-                        children: _buildTechnologies(
-                          context,
-                          controller: controller,
-                          data: Data.mobileTechnologies,
-                          width: width * 0.25,
-                        ),
+                      Row(
+                        children: <Widget>[
+                          const SpaceW4(),
+                          Expanded(
+                            child: Wrap(
+                              direction: Axis.vertical,
+                              spacing: spacing,
+                              clipBehavior: Clip.antiAlias,
+                              children: _buildTechnologies(
+                                context,
+                                controller: controller,
+                                data: Data.programmingLanguages,
+                                width: width * 0.25,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
                 Expanded(
-                  child: SizedBox(
-                    width: (width * 0.75),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        AnimatedTextSlideBoxTransition(
-                          controller: controller,
-                          width: (width * 0.75),
-                          text: StringConst.OTHER_TECH,
-                          textStyle: titleStyle,
-                        ),
-                        const SpaceH20(),
-                        Wrap(
-                          spacing: spacing,
-                          runSpacing: spacing,
-                          children: _buildTechnologies(
-                            context,
-                            controller: controller,
-                            data: Data.otherTechnologies,
-                            width: ((width * 0.75) - (spacing * 3)) / 5,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      AnimatedTextSlideBoxTransition(
+                        controller: controller,
+                        width: (width * 0.25),
+                        text: StringConst.APPLICATIONS,
+                        textStyle: titleStyle,
+                      ),
+                      const SpaceH20(),
+                      Row(
+                        children: <Widget>[
+                          const SpaceW4(),
+                          Expanded(
+                            child: Wrap(
+                              spacing: spacing,
+                              runSpacing: spacing,
+                              children: _buildTechnologies(
+                                context,
+                                controller: controller,
+                                data: Data.applications,
+                                width: width * 0.25,
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      AnimatedTextSlideBoxTransition(
+                        controller: controller,
+                        width: (width * 0.25),
+                        text: StringConst.OTHER_SOFTWARE,
+                        textStyle: titleStyle,
+                      ),
+                      const SpaceH20(),
+                      Row(
+                        children: <Widget>[
+                          const SpaceW4(),
+                          Expanded(
+                            child: Wrap(
+                              spacing: spacing,
+                              runSpacing: spacing,
+                              children: _buildTechnologies(
+                                context,
+                                controller: controller,
+                                data: Data.otherSoftware,
+                                width: width * 0.25,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],

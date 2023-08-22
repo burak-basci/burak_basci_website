@@ -124,66 +124,40 @@ class Data {
     ),
   ];
 
-  static List<String> mobileTechnologies = <String>[
-    "Android",
-    "Kotlin",
-    "Jetpack Compose",
+  static List<String> programmingLanguages = <String>[
+    "Dart",
     "Flutter",
-    "Dart"
-        "Java Android",
+    "C/C++",
+    "Python",
+    "Solidity",
+    "Matlab",
+    "Java",
   ];
 
-  static List<String> otherTechnologies = <String>[
-    "HTML 5",
-    "CSS 3",
-    "JavaScript",
-    "Typescript",
-    "React JS",
-    "Next JS",
-    "Node JS",
-    "Git",
-    "AWS",
-    "Docker",
-    "Kubernetes",
-    "Google Cloud",
-    "Azure",
-    "Travis CI",
-    "Circle CI",
-    "Express",
-    "Chakra UI",
-    "Laravel",
-    "PHP",
-    "SQL",
-    "C++",
+  static List<String> applications = <String>[
+    "Unreal Engine",
+    "Android Studio",
+    "Visual Studio Code",
+    "Remix Ethereum IDE",
+    "Matlab",
+    "TwinCAT",
+    "OBS Studio",
+    "Adobe Photoshop",
+    "Adobe Illustrator",
+    "Microsoft Word",
+    "Microsoft Excel",
+    "Microsoft PowerPoint",
+  ];
+
+  static List<String> otherSoftware = <String>[
     "Firebase",
-    "Figma",
-    "Adobe XD",
+    "Git",
+    "Hardhat",
+    "Auto GPT",
+    "YOLOv8",
+    "MidJourney",
+    "Stable Diffusion",
     "Wordpress",
-  ];
-  static List<SocialData> socialData1 = <SocialData>[
-    SocialData(
-      name: StringConst.GITHUB,
-      iconData: FontAwesomeIcons.github,
-      url: StringConst.GITHUB_URL,
-    ),
-    SocialData(
-      name: StringConst.LINKED_IN,
-      iconData: FontAwesomeIcons.linkedin,
-      url: StringConst.LINKED_IN_URL,
-    ),
-    SocialData(
-      name: StringConst.PINTEREST,
-      iconData: FontAwesomeIcons.pinterest,
-      url: StringConst.PINTEREST_URL,
-    ),
-  ];
-
-  static List<SocialData> socialData2 = <SocialData>[
-    SocialData(
-      name: StringConst.LINKED_IN,
-      iconData: FontAwesomeIcons.linkedin,
-      url: StringConst.LINKED_IN_URL,
-    ),
   ];
 
   static List<ProjectItemData> recentWorks = <ProjectItemData>[

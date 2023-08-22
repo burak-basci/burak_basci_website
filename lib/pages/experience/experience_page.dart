@@ -23,6 +23,8 @@ class ExperiencePage extends StatefulWidget {
 }
 
 class ExperiencePageState extends State<ExperiencePage> with TickerProviderStateMixin {
+  final ScrollController _scrollController = ScrollController();
+
   late AnimationController _controller;
   late AnimationController _experience1Controller;
   late AnimationController _experience2Controller;
@@ -105,12 +107,14 @@ class ExperiencePageState extends State<ExperiencePage> with TickerProviderState
         _controller.forward();
       },
       child: ListView(
+        controller: _scrollController,
         padding: EdgeInsets.zero,
         physics: const BouncingScrollPhysics(
           parent: AlwaysScrollableScrollPhysics(),
         ),
         children: <Widget>[
           DefaultPageHeader(
+            scrollController: _scrollController,
             headingText: StringConst.EXPERIENCE,
             headingTextController: _controller,
           ),

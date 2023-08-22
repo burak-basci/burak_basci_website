@@ -158,8 +158,8 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                 VisibilityDetector(
                   key: const Key('story-section'),
                   onVisibilityChanged: (visibilityInfo) {
-                    double visiblePercentage = visibilityInfo.visibleFraction * 100;
-                    if (visiblePercentage > responsiveSize(context, 40, 70, medium: 50)) {
+                    if (visibilityInfo.visibleFraction * 100 >
+                        responsiveSize(context, 40, 70, medium: 50)) {
                       _storyController.forward();
                     }
                   },
@@ -183,6 +183,7 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                           controller: storySectionAnimation,
                           width: widthOfBody,
                           maxLines: 30,
+                          factor: 1.25,
                           text: StringConst.ABOUT_DEV_STORY_CONTENT_2,
                           textStyle: bodyText1Style,
                         ),
@@ -190,6 +191,7 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                           controller: storySectionAnimation,
                           width: widthOfBody,
                           maxLines: 30,
+                          factor: 1.25,
                           text: StringConst.ABOUT_DEV_STORY_CONTENT_3,
                           textStyle: bodyText1Style,
                         ),
@@ -201,8 +203,7 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                 VisibilityDetector(
                   key: const Key('technology-section'),
                   onVisibilityChanged: (visibilityInfo) {
-                    double visiblePercentage = visibilityInfo.visibleFraction * 100;
-                    if (visiblePercentage > 50) {
+                    if (visibilityInfo.visibleFraction * 100 > 50) {
                       _technologyController.forward();
                     }
                   },
@@ -226,8 +227,7 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                     footer: VisibilityDetector(
                       key: const Key('technology-list'),
                       onVisibilityChanged: (visibilityInfo) {
-                        double visiblePercentage = visibilityInfo.visibleFraction * 100;
-                        if (visiblePercentage > 60) {
+                        if (visibilityInfo.visibleFraction * 100 > 60) {
                           _technologyListController.forward();
                         }
                       },
@@ -247,8 +247,7 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                 VisibilityDetector(
                   key: const Key('contact-section'),
                   onVisibilityChanged: (visibilityInfo) {
-                    double visiblePercentage = visibilityInfo.visibleFraction * 100;
-                    if (visiblePercentage > 50) {
+                    if (visibilityInfo.visibleFraction * 100 > 50) {
                       _contactController.forward();
                     }
                   },
@@ -265,7 +264,7 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                         Wrap(
                           spacing: 20,
                           runSpacing: 20,
-                          children: _buildSocials(Data.socialData2),
+                          children: _buildSocials(Data.socialData),
                         ),
                       ],
                     ),

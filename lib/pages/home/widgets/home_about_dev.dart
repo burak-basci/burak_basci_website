@@ -142,7 +142,7 @@ class HomeAboutDevState extends State<HomeAboutDev> {
             runSpacing: 20,
             children: _buildSocials(
               context: context,
-              data: Data.socialData1,
+              data: Data.socialData,
             ),
           ),
         )

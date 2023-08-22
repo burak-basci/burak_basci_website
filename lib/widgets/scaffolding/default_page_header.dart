@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:layout/layout.dart';
 
 import '../../../utils/adaptive_layout.dart';
 import '../../../utils/values/values.dart';
@@ -7,11 +8,13 @@ import '../animations/animated_text_slide_box_transition.dart';
 
 class DefaultPageHeader extends StatefulWidget {
   const DefaultPageHeader({
+    required this.scrollController,
     required this.headingText,
     required this.headingTextController,
     Key? key,
   }) : super(key: key);
 
+  final ScrollController scrollController;
   final String headingText;
   final AnimationController headingTextController;
 
@@ -58,8 +61,9 @@ class DefaultPageHeaderState extends State<DefaultPageHeader> with SingleTickerP
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
-    TextStyle? headingStyle = textTheme.headline2?.copyWith(
+    final double screenHeight = heightOfScreen(context);
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    final TextStyle? headingStyle = textTheme.headline2?.copyWith(
       color: AppColors.black,
       fontSize: responsiveSize(
         context,
@@ -89,13 +93,27 @@ class DefaultPageHeaderState extends State<DefaultPageHeader> with SingleTickerP
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: Container(
+            child: Margin(
               margin: const EdgeInsets.only(bottom: Sizes.MARGIN_40),
-              child: AnimatedSlideTransition(
-                controller: controller,
-                position: animation,
-                child: Image.asset(
-                  ImagePath.ARROW_DOWN_IOS,
+              child: InkWell(
+                hoverColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                onTap: () {
+                  widget.scrollController.animateTo(
+                    screenHeight * 0.9,
+                    duration: const Duration(milliseconds: 600),
+                    curve: Curves.ease,
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: AnimatedSlideTransition(
+                    controller: controller,
+                    position: animation,
+                    child: Image.asset(
+                      ImagePath.ARROW_DOWN_IOS,
+                    ),
+                  ),
                 ),
               ),
             ),
