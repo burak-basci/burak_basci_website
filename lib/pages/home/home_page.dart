@@ -1,19 +1,14 @@
 import "package:flutter/material.dart";
-import "package:responsive_builder/responsive_builder.dart";
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../utils/adaptive_layout.dart';
 import '../../../utils/functions.dart';
 import '../../../utils/values/values.dart';
-import '../../utils/values/spaces.dart';
-import '../../widgets/animations/animated_positioned_text.dart';
-import '../../widgets/animations/animated_slide_transition.dart';
 import '../../widgets/animations/animated_text_slide_box_transition.dart';
 import '../../widgets/helper/custom_spacer.dart';
 import '../../widgets/scaffolding/animated_footer.dart';
 import '../../widgets/scaffolding/page_wrapper.dart';
 import '../project_detail/widgets/project_item.dart';
-import '../work/work_page.dart';
 import 'widgets/home_page_header.dart';
 import 'widgets/initial_loading_page.dart';
 
@@ -105,7 +100,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
         _slideTextController.forward();
       },
       customLoadingAnimation: LoadingHomePageAnimation(
-        text: StringConst.DEV_NAME,
+        loadingText: StringConst.DEV_NAME,
         style: textTheme.headline4!.copyWith(color: AppColors.white),
         onLoadingDone: () {
           _slideTextController.forward();
@@ -146,105 +141,106 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       height: 2.0,
                     ),
                   ),
-                  const SpaceH16(),
-                  AnimatedPositionedText(
-                    controller: CurvedAnimation(
-                      parent: _recentWorksController,
-                      curve: const Interval(0.6, 1.0, curve: Curves.fastOutSlowIn),
-                    ),
-                    text: StringConst.SELECTION,
-                    textStyle: textTheme.bodyText1?.copyWith(
-                      fontSize: responsiveSize(
-                        context,
-                        Sizes.TEXT_SIZE_16,
-                        Sizes.TEXT_SIZE_18,
-                      ),
-                      height: 2,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
+                  // const SpaceH16(),
+                  // AnimatedPositionedText(
+                  //   controller: CurvedAnimation(
+                  //     parent: _recentWorksController,
+                  //     curve: const Interval(0.6, 1.0, curve: Curves.fastOutSlowIn),
+                  //   ),
+                  //   text: StringConst.SELECTION,
+                  //   textStyle: textTheme.bodyText1?.copyWith(
+                  //     fontSize: responsiveSize(
+                  //       context,
+                  //       Sizes.TEXT_SIZE_16,
+                  //       Sizes.TEXT_SIZE_18,
+                  //     ),
+                  //     height: 2,
+                  //     fontWeight: FontWeight.w400,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
           ),
           const CustomSpacer(heightFactor: 0.1),
-          ResponsiveBuilder(
-            builder: (context, sizingInformation) {
-              double screenWidth = sizingInformation.screenSize.width;
-
-              if (screenWidth <= const RefinedBreakpoints().tabletSmall) {
-                return Column(
-                  children: _buildProjectsForMobile(
-                    data: Data.recentWorks,
-                    projectHeight: projectItemHeight.toInt(),
-                    subHeight: subHeight.toInt(),
-                  ),
-                );
-              } else {
-                return SizedBox(
-                  height: (subHeight * (Data.recentWorks.length)) + extra,
-                  child: Stack(
-                    children: _buildRecentProjects(
-                      data: Data.recentWorks,
-                      projectHeight: projectItemHeight.toInt(),
-                      subHeight: subHeight.toInt(),
-                    ),
-                  ),
-                );
-              }
-            },
-          ),
-          const CustomSpacer(heightFactor: 0.05),
-          Container(
-            margin: margin,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  StringConst.THERES_MORE.toUpperCase(),
-                  style: textTheme.bodyText1?.copyWith(
-                    fontSize: responsiveSize(context, 11, Sizes.TEXT_SIZE_12),
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                const SpaceH16(),
-                MouseRegion(
-                  onEnter: (e) => _viewProjectsController.forward(),
-                  onExit: (e) => _viewProjectsController.reverse(),
-                  child: AnimatedSlideTransition(
-                    controller: _viewProjectsController,
-                    beginOffset: const Offset(0, 0),
-                    targetOffset: const Offset(0.05, 0),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, WorksPage.worksPageRoute);
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            StringConst.VIEW_ALL_PROJECTS.toLowerCase(),
-                            style: textButtonStyle,
-                          ),
-                          const SpaceW12(),
-                          Container(
-                            margin: EdgeInsets.only(top: textButtonStyle!.fontSize! / 2),
-                            child: Image.asset(
-                              ImagePath.ARROW_RIGHT,
-                              width: 25,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // ResponsiveBuilder(
+          //   builder: (context, sizingInformation) {
+          //     double screenWidth = sizingInformation.screenSize.width;
+          //
+          //     if (screenWidth <= const RefinedBreakpoints().tabletSmall) {
+          //       return Column(
+          //         children: _buildProjectsForMobile(
+          //           data: Data.recentWorks,
+          //           projectHeight: projectItemHeight.toInt(),
+          //           subHeight: subHeight.toInt(),
+          //         ),
+          //       );
+          //     } else {
+          //       return SizedBox(
+          //         height: (subHeight * (Data.recentWorks.length)) + extra,
+          //         child: Stack(
+          //           children: _buildRecentProjects(
+          //             data: Data.recentWorks,
+          //             projectHeight: projectItemHeight.toInt(),
+          //             subHeight: subHeight.toInt(),
+          //           ),
+          //         ),
+          //       );
+          //     }
+          //   },
+          // ),
+          // const CustomSpacer(heightFactor: 0.05),
+          // Container(
+          //   margin: margin,
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: <Widget>[
+          //       Text(
+          //         StringConst.THERES_MORE.toUpperCase(),
+          //         style: textTheme.bodyText1?.copyWith(
+          //           fontSize: responsiveSize(context, 11, Sizes.TEXT_SIZE_12),
+          //           letterSpacing: 2,
+          //           fontWeight: FontWeight.w300,
+          //         ),
+          //       ),
+          //       const SpaceH16(),
+          //       MouseRegion(
+          //         onEnter: (e) => _viewProjectsController.forward(),
+          //         onExit: (e) => _viewProjectsController.reverse(),
+          //         child: AnimatedSlideTransition(
+          //           controller: _viewProjectsController,
+          //           beginOffset: const Offset(0, 0),
+          //           targetOffset: const Offset(0.05, 0),
+          //           child: TextButton(
+          //             onPressed: () {
+          //               // TODO: Reimplement when WorksPage is ready
+          //               Navigator.pushNamed(context, AboutPage.aboutPageRoute);
+          //             },
+          //             child: Row(
+          //               mainAxisSize: MainAxisSize.min,
+          //               crossAxisAlignment: CrossAxisAlignment.center,
+          //               mainAxisAlignment: MainAxisAlignment.center,
+          //               children: <Widget>[
+          //                 Text(
+          //                   StringConst.VIEW_ALL_PROJECTS.toLowerCase(),
+          //                   style: textButtonStyle,
+          //                 ),
+          //                 const SpaceW12(),
+          //                 Container(
+          //                   margin: EdgeInsets.only(top: textButtonStyle!.fontSize! / 2),
+          //                   child: Image.asset(
+          //                     ImagePath.ARROW_RIGHT,
+          //                     width: 25,
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           const CustomSpacer(heightFactor: 0.15),
           const AnimatedFooter(),
         ],

@@ -122,7 +122,7 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
     );
     final CurvedAnimation storySectionAnimation = CurvedAnimation(
       parent: _storyController,
-      curve: const Interval(0.6, 1.0, curve: Curves.ease),
+      curve: const Interval(0.6, 1.0, curve: Curves.fastOutSlowIn),
     );
     final CurvedAnimation technologySectionAnimation = CurvedAnimation(
       parent: _technologyController,

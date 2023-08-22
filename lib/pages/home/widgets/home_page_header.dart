@@ -25,26 +25,54 @@ class HomePageHeader extends StatefulWidget {
 
 class HomePageHeaderState extends State<HomePageHeader> with TickerProviderStateMixin {
   late AnimationController controller;
-  late AnimationController rotationController;
   late AnimationController scrollDownButtonController;
-  late Animation<Offset> animation;
+  late Animation<Offset> imageAnimation;
   late Animation<Offset> scrollDownBtnAnimation;
+
+  double whiteCircleSize = 0.0; // Initial size of the circle
+  double greyCircleSize = 0.0; // Initial size of the circle
 
   @override
   void initState() {
+    whiteCircleSize = 0.0;
+    greyCircleSize = 0.0;
+
+    widget.controller.addStatusListener((status) {
+      if (controller.status == AnimationStatus.forward) {
+        Future.delayed(const Duration(milliseconds: 400), () {
+          setState(() {
+            greyCircleSize = 479.0; // Final size of the circle
+          });
+        });
+        Future.delayed(const Duration(milliseconds: 1000), () {
+          setState(() {
+            whiteCircleSize = 480.0; // Final size of the circle
+          });
+        });
+      }
+    });
+
+    Future.delayed(const Duration(milliseconds: 3600), () {
+      setState(() {
+        greyCircleSize = 479.0; // Final size of the circle
+      });
+    });
+    Future.delayed(const Duration(milliseconds: 4200), () {
+      setState(() {
+        whiteCircleSize = 480.0; // Final size of the circle
+      });
+    });
+
     scrollDownButtonController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    rotationController = AnimationController(
-      duration: const Duration(seconds: 20),
-      vsync: this,
-    )..repeat();
+
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 2800),
     )..repeat();
-    animation = Tween<Offset>(
+    imageAnimation = Tween<Offset>(
       begin: const Offset(0, 0.05),
       end: const Offset(0, -0.05),
     ).animate(
@@ -53,6 +81,7 @@ class HomePageHeaderState extends State<HomePageHeader> with TickerProviderState
         curve: Curves.easeInOut,
       ),
     );
+
     controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         controller.reverse();
@@ -60,15 +89,7 @@ class HomePageHeaderState extends State<HomePageHeader> with TickerProviderState
         controller.forward();
       }
     });
-    rotationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        rotationController.reset();
-        rotationController.forward();
-        // rotationController.reverse();
-      }
-    });
     controller.forward();
-    rotationController.forward();
     super.initState();
   }
 
@@ -76,7 +97,7 @@ class HomePageHeaderState extends State<HomePageHeader> with TickerProviderState
   void dispose() {
     controller.dispose();
     scrollDownButtonController.dispose();
-    rotationController.dispose();
+    // rotationController.dispose();
     super.dispose();
   }
 
@@ -125,35 +146,47 @@ class HomePageHeaderState extends State<HomePageHeader> with TickerProviderState
       color: AppColors.accentColor2.withOpacity(0.35),
       child: Stack(
         children: <Widget>[
-          const Center(
-            child: WhiteCircle(),
-          ),
-          Positioned(
-            left: 0,
-            bottom: 0,
-            child: Padding(
-              padding: padding,
-              child: SizedBox(
-                width: screenWidth,
-                child: HomeAboutDev(
-                  controller: widget.controller,
-                  width: screenWidth,
-                ),
+          /// Grey Circle
+          Center(
+            child: AnimatedContainer(
+              duration: const Duration(seconds: 1), // Duration of the animation
+              curve: Curves.fastOutSlowIn,
+              width: greyCircleSize,
+              height: greyCircleSize,
+              margin: const EdgeInsets.all(41),
+              decoration: const BoxDecoration(
+                color: Colors.grey,
+                shape: BoxShape.circle,
               ),
             ),
           ),
+
+          /// White Circle
+          Center(
+            child: AnimatedContainer(
+              duration: const Duration(seconds: 1), // Duration of the animation
+              curve: Curves.fastOutSlowIn,
+              width: whiteCircleSize,
+              height: whiteCircleSize,
+              margin: const EdgeInsets.all(40),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+
+          /// X
           Positioned(
             right: 0,
             bottom: -screenHeight * 0.1,
             child: Padding(
               padding: padding.copyWith(bottom: 0.0),
-              child: AnimatedSlideTransition(
-                controller: controller,
-                position: animation,
-                child: Transform(
-                  alignment: Alignment.center,
-                  transform: Matrix4.diagonal3Values(1, 0.8, 1),
-                  child: LayoutBuilder(builder: (context, constraints) {
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.diagonal3Values(1, 0.8, 1),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
                     double size;
 
                     if (screenWidth > screenHeight) {
@@ -170,11 +203,56 @@ class HomePageHeaderState extends State<HomePageHeader> with TickerProviderState
                         color: Colors.black,
                       ),
                     );
-                  }),
+                  },
                 ),
               ),
             ),
           ),
+
+          /// Caesar Image
+
+          Positioned(
+            right: screenWidth * 0.08 - 20,
+            bottom: 20 + screenWidth * 0.03,
+            child: AnimatedSlideTransition(
+              controller: controller,
+              position: imageAnimation,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  double size;
+
+                  if (screenWidth > screenHeight) {
+                    size = screenHeight * 0.44;
+                  } else {
+                    size = screenWidth * 0.44;
+                  }
+                  return Image.asset(
+                    ImagePath.CAESAR,
+                    fit: BoxFit.cover,
+                    width: size,
+                  );
+                },
+              ),
+            ),
+          ),
+
+          /// About Dev Text
+          Positioned(
+            left: 0,
+            bottom: 0,
+            child: Padding(
+              padding: padding,
+              child: SizedBox(
+                width: screenWidth,
+                child: HomeAboutDev(
+                  controller: widget.controller,
+                  width: screenWidth,
+                ),
+              ),
+            ),
+          ),
+
+          /// Scroll Down Button
           Positioned(
             right: 0,
             bottom: 0,
@@ -216,7 +294,7 @@ class HomePageHeaderState extends State<HomePageHeader> with TickerProviderState
   }
 }
 
-class WhiteCircle extends StatelessWidget {
+class WhiteCircle extends StatefulWidget {
   const WhiteCircle({
     this.child,
     Key? key,
@@ -224,17 +302,85 @@ class WhiteCircle extends StatelessWidget {
   final Widget? child;
 
   @override
+  State<WhiteCircle> createState() => _WhiteCircleState();
+}
+
+class _WhiteCircleState extends State<WhiteCircle> {
+  late double circleSize; // Initial size of the circle
+
+  @override
+  void initState() {
+    circleSize = 0.0;
+
+    // Delay the animation start to give time for the UI to build
+    Future.delayed(const Duration(milliseconds: 4000), () {
+      setState(() {
+        circleSize = 480.0; // Final size of the circle
+      });
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 460,
-      height: 460,
+    return AnimatedContainer(
+      duration: const Duration(seconds: 1), // Duration of the animation
+      curve: Curves.fastOutSlowIn,
+      width: circleSize,
+      height: circleSize,
       margin: const EdgeInsets.all(40),
       decoration: const BoxDecoration(
-        color: AppColors.white,
+        color: Colors.white,
         shape: BoxShape.circle,
       ),
       child: Center(
-        child: child,
+        child: widget.child,
+      ),
+    );
+  }
+}
+
+class GreyCircle extends StatefulWidget {
+  const GreyCircle({
+    this.child,
+    Key? key,
+  }) : super(key: key);
+  final Widget? child;
+
+  @override
+  State<GreyCircle> createState() => _GreyCircleState();
+}
+
+class _GreyCircleState extends State<GreyCircle> {
+  late double circleSize; // Initial size of the circle
+
+  @override
+  void initState() {
+    circleSize = 0.0;
+
+    // Delay the animation start to give time for the UI to build
+    Future.delayed(const Duration(milliseconds: 3600), () {
+      setState(() {
+        circleSize = 479.0; // Final size of the circle
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: const Duration(seconds: 1), // Duration of the animation
+      curve: Curves.fastOutSlowIn,
+      width: circleSize,
+      height: circleSize,
+      margin: const EdgeInsets.all(41),
+      decoration: const BoxDecoration(
+        color: Colors.grey,
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: widget.child,
       ),
     );
   }

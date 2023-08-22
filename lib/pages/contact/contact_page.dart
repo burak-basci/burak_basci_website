@@ -68,7 +68,7 @@ class ContactPageState extends State<ContactPage> with SingleTickerProviderState
     _slideAnimation = Tween<Offset>(begin: const Offset(0, 1), end: const Offset(0, 0)).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: const Interval(0.6, 1.0, curve: Curves.ease),
+        curve: const Interval(0.6, 1.0, curve: Curves.fastOutSlowIn),
       ),
     );
     super.initState();

@@ -1,3 +1,4 @@
+import 'package:burak_basci_website/pages/about/about_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../utils/adaptive_layout.dart';
@@ -9,7 +10,6 @@ import '../../../widgets/animations/animated_positioned_text.dart';
 import '../../../widgets/animations/animated_positioned_widget.dart';
 import '../../../widgets/animations/animated_text_slide_box_transition.dart';
 import '../../../widgets/buttons/socials_icon_button.dart';
-import '../../work/work_page.dart';
 
 class HomeAboutDev extends StatefulWidget {
   const HomeAboutDev({
@@ -130,7 +130,8 @@ class HomeAboutDevState extends State<HomeAboutDev> {
               fontWeight: FontWeight.w500,
             ),
             onTap: () {
-              Navigator.pushNamed(context, WorksPage.worksPageRoute);
+              // TODO: Reimplement when WorksPage is ready
+              Navigator.pushNamed(context, AboutPage.aboutPageRoute);
             },
           ),
         ),

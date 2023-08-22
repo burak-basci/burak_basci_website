@@ -10,15 +10,9 @@ import 'utils/routes.dart';
 import 'utils/values/app_theme.dart';
 import 'utils/values/values.dart';
 
-// Home
-// TODO: Add an Animation to the White Circle
-
 // Text
 // TODO: Fix Text Background Color
 // TODO: Make Text properly Selectable
-
-// Animations
-// TODO: Adjust the Curves
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

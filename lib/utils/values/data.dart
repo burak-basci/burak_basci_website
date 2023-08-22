@@ -94,7 +94,7 @@ class Data {
   static List<TopNavigationItemData> menuItems = <TopNavigationItemData>[
     TopNavigationItemData(name: StringConst.HOME, route: StringConst.HOME_PAGE),
     TopNavigationItemData(name: StringConst.ABOUT, route: StringConst.ABOUT_PAGE),
-    TopNavigationItemData(name: StringConst.WORK, route: StringConst.WORK_PAGE),
+    // TopNavigationItemData(name: StringConst.WORK, route: StringConst.WORK_PAGE),
     TopNavigationItemData(
       name: StringConst.EXPERIENCE,
       route: StringConst.EXPERIENCE_PAGE,
