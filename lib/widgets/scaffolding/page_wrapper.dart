@@ -57,7 +57,7 @@ class PageWrapperState extends State<PageWrapper> with TickerProviderStateMixin 
   late AnimationController forwardSlideController;
   late AnimationController unveilPageSlideController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  final Duration duration = const Duration(milliseconds: 1250);
+  final Duration duration = const Duration(milliseconds: 1000);
 
   @override
   void initState() {

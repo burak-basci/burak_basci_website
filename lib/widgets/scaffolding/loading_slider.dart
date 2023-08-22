@@ -29,7 +29,7 @@ class LoadingSlider extends AnimatedWidget {
       ).animate(
         CurvedAnimation(
           parent: controller,
-          curve: curve,
+          curve: Curves.easeInCubic,
         ),
       );
 
@@ -39,7 +39,7 @@ class LoadingSlider extends AnimatedWidget {
       ).animate(
         CurvedAnimation(
           parent: controller,
-          curve: curve,
+          curve: Curves.easeOutQuart,
         ),
       );
   @override
