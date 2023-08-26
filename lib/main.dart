@@ -8,7 +8,6 @@ import 'package:layout/layout.dart';
 
 import 'firebase_options.dart';
 import 'pages/home/home_page.dart';
-import 'utils/configure_web.dart';
 import 'utils/routes.dart';
 import 'utils/values/app_theme.dart';
 import 'utils/values/values.dart';
@@ -19,7 +18,7 @@ import 'utils/values/values.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  configureApp();
+  // configureApp();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
