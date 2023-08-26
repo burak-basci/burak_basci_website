@@ -38,7 +38,6 @@ dependencies:
   get: ^4.6.5
   cloud_firestore: ^4.8.5
   firebase_core: ^2.15.1
-  google_fonts: ^5.1.0
   responsive_builder: ^0.7.0
   font_awesome_flutter: ^10.5.0
   url_launcher: ^6.1.12
@@ -114,6 +113,15 @@ flutter:
           weight: 700
         - asset: assets/fonts/visuelt/VisueltPro-Bold.ttf
           weight: 800
+#    - family: BebasNeue
+#      fonts:
+#        - asset: assets/fonts/bebas_neue/BebasNeue-Regular.ttf
+#    - family: DancingScript
+#      fonts:
+#        - asset: assets/fonts/dancing_script/DancingScript-VariableFont_wght.ttf
+#    - family: NotoSerif
+#      fonts:
+#        - asset: assets/fonts/noto_serif/NotoSerif-VariableFont_wdth,wght.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

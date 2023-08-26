@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'values.dart';
 
@@ -52,80 +51,85 @@ class AppTheme {
   static const _regular = FontWeight.w400;
   static const _light = FontWeight.w300;
 
-  static final TextTheme _textTheme = TextTheme(
-    headline1: const TextStyle(
+  static const TextTheme _textTheme = TextTheme(
+    headline1: TextStyle(
       fontFamily: StringConst.VISUELT_PRO,
       fontSize: Sizes.TEXT_SIZE_96,
       color: AppColors.black,
       fontWeight: _bold,
       fontStyle: FontStyle.normal,
     ),
-    headline2: const TextStyle(
+    headline2: TextStyle(
       fontFamily: StringConst.VISUELT_PRO,
       fontSize: Sizes.TEXT_SIZE_60,
       color: AppColors.black,
       fontWeight: _bold,
       fontStyle: FontStyle.normal,
     ),
-    headline3: GoogleFonts.roboto(
+    headline3: TextStyle(
+      // Removed GoogleFonts.roboto here
       fontSize: Sizes.TEXT_SIZE_48,
       color: AppColors.black,
       fontWeight: _bold,
       fontStyle: FontStyle.normal,
     ),
-    headline4: const TextStyle(
+    headline4: TextStyle(
       fontFamily: StringConst.VISUELT_PRO,
       fontSize: Sizes.TEXT_SIZE_34,
       color: AppColors.black,
       fontWeight: _bold,
       fontStyle: FontStyle.normal,
     ),
-    headline5: GoogleFonts.roboto(
+    headline5: TextStyle(
+      // Removed GoogleFonts.roboto here
       fontSize: Sizes.TEXT_SIZE_24,
       color: AppColors.black,
       fontWeight: _bold,
       fontStyle: FontStyle.normal,
     ),
-    headline6: const TextStyle(
+    headline6: TextStyle(
       fontFamily: StringConst.VISUELT_PRO,
       fontSize: Sizes.TEXT_SIZE_20,
       color: AppColors.black,
       fontWeight: _bold,
       fontStyle: FontStyle.normal,
     ),
-    subtitle1: const TextStyle(
+    subtitle1: TextStyle(
       fontFamily: StringConst.VISUELT_PRO,
       fontSize: Sizes.TEXT_SIZE_16,
       color: AppColors.secondaryColor,
       fontWeight: _semiBold,
       fontStyle: FontStyle.normal,
     ),
-    subtitle2: GoogleFonts.roboto(
+    subtitle2: TextStyle(
+      // Removed GoogleFonts.roboto here
       fontSize: Sizes.TEXT_SIZE_14,
       color: AppColors.secondaryColor,
       fontWeight: _semiBold,
       fontStyle: FontStyle.normal,
     ),
-    bodyText1: const TextStyle(
+    bodyText1: TextStyle(
       fontFamily: StringConst.VISUELT_PRO,
       fontSize: Sizes.TEXT_SIZE_16,
       color: AppColors.secondaryColor,
       fontWeight: _light,
       fontStyle: FontStyle.normal,
     ),
-    bodyText2: GoogleFonts.roboto(
+    bodyText2: TextStyle(
+      // Removed GoogleFonts.roboto here
       fontSize: Sizes.TEXT_SIZE_14,
       color: AppColors.secondaryColor,
       fontWeight: _light,
       fontStyle: FontStyle.normal,
     ),
-    button: GoogleFonts.roboto(
+    button: TextStyle(
+      // Removed GoogleFonts.roboto here
       fontSize: Sizes.TEXT_SIZE_14,
       color: AppColors.secondaryColor,
       fontStyle: FontStyle.normal,
       fontWeight: _medium,
     ),
-    caption: const TextStyle(
+    caption: TextStyle(
       fontFamily: StringConst.VISUELT_PRO,
       fontSize: Sizes.TEXT_SIZE_12,
       color: AppColors.white,

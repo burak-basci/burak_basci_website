@@ -39,12 +39,12 @@ class HomePageHeaderState extends State<HomePageHeader> with TickerProviderState
 
     widget.controller.addStatusListener((status) {
       if (controller.status == AnimationStatus.forward) {
-        Future.delayed(const Duration(milliseconds: 400), () {
+        Future.delayed(const Duration(milliseconds: 300), () {
           setState(() {
             greyCircleSize = 479.0; // Final size of the circle
           });
         });
-        Future.delayed(const Duration(milliseconds: 1000), () {
+        Future.delayed(const Duration(milliseconds: 600), () {
           setState(() {
             whiteCircleSize = 480.0; // Final size of the circle
           });
@@ -57,7 +57,7 @@ class HomePageHeaderState extends State<HomePageHeader> with TickerProviderState
         greyCircleSize = 479.0; // Final size of the circle
       });
     });
-    Future.delayed(const Duration(milliseconds: 4200), () {
+    Future.delayed(const Duration(milliseconds: 3900), () {
       setState(() {
         whiteCircleSize = 480.0; // Final size of the circle
       });

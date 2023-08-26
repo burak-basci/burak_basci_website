@@ -59,6 +59,17 @@ class PageWrapperState extends State<PageWrapper> with TickerProviderStateMixin 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final Duration duration = const Duration(milliseconds: 1000);
 
+  loadPage() {
+    forwardSlideController.forward();
+    forwardSlideController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        if (widget.onLoadingAnimationDone != null) {
+          widget.onLoadingAnimationDone!();
+        }
+      }
+    });
+  }
+
   @override
   void initState() {
     forwardSlideController = AnimationController(

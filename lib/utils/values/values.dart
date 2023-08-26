@@ -2,7 +2,6 @@ library values;
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../pages/project_detail/widgets/project_item.dart';
 import '../../widgets/buttons/socials_icon_button.dart';
@@ -18,4 +17,4 @@ part 'gradients.dart';
 part 'images.dart';
 part 'sizes.dart';
 part 'strings.dart';
-part 'styles.dart';
+// part 'styles.dart';

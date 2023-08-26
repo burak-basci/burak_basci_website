@@ -78,8 +78,8 @@ class TopNavigationBar extends StatelessWidget {
   }
 
   Widget webNavigationBar(BuildContext context) {
-    TextTheme textTheme = Theme.of(context).textTheme;
-    TextStyle? style = selectedRouteTitleStyle ??
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    final TextStyle? style = selectedRouteTitleStyle ??
         textTheme.bodyText1?.copyWith(
           color: AppColors.black,
           fontWeight: FontWeight.w400,

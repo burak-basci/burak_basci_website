@@ -143,7 +143,7 @@ class AnimatedFooterState extends State<AnimatedFooter> with SingleTickerProvide
             const Spacer(flex: 3),
             ResponsiveBuilder(
               builder: (context, sizingInformation) {
-                double screenWidth = sizingInformation.screenSize.width;
+                final double screenWidth = sizingInformation.screenSize.width;
                 if (screenWidth <= const RefinedBreakpoints().tabletNormal) {
                   return const Column(
                     children: <Widget>[
