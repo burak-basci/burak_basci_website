@@ -1,10 +1,10 @@
+import 'package:burak_basci_website/pages/privacy_policy/privacy_policy_page.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/about/about_page.dart';
 import '../pages/contact/contact_page.dart';
 import '../pages/experience/experience_page.dart';
 import '../pages/home/home_page.dart';
-import '../pages/project_detail/project_detail_page.dart';
 
 typedef PathWidgetBuilder = Widget Function(BuildContext, String? /*Map<String, String>*/);
 
@@ -35,33 +35,44 @@ class RouteConfiguration {
   /// take priority.
   static List<Path> paths = <Path>[
     Path(
-      r'^' + ContactPage.contactPageRoute,
-      (context, matches) => const ContactPage(),
+      r'^' + HomePage.homePageRoute,
+      (context, matches) => const HomePage(),
     ),
-    Path(
-      r'^' + AboutPage.aboutPageRoute,
-      (context, matches) => const AboutPage(),
-    ),
+
     // Path(
     //   r'^' + WorksPage.worksPageRoute,
     //   (context, matches) => const WorksPage(),
     // ),
+
     Path(
-      r'^' + ProjectDetailPage.projectDetailPageRoute,
-      (context, matches) => const ProjectDetailPage(),
+      r'^' + AboutPage.aboutPageRoute,
+      (context, matches) => const AboutPage(),
     ),
+
     Path(
       r'^' + ExperiencePage.experiencePageRoute,
       (context, matches) => const ExperiencePage(),
     ),
+
+    Path(
+      r'^' + ContactPage.contactPageRoute,
+      (context, matches) => const ContactPage(),
+    ),
+
+    Path(
+      r'^' + PrivacyPolicyPage.privacyPolicyPageRoute,
+      (context, matches) => const PrivacyPolicyPage(),
+    ),
+
+    // Path(
+    //   r'^' + ProjectDetailPage.projectDetailPageRoute,
+    //   (context, matches) => const ProjectDetailPage(),
+    // ),
+
     // Path(
     //   r'^' + CertificationPage.certificationPageRoute,
     //   (context, matches) => const CertificationPage(),
     // ),
-    Path(
-      r'^' + HomePage.homePageRoute,
-      (context, matches) => HomePage(),
-    ),
   ];
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {

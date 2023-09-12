@@ -36,7 +36,7 @@ class AboutHeaderDescription extends StatelessWidget {
         const SpaceH24(),
         AnimatedTextSlideBoxTransition(
           controller: controller,
-          text: StringConst.ABOUT_DEV_CATCH_LINE_4,
+          text: StringConst.ABOUT_DEV_CATCH_LINE_2,
           width: width,
           maxLines: 10,
           textStyle: style,

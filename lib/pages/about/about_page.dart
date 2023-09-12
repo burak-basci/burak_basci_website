@@ -169,34 +169,33 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                     width: contentAreaWidth,
                     section: StringConst.ABOUT_DEV_STORY.toUpperCase(),
                     title: StringConst.ABOUT_DEV_STORY_TITLE,
-                    body: Column(
-                      children: <Widget>[
-                        AnimatedPositionedText(
-                          controller: storySectionAnimation,
-                          width: widthOfBody,
-                          maxLines: 30,
-                          // factor: 1.25,
-                          text: StringConst.ABOUT_DEV_STORY_CONTENT_1,
-                          textStyle: bodyText1Style,
-                        ),
-                        AnimatedPositionedText(
-                          controller: storySectionAnimation,
-                          width: widthOfBody,
-                          maxLines: 30,
-                          factor: 1.25,
-                          text: StringConst.ABOUT_DEV_STORY_CONTENT_2,
-                          textStyle: bodyText1Style,
-                        ),
-                        AnimatedPositionedText(
-                          controller: storySectionAnimation,
-                          width: widthOfBody,
-                          maxLines: 30,
-                          factor: 1.25,
-                          text: StringConst.ABOUT_DEV_STORY_CONTENT_3,
-                          textStyle: bodyText1Style,
-                        ),
-                      ],
+                    body: AnimatedPositionedText(
+                      controller: storySectionAnimation,
+                      width: widthOfBody,
+                      maxLines: 40,
+                      text: StringConst.ABOUT_DEV_STORY_CONTENT_1,
+                      textStyle: bodyText1Style,
                     ),
+                    // Column(
+                    //   children: <Widget>[
+                    //     // AnimatedPositionedText(
+                    //     //   controller: storySectionAnimation,
+                    //     //   width: widthOfBody,
+                    //     //   maxLines: 30,
+                    //     //   factor: 1.00,
+                    //     //   text: StringConst.ABOUT_DEV_STORY_CONTENT_2,
+                    //     //   textStyle: bodyText1Style,
+                    //     // ),
+                    //     // AnimatedPositionedText(
+                    //     //   controller: storySectionAnimation,
+                    //     //   width: widthOfBody,
+                    //     //   maxLines: 30,
+                    //     //   factor: 1.00,
+                    //     //   text: StringConst.ABOUT_DEV_STORY_CONTENT_3,
+                    //     //   textStyle: bodyText1Style,
+                    //     // ),
+                    //   ],
+                    // ),
                   ),
                 ),
                 const CustomSpacer(heightFactor: 0.1),
@@ -213,17 +212,17 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                     width: contentAreaWidth,
                     section: StringConst.ABOUT_DEV_TECHNOLOGY.toUpperCase(),
                     title: StringConst.ABOUT_DEV_TECHNOLOGY_TITLE,
-                    body: Column(
-                      children: <Widget>[
-                        AnimatedPositionedText(
-                          controller: technologySectionAnimation,
-                          width: widthOfBody,
-                          maxLines: 12,
-                          text: StringConst.ABOUT_DEV_TECHNOLOGY_CONTENT,
-                          textStyle: bodyText1Style,
-                        ),
-                      ],
+                    body: AnimatedPositionedText(
+                      controller: technologySectionAnimation,
+                      width: widthOfBody,
+                      maxLines: 12,
+                      text: StringConst.ABOUT_DEV_TECHNOLOGY_CONTENT,
+                      textStyle: bodyText1Style,
                     ),
+                    // Column(
+                    //   children: <Widget>[
+                    //   ],
+                    // ),
                     footer: VisibilityDetector(
                       key: const Key('technology-list'),
                       onVisibilityChanged: (visibilityInfo) {
@@ -271,7 +270,7 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                     footer: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        const SpaceH40(),
+                        const SpaceH80(),
                         AnimatedTextSlideBoxTransition(
                           controller: _contactController,
                           text: StringConst.ABOUT_DEV_CONTACT_EMAIL,

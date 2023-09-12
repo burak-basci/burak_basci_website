@@ -48,6 +48,7 @@ class AnimatedFooterState extends State<AnimatedFooter> with SingleTickerProvide
   @override
   Widget build(BuildContext context) {
     final double circleImageSize = responsiveSize(context, 150, 200);
+    final double footerHeight = assignHeight(context, 0.54) <= 450 ? 450 : assignHeight(context, 0.54);
     final TextTheme textTheme = Theme.of(context).textTheme;
     final TextStyle? style = textTheme.bodyText1?.copyWith(
       color: AppColors.accentColor,
@@ -70,7 +71,7 @@ class AnimatedFooterState extends State<AnimatedFooter> with SingleTickerProvide
 
     return Container(
       width: widget.width ?? widthOfScreen(context),
-      height: widget.height ?? assignHeight(context, 0.54),
+      height: widget.height ?? footerHeight,
       color: widget.backgroundColor,
       child: VisibilityDetector(
         key: const Key('animated-footer'),

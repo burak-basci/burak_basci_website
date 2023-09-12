@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../pages/project_detail/project_detail_page.dart';
-import '../pages/project_detail/widgets/project_item.dart';
-
 class Functions {
   static void launchUrl(String url) async {
     await launch(url);
@@ -21,29 +18,29 @@ class Functions {
     return textPainter.size;
   }
 
-  static void navigateToProject({
-    required BuildContext context,
-    required List<ProjectItemData> dataSource,
-    required ProjectItemData currentProject,
-    required int currentProjectIndex,
-  }) {
-    ProjectItemData? nextProject;
-    bool hasNextProject;
-    if ((currentProjectIndex + 1) > (dataSource.length - 1)) {
-      hasNextProject = false;
-    } else {
-      hasNextProject = true;
-      nextProject = dataSource[currentProjectIndex + 1];
-    }
-    Navigator.of(context).pushNamed(
-      ProjectDetailPage.projectDetailPageRoute,
-      arguments: ProjectDetailArguments(
-        dataSource: dataSource,
-        currentIndex: currentProjectIndex,
-        data: currentProject,
-        nextProject: nextProject,
-        hasNextProject: hasNextProject,
-      ),
-    );
-  }
+  // static void navigateToProject({
+  //   required BuildContext context,
+  //   required List<ProjectItemData> dataSource,
+  //   required ProjectItemData currentProject,
+  //   required int currentProjectIndex,
+  // }) {
+  //   ProjectItemData? nextProject;
+  //   bool hasNextProject;
+  //   if ((currentProjectIndex + 1) > (dataSource.length - 1)) {
+  //     hasNextProject = false;
+  //   } else {
+  //     hasNextProject = true;
+  //     nextProject = dataSource[currentProjectIndex + 1];
+  //   }
+  //   Navigator.of(context).pushNamed(
+  //     ProjectDetailPage.projectDetailPageRoute,
+  //     arguments: ProjectDetailArguments(
+  //       dataSource: dataSource,
+  //       currentIndex: currentProjectIndex,
+  //       data: currentProject,
+  //       nextProject: nextProject,
+  //       hasNextProject: hasNextProject,
+  //     ),
+  //   );
+  // }
 }

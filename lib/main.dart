@@ -42,12 +42,3 @@ class Website extends StatelessWidget {
     );
   }
 }
-
-class Datenschutz extends StatelessWidget {
-  const Datenschutz({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}

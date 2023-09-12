@@ -68,49 +68,51 @@ class SimpleFooterSmall extends StatelessWidget {
     );
     return Column(
       children: <Widget>[
+        /// Socials
         SocialsIconButton(socialData: Data.socialData),
         const SpaceH30(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              StringConst.COPYRIGHT,
-              style: style,
-            ),
-          ],
-        ),
+
+        /// Privacy Policy
+        PrivacyPolicyTextButton(style: style),
         const SpaceH12(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            InkWell(
-              onTap: () {
-                Functions.launchUrl(StringConst.DESIGN_LINK);
-              },
-              child: AnimatedLineThroughText(
-                text: StringConst.DESIGNED_BY,
-                isUnderlinedByDefault: true,
-                isUnderlinedOnHover: false,
-                hoverColor: AppColors.white,
-                coverColor: AppColors.black,
-                textStyle: style?.copyWith(
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ),
-          ],
+
+        /// Copyright
+        Text(
+          StringConst.COPYRIGHT,
+          style: style,
         ),
-        const SpaceH8(),
+        const SpaceH2(),
+
+        /// David and Julius Links
+        CreditTextButtons(style: style),
+        const SpaceH12(),
+
         const BuiltWithFlutterText(),
       ],
     );
   }
 }
 
-class SimpleFooterLarge extends StatelessWidget {
+class SimpleFooterLarge extends StatefulWidget {
   const SimpleFooterLarge({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<SimpleFooterLarge> createState() => _SimpleFooterLargeState();
+}
+
+class _SimpleFooterLargeState extends State<SimpleFooterLarge> with TickerProviderStateMixin {
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+      duration: const Duration(milliseconds: 1200),
+      vsync: this,
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,13 +123,15 @@ class SimpleFooterLarge extends StatelessWidget {
     );
     return Column(
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SocialsIconButton(socialData: Data.socialData),
-          ],
-        ),
+        /// Socials
+        SocialsIconButton(socialData: Data.socialData),
         const SpaceH20(),
+
+        /// Privacy Policy
+        PrivacyPolicyTextButton(style: style),
+        const SpaceH12(),
+
+        /// David and Julius Links
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -136,41 +140,89 @@ class SimpleFooterLarge extends StatelessWidget {
               style: style,
             ),
             const SpaceW8(),
-            InkWell(
-              onTap: () {
-                Functions.launchUrl(StringConst.BASED_ON_LINK);
-              },
-              child: AnimatedLineThroughText(
-                text: StringConst.BASED_ON,
-                isUnderlinedByDefault: true,
-                isUnderlinedOnHover: false,
-                hoverColor: AppColors.white,
-                coverColor: AppColors.black,
-                textStyle: style?.copyWith(
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ),
-            const SpaceW8(),
-            InkWell(
-              onTap: () {
-                Functions.launchUrl(StringConst.DESIGN_LINK);
-              },
-              child: AnimatedLineThroughText(
-                text: StringConst.DESIGNED_BY,
-                isUnderlinedByDefault: true,
-                isUnderlinedOnHover: false,
-                hoverColor: AppColors.white,
-                coverColor: AppColors.black,
-                textStyle: style?.copyWith(
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ),
+            CreditTextButtons(style: style),
           ],
         ),
-        const SpaceH8(),
+
+        const SpaceH12(),
         const BuiltWithFlutterText(),
+      ],
+    );
+  }
+}
+
+class PrivacyPolicyTextButton extends StatelessWidget {
+  const PrivacyPolicyTextButton({
+    super.key,
+    required this.style,
+  });
+
+  final TextStyle? style;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).pushNamed(StringConst.PRIVACY_POLICY_PAGE);
+      },
+      child: AnimatedLineThroughText(
+        text: StringConst.PRIVACY_POLICY,
+        isUnderlinedByDefault: true,
+        isUnderlinedOnHover: false,
+        hoverColor: AppColors.white,
+        coverColor: AppColors.black,
+        textStyle: style?.copyWith(
+          decoration: TextDecoration.underline,
+        ),
+      ),
+    );
+  }
+}
+
+class CreditTextButtons extends StatelessWidget {
+  const CreditTextButtons({
+    super.key,
+    required this.style,
+  });
+
+  final TextStyle? style;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        InkWell(
+          onTap: () {
+            Functions.launchUrl(StringConst.BASED_ON_LINK);
+          },
+          child: AnimatedLineThroughText(
+            text: StringConst.BASED_ON,
+            isUnderlinedByDefault: true,
+            isUnderlinedOnHover: false,
+            hoverColor: AppColors.white,
+            coverColor: AppColors.black,
+            textStyle: style?.copyWith(
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ),
+        const SpaceW8(),
+        InkWell(
+          onTap: () {
+            Functions.launchUrl(StringConst.DESIGN_LINK);
+          },
+          child: AnimatedLineThroughText(
+            text: StringConst.DESIGNED_BY,
+            isUnderlinedByDefault: true,
+            isUnderlinedOnHover: false,
+            hoverColor: AppColors.white,
+            coverColor: AppColors.black,
+            textStyle: style?.copyWith(
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ),
       ],
     );
   }

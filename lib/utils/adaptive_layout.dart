@@ -83,6 +83,8 @@ double assignWidth(
   return (widthOfScreen(context) - (subs) + (additions)) * fraction;
 }
 
+double asd = 200.0;
+
 double responsiveSize(
   BuildContext context,
   double verySmall,

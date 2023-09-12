@@ -2,13 +2,11 @@ import "package:flutter/material.dart";
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../utils/adaptive_layout.dart';
-import '../../../utils/functions.dart';
 import '../../../utils/values/values.dart';
 import '../../widgets/animations/animated_text_slide_box_transition.dart';
 import '../../widgets/helper/custom_spacer.dart';
 import '../../widgets/scaffolding/animated_footer.dart';
 import '../../widgets/scaffolding/page_wrapper.dart';
-import '../project_detail/widgets/project_item.dart';
 import 'widgets/home_page_header.dart';
 import 'widgets/initial_loading_page.dart';
 
@@ -135,6 +133,13 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   AnimatedTextSlideBoxTransition(
                     controller: _recentWorksController,
                     text: StringConst.CRAFTED_WITH_LOVE,
+                    width: responsiveSize(
+                      context,
+                      assignWidth(context, 0.80),
+                      assignWidth(context, 0.70),
+                      small: assignWidth(context, 0.70),
+                    ),
+                    maxLines: 5,
                     textStyle: textTheme.headline4?.copyWith(
                       color: AppColors.black,
                       fontSize: responsiveSize(context, 30, 48, medium: 40, small: 36),
@@ -248,71 +253,71 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  List<Widget> _buildRecentProjects({
-    required List<ProjectItemData> data,
-    required int projectHeight,
-    required int subHeight,
-  }) {
-    List<Widget> items = <Widget>[];
-    int margin = subHeight * (data.length - 1);
-    for (int index = data.length - 1; index >= 0; index--) {
-      items.add(
-        Container(
-          margin: EdgeInsets.only(top: margin.toDouble()),
-          child: ProjectItemLarge(
-            projectNumber: index + 1 > 9 ? "${index + 1}" : "0${index + 1}",
-            imageUrl: data[index].image,
-            projectItemheight: projectHeight.toDouble(),
-            subheight: subHeight.toDouble(),
-            backgroundColor: AppColors.accentColor2.withOpacity(0.35),
-            title: data[index].title.toLowerCase(),
-            subtitle: data[index].category,
-            containerColor: data[index].primaryColor,
-            onTap: () {
-              Functions.navigateToProject(
-                context: context,
-                dataSource: data,
-                currentProject: data[index],
-                currentProjectIndex: index,
-              );
-            },
-          ),
-        ),
-      );
-      margin -= subHeight;
-    }
-    return items;
-  }
-
-  List<Widget> _buildProjectsForMobile({
-    required List<ProjectItemData> data,
-    required int projectHeight,
-    required int subHeight,
-  }) {
-    List<Widget> items = <Widget>[];
-
-    for (int index = 0; index < data.length; index++) {
-      items.add(
-        ProjectItemSm(
-          projectNumber: index + 1 > 9 ? "${index + 1}" : "0${index + 1}",
-          imageUrl: data[index].image,
-          title: data[index].title.toLowerCase(),
-          subtitle: data[index].category,
-          containerColor: data[index].primaryColor,
-          onTap: () {
-            Functions.navigateToProject(
-              context: context,
-              dataSource: data,
-              currentProject: data[index],
-              currentProjectIndex: index,
-            );
-          },
-        ),
-      );
-      items.add(const CustomSpacer(
-        heightFactor: 0.10,
-      ));
-    }
-    return items;
-  }
+//   List<Widget> _buildRecentProjects({
+//     required List<ProjectItemData> data,
+//     required int projectHeight,
+//     required int subHeight,
+//   }) {
+//     List<Widget> items = <Widget>[];
+//     int margin = subHeight * (data.length - 1);
+//     for (int index = data.length - 1; index >= 0; index--) {
+//       items.add(
+//         Container(
+//           margin: EdgeInsets.only(top: margin.toDouble()),
+//           child: ProjectItemLarge(
+//             projectNumber: index + 1 > 9 ? "${index + 1}" : "0${index + 1}",
+//             imageUrl: data[index].image,
+//             projectItemheight: projectHeight.toDouble(),
+//             subheight: subHeight.toDouble(),
+//             backgroundColor: AppColors.accentColor2.withOpacity(0.35),
+//             title: data[index].title.toLowerCase(),
+//             subtitle: data[index].category,
+//             containerColor: data[index].primaryColor,
+//             onTap: () {
+//               Functions.navigateToProject(
+//                 context: context,
+//                 dataSource: data,
+//                 currentProject: data[index],
+//                 currentProjectIndex: index,
+//               );
+//             },
+//           ),
+//         ),
+//       );
+//       margin -= subHeight;
+//     }
+//     return items;
+//   }
+//
+//   List<Widget> _buildProjectsForMobile({
+//     required List<ProjectItemData> data,
+//     required int projectHeight,
+//     required int subHeight,
+//   }) {
+//     List<Widget> items = <Widget>[];
+//
+//     for (int index = 0; index < data.length; index++) {
+//       items.add(
+//         ProjectItemSm(
+//           projectNumber: index + 1 > 9 ? "${index + 1}" : "0${index + 1}",
+//           imageUrl: data[index].image,
+//           title: data[index].title.toLowerCase(),
+//           subtitle: data[index].category,
+//           containerColor: data[index].primaryColor,
+//           onTap: () {
+//             Functions.navigateToProject(
+//               context: context,
+//               dataSource: data,
+//               currentProject: data[index],
+//               currentProjectIndex: index,
+//             );
+//           },
+//         ),
+//       );
+//       items.add(const CustomSpacer(
+//         heightFactor: 0.10,
+//       ));
+//     }
+//     return items;
+//   }
 }
