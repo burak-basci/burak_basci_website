@@ -71,8 +71,11 @@ flutter:
   assets:
     - assets/images/
     - assets/images/projects/
+    - assets/images/projects/binance-tax/
+    - assets/images/projects/boxhead/
     - assets/images/projects/catersmart/
     - assets/images/projects/csfloat/
+    - assets/images/projects/cv-plugin/
     - assets/images/projects/django-canva/
     - assets/images/projects/durak/
     - assets/images/projects/flappy-griffon/
@@ -84,11 +87,14 @@ flutter:
     - assets/images/projects/jumpnrun/
     - assets/images/projects/k3s/
     - assets/images/projects/llm-mail/
+    - assets/images/projects/luminarep/
     - assets/images/projects/nestnode/
     - assets/images/projects/open-design/
     - assets/images/projects/paper-citysim/
     - assets/images/projects/patent-search/
+    - assets/images/projects/postflow/
     - assets/images/projects/pscoat/
+    - assets/images/projects/python-recall/
     - assets/images/projects/shop-automation/
     - assets/images/projects/steam-market/
     - assets/images/projects/theater/
@@ -99,6 +105,7 @@ flutter:
     - assets/images/projects/utopia/
     - assets/images/projects/voice-assistant/
     - assets/images/projects/vr-anxiety/
+    - assets/images/projects/whisper/
     - assets/images/projects/widgets-pkg/
     - assets/images/projects/wp-plugins/
 

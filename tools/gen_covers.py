@@ -12,18 +12,20 @@ OUT_ROOT = os.path.join(os.path.dirname(__file__), "..", "assets", "images", "pr
 W, H = 1600, 900
 
 PROJECTS = [
-    ("voice-assistant", "Local AI Voice Assistant", "Offline LLM + wake word",       "#14B8A6"),
-    ("shop-automation", "Shop Automation Pipeline", "shop.burakbasci.de",            "#F59E0B"),
-    ("pscoat",         "PSCoat",                   "Coatings business front-end",    "#0F172A"),
+    ("binance-tax",    "Binance Tax Report",       "CSV to German PDF",              "#B45309"),
+    ("cv-plugin",      "CV Plugin for Unreal",     "Segmentation & datasets",        "#0E7490"),
+    ("postflow",       "Postflow",                 "Social-media SaaS for SMBs",     "#0F766E"),
+    ("luminarep",      "LuminaRep",                "AI social proof for clinics",    "#047857"),
+    ("python-recall",  "Recall",                   "AI screenshot analysis",         "#1D4ED8"),
+    ("whisper",        "Whisper Service",          "Self-hosted speech-to-text",     "#0284C7"),
+    ("voice-assistant","Local AI Voice Assistant", "Offline LLM + wake word",        "#14B8A6"),
     ("theater",        "Theater Website",          "Programme & ticketing",          "#7E22CE"),
     ("wp-plugins",     "WordPress Plugins",        "Open-source utilities",          "#21759B"),
     ("turtlebot",      "Turtlebot Programming",    "B.Sc. coursework",               "#B91C1C"),
     ("paper-citysim",  "Object-Detection Paper",   "Deep learning in simulated city","#0E7490"),
-    ("jumpnrun",       "MyJumpNRun",               "Unreal Engine platformer",       "#65A30D"),
-    ("unity-hackathon","Unity Hackathon",          "Game-jam prototype",             "#1F2937"),
+    ("unity-hackathon","ALSignal Hackathon",       "ASL detection prototype",        "#1F2937"),
     ("steam-market",   "Steam Market Arbitrage",   "Trading automation",             "#1B2838"),
     ("csfloat",        "CSFloat Sniper",           "Marketplace scanner",            "#EAB308"),
-    ("image-upscaler", "Image Upscaler",           "GPU-accelerated batch tool",     "#9333EA"),
     ("image-uploader", "Image Uploader",           "Bulk-upload utility",            "#0EA5E9"),
     ("django-canva",   "Django Canvas",            "Programmatic image generator",   "#064E3B"),
 ]

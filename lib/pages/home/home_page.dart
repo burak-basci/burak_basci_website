@@ -175,41 +175,38 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
           LayoutBuilder(
             builder: (context, constraints) {
               final double itemH = responsiveSize(
-                mobile: 360,
-                tabletSmall: 460,
-                tabletNormal: 540,
-                desktop: 580,
+                mobile: Get.height * 0.55,
+                tabletSmall: Get.height * 0.6,
+                tabletNormal: Get.height * 0.65,
+                desktop: Get.height * 0.7,
               );
-              final double subH = itemH * 0.32;
+              final double subH = itemH * 0.75;
               final List<ProjectItemData> projects = recentWorksHighlights;
-              final EdgeInsets margin = EdgeInsets.symmetric(
-                horizontal: responsiveSize(
-                  mobile: Get.width * 0.08,
-                  desktop: Get.width * 0.12,
-                ),
-              );
-
               final int n = projects.length;
+
+              // Build cards top-down: card 0 added FIRST (bottom z),
+              // card n-1 added LAST (top z). The later card's header overlaps
+              // the previous card's image, both visually and for clicks —
+              // each card's exclusive hit area is its own header row.
               final List<Widget> cascade = <Widget>[];
-              // build cards bottom-up so later items sit on top in the Stack
-              for (int i = n - 1; i >= 0; i--) {
+              for (int i = 0; i < n; i++) {
                 final double topMargin = subH * i;
-                final int displayIndex = i;
                 cascade.add(
                   Container(
                     margin: EdgeInsets.only(top: topMargin),
                     child: ProjectItemLarge(
                       projectNumber:
-                          (displayIndex + 1) > 9 ? "${displayIndex + 1}" : "0${displayIndex + 1}",
-                      imageUrl: projects[displayIndex].image,
+                          (i + 1) > 9 ? "${i + 1}" : "0${i + 1}",
+                      imageUrl: projects[i].image,
                       projectItemheight: itemH,
                       subheight: subH,
-                      backgroundColor: CustomColors.accentColor2.withValues(alpha: 0.35),
-                      title: projects[displayIndex].title.toLowerCase(),
-                      subtitle: projects[displayIndex].category,
-                      containerColor: projects[displayIndex].primaryColor,
+                      backgroundColor:
+                          CustomColors.accentColor2.withValues(alpha: 0.35),
+                      title: projects[i].title.toLowerCase(),
+                      subtitle: projects[i].category,
+                      containerColor: projects[i].primaryColor,
                       onTap: () {
-                        final p = projects[displayIndex];
+                        final p = projects[i];
                         final String url = p.webUrl.isNotEmpty
                             ? p.webUrl
                             : (p.gitHubUrl.isNotEmpty ? p.gitHubUrl : '');
@@ -221,12 +218,10 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ),
                 );
               }
-              return Container(
-                margin: margin,
-                child: SizedBox(
-                  height: subH * (n - 1) + itemH,
-                  child: Stack(children: cascade),
-                ),
+              return SizedBox(
+                width: double.infinity,
+                height: subH * (n - 1) + itemH,
+                child: Stack(children: cascade),
               );
             },
           ),
@@ -234,13 +229,12 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
           Container(
             margin: EdgeInsets.symmetric(
               horizontal: responsiveSize(
-                mobile: Get.width * 0.08,
-                desktop: Get.width * 0.12,
+                mobile: Get.width * 0.10,
+                desktop: Get.width * 0.15,
               ),
             ),
             child: Text(
-              "${recentWorks.length} projects total · " +
-                  "tap any card to open the live link.",
+              "${recentWorks.length} projects total · tap any card to open the live link.",
               style: Get.textTheme.bodyLarge?.copyWith(
                 fontSize: 14,
                 color: CustomColors.grey700,

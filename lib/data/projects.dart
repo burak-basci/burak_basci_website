@@ -18,7 +18,9 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'Production AI patent search tool currently scaled across 3 '
         'departments and serving 50+ internal engineers. Hybrid semantic + '
         'keyword retrieval over a tuned ElasticSearch index with A/B-tested '
-        'ranking. 25% precision lift, 40% faster time-to-discovery.',
+        'ranking. 25% precision lift, 40% faster time-to-discovery. Authored '
+        'the full UML/SysML system landscape, mapping 100% of '
+        'infrastructure-to-code dependencies.',
     isPublic: false,
     isLive: true,
   ),
@@ -30,13 +32,58 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     primaryColor: const Color(0xFFEA580C),
     image: '$_d/k3s/cover.png',
     coverUrl: '$_d/k3s/cover.png',
-    technologyUsed: 'k3s · Terraform · ArgoCD · Traefik · Prometheus · Grafana',
+    technologyUsed:
+        'k3s · Terraform · ArgoCD · Traefik · Helm · Longhorn · PostgreSQL · MariaDB · Prometheus · Grafana',
     portfolioDescription:
-        'Sovereign Kubernetes platform on Hetzner Cloud running 15+ '
-        'self-hosted services for a 700+ unit real-estate portfolio. '
-        'Terraform-as-Code provisioning, ArgoCD-driven GitOps, '
-        'Prometheus/Grafana observability. Cut provisioning lead time from '
-        '4 days to 45 minutes and OPEX by €20k/year.',
+        'Enterprise-grade Kubernetes platform on Hetzner Cloud: HA '
+        'PostgreSQL/MariaDB, Longhorn distributed storage, automatic '
+        'Let\'s Encrypt TLS, Helm-deployed services (WordPress, n8n, '
+        'Outline, ...). GitOps with ArgoCD; Terraform-as-Code provisioning. '
+        'Migrated 15+ legacy services to self-hosted alternatives, cut '
+        'provisioning lead time from 4 days to 45 minutes (95% improvement) '
+        'and OPEX by €20k/year for a 700+ unit real-estate portfolio.',
+    isPublic: false,
+    isLive: true,
+  ),
+  ProjectItemData(
+    title: 'Postflow / beNotable',
+    subtitle: 'Social-media SaaS for SMBs',
+    category: 'SAAS / AI',
+    platform: 'Web',
+    primaryColor: const Color(0xFF0F766E),
+    image: '$_d/postflow/cover.png',
+    coverUrl: '$_d/postflow/cover.png',
+    technologyUsed:
+        'Next.js 15 · FastAPI · PostgreSQL 16 + pgvector · MinIO · Temporal · LangGraph · GitHub Copilot Pro',
+    portfolioDescription:
+        'Enterprise social-media-management SaaS that lets small businesses '
+        'consistently post to 9 social networks in <15 minutes a day. '
+        'Strict-TypeScript Next.js 15 frontend with shadcn/ui + TanStack '
+        'Query; async FastAPI + SQLAlchemy 2 + Alembic backend; Temporal '
+        'workflow engine; PostgreSQL 16 + pgvector + MinIO storage; AI '
+        'content generation via LangGraph agents on GitHub Copilot Pro. '
+        'Self-hosted on Hetzner with full GitLab CI/CD pipeline.',
+    isPublic: false,
+    isLive: true,
+    webUrl: 'https://app.benotable.de',
+  ),
+  ProjectItemData(
+    title: 'LuminaRep',
+    subtitle: 'AI social-proof SaaS for clinics',
+    category: 'SAAS / AI',
+    platform: 'Web',
+    primaryColor: const Color(0xFF047857),
+    image: '$_d/luminarep/cover.png',
+    coverUrl: '$_d/luminarep/cover.png',
+    technologyUsed:
+        'Next.js 15 · TypeScript · PostgreSQL · NextAuth · Google Gemini · Stripe · Tailwind',
+    portfolioDescription:
+        'Premium SaaS for medical-aesthetics and cosmetic-surgery clinics: '
+        'auto-extracts 5-star Google Reviews and turns them into three '
+        'Instagram caption variations + a TikTok script + Midjourney/DALL-E '
+        'prompts using Gemini. Email/password auth, Stripe subscriptions '
+        'with a 7-day trial, luxury dark mode UI (emerald + gold). Fully '
+        'Dockerized, production deployment guide, self-hosted infrastructure.',
     isPublic: false,
     isLive: true,
   ),
@@ -48,12 +95,16 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     primaryColor: const Color(0xFF7C3AED),
     image: '$_d/llm-mail/cover.png',
     coverUrl: '$_d/llm-mail/cover.png',
-    technologyUsed: 'FastAPI · RAG · Vector Search · Hardened Podman',
+    technologyUsed:
+        'Python · FastAPI · RAG · Vector DB · Pluggable Mistral/Claude/OpenAI',
     portfolioDescription:
-        'LLM-powered automation service built on FastAPI with a RAG '
-        'pipeline for intent classification on inbound mail. Lifted '
-        'throughput by 80%, kept 95% accuracy, and freed roughly 8 '
-        'engineering-hours per week from manual triage.',
+        'Multi-provider LLM email-automation service. FastAPI microservice '
+        'that classifies incoming mail into 11 categories, extracts '
+        'structured data and drafts replies — with a human-in-the-loop '
+        'control flow. EU-residency aware (GDPR), pluggable LLM backends '
+        '(Mistral, Claude, OpenAI, local OpenWebUI) via a single config. '
+        'Lifted throughput by 80%, kept 95% accuracy, freed ~8 '
+        'engineering-hours/week from manual triage.',
     isPublic: false,
     isLive: true,
   ),
@@ -65,12 +116,15 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     primaryColor: const Color(0xFF16A34A),
     image: '$_d/utopia/cover.png',
     coverUrl: '$_d/utopia/cover.png',
-    technologyUsed: 'Flutter · Solidity · Polygon · Firebase',
+    technologyUsed:
+        'Flutter · Solidity 0.8 · OpenZeppelin · UUPS Proxy · Polygon · Firebase',
     portfolioDescription:
-        'Cross-platform app + Polygon-backed ERC-20 token for environmental '
-        'and charitable causes. Technical Lead on a remote agile team of '
-        'two; shipped a feature-complete MVP in 12 months and demoed at the '
-        'KUER.NRW Green Entrepreneurship Fair to 20+ stakeholders.',
+        'Cross-platform Flutter app + Polygon-backed upgradeable ERC-20 '
+        '(UWCT) for environmental and charitable causes. Technical Lead on '
+        'a remote agile team of two; shipped a feature-complete MVP in 12 '
+        'months and demoed at the KUER.NRW Green Entrepreneurship Fair to '
+        '20+ stakeholders. UUPS-style proxy pattern, burnable + pausable '
+        'token.',
     isPublic: false,
     isLive: true,
   ),
@@ -82,12 +136,16 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     primaryColor: const Color(0xFF1E1B4B),
     image: '$_d/thesis-night/cover.png',
     coverUrl: '$_d/thesis-night/cover.png',
-    technologyUsed: 'Unreal Engine (C++) · NVIDIA NDDS · YOLOv8 · Python',
+    technologyUsed:
+        'Unreal Engine 5 (C++) · NVIDIA NDDS · Houdini · YOLOv8 · Python',
     portfolioDescription:
-        'B.Sc. thesis (1.3) and research paper on CNN-based night-time '
-        'object detection. Built a high-fidelity Unreal Engine simulation '
-        'with an automated labelling pipeline that eliminated 100% of '
-        'manual annotation effort across 6,000+ training samples.',
+        'B.Sc. thesis (graded 1.3) and accompanying paper (1.3) on '
+        'CNN-based night-time object detection. Built a high-fidelity '
+        'Unreal Engine 5 city simulation with an automated labelling '
+        'pipeline that eliminated 100% of manual annotation effort across '
+        '6,000+ training samples. NVIDIA NDDS for synthetic-data generation; '
+        'Houdini for procedural city; 5 critical lighting/environmental '
+        'parameters identified.',
     isPublic: false,
     isLive: false,
   ),
@@ -99,11 +157,13 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     primaryColor: const Color(0xFF6D28D9),
     image: '$_d/vr-anxiety/cover.png',
     coverUrl: '$_d/vr-anxiety/cover.png',
-    technologyUsed: 'Unreal Engine · Blueprints · VR',
+    technologyUsed: 'Unreal Engine 5 · Blueprints · OpenXR',
     portfolioDescription:
-        'VR exposure-therapy prototype for social anxiety treatment. Won '
-        '1st place at the TU Dortmund Startup Weekend 2023, outperforming '
-        '9 competing teams in technical execution and market validation.',
+        'VR exposure-therapy prototype for social-anxiety treatment, set '
+        'in a virtual opera house. Won 1st place at TU Dortmund Startup '
+        'Weekend 2023, outperforming 9 competing teams on technical '
+        'execution and market validation. Engineered the full Unreal Engine '
+        ' 5 scene + interaction model in a weekend.',
     isPublic: false,
     isLive: false,
   ),
@@ -115,14 +175,18 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     primaryColor: const Color(0xFFDC2626),
     image: '$_d/durak/cover.png',
     coverUrl: '$_d/durak/cover.png',
-    technologyUsed: 'Flutter · Firebase · Cloud Functions',
+    technologyUsed:
+        'Flutter · Dart · GetX · WebSockets · PostgreSQL · Audioplayers',
     portfolioDescription:
-        'High-performance multiplayer Durak card game shipped to six '
-        'platforms from a single Flutter codebase at 60 FPS with custom '
-        'rendering logic. Realtime game state and persistence on Firebase '
-        'Cloud Functions + Firestore.',
+        'Polished Flutter implementation of the classic Russian Durak: '
+        'three AI difficulty levels (offline) and prepared online '
+        'multiplayer via WebSockets. Custom rendering for 60 FPS across '
+        'Android, iOS, Web, Windows, macOS and Linux. Dark/light themes, '
+        'sound, drag-and-drop, four locales (EN/RU/TR/DE), 31 passing unit '
+        'tests, Playwright E2E. Live at durak.burakbasci.de.',
     isPublic: false,
-    isLive: false,
+    isLive: true,
+    webUrl: 'https://durak.burakbasci.de',
   ),
   ProjectItemData(
     title: 'Home Assistant Edge',
@@ -132,12 +196,13 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     primaryColor: const Color(0xFF18BCF2),
     image: '$_d/home-assistant/cover.png',
     coverUrl: '$_d/home-assistant/cover.png',
-    technologyUsed: 'Proxmox · OpenWRT · openSUSE · Home Assistant OS',
+    technologyUsed:
+        'Proxmox VE · OpenWRT · openSUSE · Home Assistant OS · MQTT',
     portfolioDescription:
         'Self-sovereign edge infrastructure: Proxmox host, OpenWRT '
-        'networking, openSUSE workloads, Home Assistant OS, and a local AI '
-        'voice assistant with a custom wake word and offline LLM inference. '
-        'Everything runs on-device.',
+        'networking, openSUSE workloads, Home Assistant OS, MQTT-based '
+        'integrations. All physical-world state stays inside the LAN — no '
+        'cloud middleman.',
     isPublic: false,
     isLive: false,
   ),
@@ -149,62 +214,94 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     primaryColor: const Color(0xFF14B8A6),
     image: '$_d/voice-assistant/cover.png',
     coverUrl: '$_d/voice-assistant/cover.png',
-    technologyUsed: 'Whisper · Local LLM · Piper TTS · openWakeWord',
+    technologyUsed:
+        'faster-whisper · Piper TTS · openWakeWord · local LLM · Flask',
     portfolioDescription:
         'Privacy-first voice assistant running entirely on-device: custom '
-        'wake-word detection, offline speech-to-text, local LLM inference '
-        'and on-device voice synthesis. No round-trip to the cloud.',
+        'wake-word detection, offline speech-to-text (faster-whisper '
+        'service on :10300), local LLM inference and on-device Piper voice '
+        'synthesis. No round-trip to the cloud — full sentence latency '
+        'under a second on commodity hardware.',
     isPublic: false,
     isLive: false,
   ),
   ProjectItemData(
+    title: 'Whisper STT Service',
+    subtitle: 'Containerized faster-whisper API',
+    category: 'AI / INFRASTRUCTURE',
+    platform: 'Container',
+    primaryColor: const Color(0xFF0284C7),
+    image: '$_d/whisper/cover.png',
+    coverUrl: '$_d/whisper/cover.png',
+    technologyUsed: 'Python 3.11 · Flask · faster-whisper · FFmpeg · Podman',
+    portfolioDescription:
+        'Lightweight Python service that wraps OpenAI Whisper via '
+        'faster-whisper and exposes a REST endpoint on port 10300. Used '
+        'by the voice-assistant stack and the catersmart-ai-core '
+        'pipeline for any audio that needs to be transcribed inside the '
+        'sovereign cluster.',
+    isPublic: false,
+    isLive: true,
+  ),
+  ProjectItemData(
     title: 'Shop Automation Pipeline',
-    subtitle: 'shop.burakbasci.de',
+    subtitle: 'AI-driven print-on-demand',
     category: 'AUTOMATION / E-COMMERCE',
     platform: 'Web',
     primaryColor: const Color(0xFFF59E0B),
     image: '$_d/shop-automation/cover.png',
     coverUrl: '$_d/shop-automation/cover.png',
-    technologyUsed: 'Python · Stable Diffusion · MidJourney · Printify · WooCommerce',
+    technologyUsed:
+        'Python · Printify API · ComfyUI · FLUX.1 · Pandas · WooCommerce',
     portfolioDescription:
-        'Fully automated product generation and upload pipeline. AI-'
-        'generated designs are placed on print-on-demand products and '
-        'pushed to the storefront, end-to-end, without manual touch.',
+        'End-to-end content + product pipeline: FLUX.1 generates designs '
+        'via ComfyUI, the Printify API places them on print-on-demand '
+        'products and pushes them to the storefront, and a Pandas/CSV '
+        'workflow keeps everything reconciled. Walks away, products show '
+        'up. Sits on top of a property/asset database that doubles as a '
+        'social-media automation hub.',
     isPublic: true,
     isLive: true,
     webUrl: 'https://shop.burakbasci.de',
   ),
   ProjectItemData(
     title: 'ImmoPilot',
-    subtitle: 'Real-estate SaaS suite',
+    subtitle: 'Real-estate operations SaaS',
     category: 'B2B / SAAS',
     platform: 'Web · iOS · Android',
     primaryColor: const Color(0xFF334155),
     image: '$_d/immopilot/cover.png',
     coverUrl: '$_d/immopilot/cover.png',
-    technologyUsed: 'Flutter · Django · Postgres · k3s',
+    technologyUsed:
+        'FastAPI · PostgreSQL 18 + RLS · Redis · n8n · ARQ · NocoDB · Mistral/OpenAI/Anthropic · Podman Compose · Prometheus + Grafana',
     portfolioDescription:
-        'Closed-source SaaS platform for property managers: tenant '
-        'communication, document handling, accounting integrations, and '
-        'workflow automation. Deployed on the sovereign k3s platform.',
+        'Multi-tenant SaaS for German real-estate brokers: connects '
+        'CRM and email systems with AI-powered lead automation, multi-'
+        'tenant Postgres with row-level security, AI email classification '
+        'and reply generation, n8n-orchestrated CRM sync. Deployed on the '
+        'sovereign k3s platform with full Prometheus/Grafana observability.',
     isPublic: false,
     isLive: true,
   ),
   ProjectItemData(
     title: 'CaterSmart',
-    subtitle: 'Catering operations app',
+    subtitle: 'Catering operations + AI core',
     category: 'B2B / OPERATIONS',
-    platform: 'iOS · Android · Web',
+    platform: 'Web · API',
     primaryColor: const Color(0xFF65A30D),
     image: '$_d/catersmart/cover.png',
     coverUrl: '$_d/catersmart/cover.png',
-    technologyUsed: 'Flutter · Firebase · Cloud Functions',
+    technologyUsed:
+        'FastAPI · SQLAlchemy 2 async · PostgreSQL · Redis · Mistral/Claude/OpenAI · Supabase pgvector',
     portfolioDescription:
-        'Operations app for a catering business: order intake, stock and '
-        'staff scheduling, on-the-day delivery routing. Shipped to three '
-        'platforms from a single Flutter codebase.',
+        'Full-stack catering platform: an async FastAPI + SQLAlchemy 2 '
+        'backend on PostgreSQL/Redis, plus an "AI core" microservice that '
+        'classifies inquiry emails into 11 categories, extracts structured '
+        'data and drafts replies. Pluggable LLM providers, RAG via '
+        'Supabase, mock mode for tests, human-in-the-loop flow. Live at '
+        'catersmart.de.',
     isPublic: false,
-    isLive: false,
+    isLive: true,
   ),
   ProjectItemData(
     title: 'NestNode',
@@ -216,73 +313,84 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     coverUrl: '$_d/nestnode/cover.png',
     technologyUsed: 'Flutter · MQTT · Home Assistant',
     portfolioDescription:
-        'Mobile front-end for a self-hosted Home Assistant deployment: '
-        'lights, climate, energy and security controls in a tactile, '
-        'fast-responding UI. Talks to MQTT directly from the device.',
+        'Mobile front-end concept for a self-hosted Home Assistant '
+        'deployment: lights, climate, energy and security in a tactile, '
+        'fast-responding UI talking MQTT directly from the device.',
     isPublic: false,
     isLive: false,
   ),
   ProjectItemData(
     title: 'Open Design',
-    subtitle: 'Freelance design service',
-    category: 'CLIENT / DESIGN',
-    platform: 'Web',
+    subtitle: 'OSS AI design platform',
+    category: 'OPEN SOURCE / DESIGN',
+    platform: 'Web · Desktop',
     primaryColor: const Color(0xFFD946EF),
     image: '$_d/open-design/cover.png',
     coverUrl: '$_d/open-design/cover.png',
-    technologyUsed: 'Figma · Flutter Web · Branding',
+    technologyUsed:
+        'Next.js · TypeScript · React 18 · Vite · Tailwind · pnpm · Electron',
     portfolioDescription:
-        'Identity and Flutter-Web frontend for an independent design '
-        'practice — landing page, portfolio gallery and contact flow built '
-        'from a single brand system.',
-    isPublic: false,
-    isLive: false,
+        'Open-source, local-first alternative to closed AI design tools. '
+        'Detects any coding-agent CLI on \$PATH (Claude Code, Cursor, '
+        'Devin, Copilot, Gemini, Qwen, ...) and wires it into a '
+        'skill-driven workflow. 31 composable design skills, 72+ '
+        'brand-grade design systems, interactive discovery forms, live '
+        'streaming-artifacts panel, sandboxed iframe preview. Runs '
+        'locally or deploys to Vercel — BYOK at every layer.',
+    isPublic: true,
+    isLive: true,
+    webUrl: 'https://github.com/nexu-io/open-design',
+    gitHubUrl: 'https://github.com/nexu-io/open-design',
   ),
   ProjectItemData(
     title: 'Custom Client Platform',
-    subtitle: 'Freelance backend + admin',
+    subtitle: 'Real-estate media + 3D processing',
     category: 'CLIENT / FULL-STACK',
-    platform: 'Web',
+    platform: 'Web · Cloud',
     primaryColor: const Color(0xFF475569),
     image: '$_d/freelance/cover.png',
     coverUrl: '$_d/freelance/cover.png',
-    technologyUsed: 'Django · Postgres · Docker · Flutter Web',
+    technologyUsed:
+        'FastAPI · Node + TypeScript · PostgreSQL · Three.js · Sharp · FFmpeg · Docker · Kubernetes',
     portfolioDescription:
-        'Full-stack freelance build for a private client: domain-specific '
-        'admin dashboard, role-based access, and a customer-facing portal '
-        'wired to a Django backend.',
+        'Multi-tier platform for real-estate operations with specialised '
+        'services per concern: 3D floorplan generation, video processing, '
+        'AI staging, geometry optimisation and image compression. Direct '
+        'cloud-storage integration and live preview of processed assets '
+        'in a sandboxed Three.js viewer.',
     isPublic: false,
     isLive: false,
   ),
   ProjectItemData(
     title: 'PSCoat',
-    subtitle: 'Coatings business front-end',
-    category: 'CLIENT / WEB',
-    platform: 'Web',
+    subtitle: 'Coatings business ops',
+    category: 'CLIENT / AUTOMATION',
+    platform: 'Web · Python',
     primaryColor: const Color(0xFF0F172A),
     image: '$_d/pscoat/cover.png',
     coverUrl: '$_d/pscoat/cover.png',
-    technologyUsed: 'Next.js · Tailwind · WordPress headless',
+    technologyUsed: 'Python 3.12 · Playwright · async/await · Web scraping',
     portfolioDescription:
-        'Marketing site and lead-gen funnel for a coatings/refinishing '
-        'business. Headless WordPress for content, Next.js for the public '
-        'site, simple analytics piped into the dashboard.',
+        'Operations + automation toolkit for an industrial coatings '
+        'business. Playwright-driven job-board integration, automated '
+        'lead discovery, and a marketing-asset pipeline (banners, hero '
+        'shots). Built with TOS-aware throttling and auth-aware sessions.',
     isPublic: false,
     isLive: false,
   ),
   ProjectItemData(
     title: 'Theater Website',
-    subtitle: 'Programme & ticketing',
+    subtitle: 'Local German theater',
     category: 'CLIENT / WEB',
     platform: 'Web',
     primaryColor: const Color(0xFF7E22CE),
     image: '$_d/theater/cover.png',
     coverUrl: '$_d/theater/cover.png',
-    technologyUsed: 'Next.js · CMS · Tailwind',
+    technologyUsed: 'WordPress · Elementor Pro · PHP · MySQL',
     portfolioDescription:
-        'Public website for a local theater: programme listings, '
-        'season-pass tickets, accessibility-first design and a low-friction '
-        'CMS for the artistic team.',
+        'Public-facing website for a German theater organisation: '
+        'programme listings, season-pass purchases, accessibility-first '
+        'styling and a low-friction CMS for the artistic team.',
     isPublic: false,
     isLive: false,
   ),
@@ -296,11 +404,199 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     coverUrl: '$_d/widgets-pkg/cover.png',
     technologyUsed: 'Dart · Flutter',
     portfolioDescription:
-        'Reusable widget library published on pub.dev: animation, layout '
-        'and UI primitives extracted from real production projects.',
+        'Reusable widget library on pub.dev: animation, layout and UI '
+        'primitives extracted from real production projects. Used as the '
+        'baseline kit for new Flutter apps.',
     isPublic: true,
     isLive: true,
     webUrl: 'https://pub.dev/packages/burakbasci_widgets',
+  ),
+  ProjectItemData(
+    title: 'Python Recall',
+    subtitle: 'AI screenshot analysis',
+    category: 'AI / TOOL',
+    platform: 'Linux · Desktop',
+    primaryColor: const Color(0xFF1D4ED8),
+    image: '$_d/python-recall/cover.png',
+    coverUrl: '$_d/python-recall/cover.png',
+    technologyUsed:
+        'Python · Google Gemini · Copilot · OpenCV · aiohttp · SSE',
+    portfolioDescription:
+        'A "Recall"-style desktop helper: captures screenshots, races '
+        'Gemini and Copilot side-by-side via parallel threads, streams '
+        'whichever responds first over Server-Sent Events to a local '
+        'overlay. Mouse-triggered with configurable keyboard shortcuts '
+        'and timeouts.',
+    isPublic: false,
+    isLive: false,
+  ),
+  ProjectItemData(
+    title: 'BoxHead',
+    subtitle: 'Unreal Engine 5 FPS',
+    category: 'GAME / UNREAL',
+    platform: 'Windows · Linux',
+    primaryColor: const Color(0xFF1F2937),
+    image: '$_d/boxhead/cover.png',
+    coverUrl: '$_d/boxhead/cover.png',
+    technologyUsed: 'Unreal Engine 5 · C++ · Blueprints',
+    portfolioDescription:
+        'Fast-paced first-person shooter built in Unreal Engine 5: maze-'
+        'like levels, scripted enemy waves, ranged/melee weapons. Built '
+        'editor for both Linux and Windows with high-resolution screenshot '
+        'tooling for level-design iteration.',
+    isPublic: false,
+    isLive: false,
+  ),
+  ProjectItemData(
+    title: 'Flappy Griffon',
+    subtitle: '3D ray-traced Flappy Bird',
+    category: 'GAME / UNREAL',
+    platform: 'Windows · Android',
+    primaryColor: const Color(0xFFF59E0B),
+    image: '$_d/flappy-griffon/cover.png',
+    coverUrl: '$_d/flappy-griffon/cover.png',
+    technologyUsed: 'Unreal Engine 5 · C++ · Blueprints · Water plugin',
+    portfolioDescription:
+        '3D ray-traced re-imagining of Flappy Bird with a griffon '
+        'character navigating obstacle courses. Cross-platform Windows / '
+        'Linux / Android / Mac targets. Shipped on itch.io.',
+    isPublic: true,
+    isLive: true,
+    webUrl: 'https://burakbasci.itch.io/flappygriffon',
+  ),
+  ProjectItemData(
+    title: 'MyJumpNRun',
+    subtitle: 'Unreal Engine platformer series',
+    category: 'GAME / UNREAL',
+    platform: 'Windows',
+    primaryColor: const Color(0xFF65A30D),
+    image: '$_d/jumpnrun/cover.png',
+    coverUrl: '$_d/jumpnrun/cover.png',
+    technologyUsed: 'Unreal Engine 5 · C++ · Blueprints',
+    portfolioDescription:
+        'Iterative platformer in Unreal Engine 5 — multiple versions '
+        '(5.2 + variants) tracking improvements to level design, '
+        'character physics and Blueprint scripting.',
+    isPublic: false,
+    isLive: false,
+  ),
+  ProjectItemData(
+    title: 'CV Plugin for Unreal',
+    subtitle: 'Custom segmentation & datasets',
+    category: 'ML / RESEARCH',
+    platform: 'Unreal',
+    primaryColor: const Color(0xFF0E7490),
+    image: '$_d/cv-plugin/cover.png',
+    coverUrl: '$_d/cv-plugin/cover.png',
+    technologyUsed:
+        'Unreal Engine 5 · C++ · NVIDIA NDDS · Semantic Segmentation',
+    portfolioDescription:
+        'Custom Unreal Engine plugin for real-time semantic segmentation, '
+        'object detection and labelled training-data export. Built '
+        'alongside the night-detection thesis to automate dataset '
+        'generation from synthetic scenes.',
+    isPublic: false,
+    isLive: false,
+  ),
+  ProjectItemData(
+    title: 'ALSignal Hackathon',
+    subtitle: 'ASL detection in Unity',
+    category: 'HACKATHON / CV',
+    platform: 'Windows · Unity',
+    primaryColor: const Color(0xFF1F2937),
+    image: '$_d/unity-hackathon/cover.png',
+    coverUrl: '$_d/unity-hackathon/cover.png',
+    technologyUsed: 'Unity · C# · MediaPipe · Computer Vision',
+    portfolioDescription:
+        'Hackathon-built American Sign Language detector in Unity. '
+        'Real-time gesture recognition with raycasting against a '
+        'spherical gesture-space, pen input, smile detection. Concept, '
+        'art pipeline, scripting and build — all from scratch in a '
+        'weekend.',
+    isPublic: false,
+    isLive: false,
+  ),
+  ProjectItemData(
+    title: 'Steam Market Arbitrage',
+    subtitle: 'Trading-card economy bot',
+    category: 'AUTOMATION / FINANCE',
+    platform: 'Linux',
+    primaryColor: const Color(0xFF1B2838),
+    image: '$_d/steam-market/cover.png',
+    coverUrl: '$_d/steam-market/cover.png',
+    technologyUsed: 'Python · BeautifulSoup · Requests · SQLite',
+    portfolioDescription:
+        'Research toolkit for the Steam Community Market: detects '
+        'arbitrage opportunities (gem → booster crafting, card → gem '
+        'conversion, foil-card trading, badge economics). Cookie-based '
+        'session that respects rate-limits, with disciplined risk rules.',
+    isPublic: false,
+    isLive: false,
+  ),
+  ProjectItemData(
+    title: 'Image Upscaler',
+    subtitle: 'Real-ESRGAN over SFTP',
+    category: 'TOOL / ML',
+    platform: 'Linux · GPU',
+    primaryColor: const Color(0xFF9333EA),
+    image: '$_d/image-upscaler/cover.png',
+    coverUrl: '$_d/image-upscaler/cover.png',
+    technologyUsed: 'Python · PyTorch · Real-ESRGAN · OpenCV · SFTP',
+    portfolioDescription:
+        'GPU-accelerated batch image upscaler that watches an SFTP '
+        'folder, runs Real-ESRGAN (face-aware, configurable denoise) and '
+        'puts the upscaled file back. Plugged into the n8n workflow stack '
+        'as a background job.',
+    isPublic: false,
+    isLive: false,
+  ),
+  ProjectItemData(
+    title: 'Image Uploader',
+    subtitle: 'Selenium helpers',
+    category: 'TOOL / UTILITY',
+    platform: 'Linux',
+    primaryColor: const Color(0xFF0EA5E9),
+    image: '$_d/image-uploader/cover.png',
+    coverUrl: '$_d/image-uploader/cover.png',
+    technologyUsed: 'Python · Selenium · WebDriver Manager',
+    portfolioDescription:
+        'Browser-automation helpers for Adobe Stock and ImmoWare '
+        'workflows. Supports both Snap and system Chrome/Chromium with '
+        'remote debugging and persistent sessions.',
+    isPublic: false,
+    isLive: false,
+  ),
+  ProjectItemData(
+    title: 'Django Canvas',
+    subtitle: 'Programmatic image generator',
+    category: 'TOOL / WEB',
+    platform: 'Web',
+    primaryColor: const Color(0xFF064E3B),
+    image: '$_d/django-canva/cover.png',
+    coverUrl: '$_d/django-canva/cover.png',
+    technologyUsed: 'Django · Pillow · PostgreSQL · Docker',
+    portfolioDescription:
+        'Django service that renders branded social cards and product '
+        'images from JSON payloads. Used internally to feed the shop '
+        'pipeline at scale.',
+    isPublic: false,
+    isLive: false,
+  ),
+  ProjectItemData(
+    title: 'Binance Tax Report',
+    subtitle: 'CSV → German PDF',
+    category: 'TOOL / UTILITY',
+    platform: 'Linux',
+    primaryColor: const Color(0xFFB45309),
+    image: '$_d/binance-tax/cover.png',
+    coverUrl: '$_d/binance-tax/cover.png',
+    technologyUsed: 'Python · WeasyPrint · pango · cairo',
+    portfolioDescription:
+        'CLI tool that ingests Binance transaction-history CSVs and '
+        'generates DEUTSCHER_STEUERBERICHT PDFs via WeasyPrint. Clean '
+        'typography, German tax-office formatting.',
+    isPublic: false,
+    isLive: false,
   ),
   ProjectItemData(
     title: 'WordPress Plugins',
@@ -327,9 +623,9 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     coverUrl: '$_d/turtlebot/cover.png',
     technologyUsed: 'ROS · C++ · Linux',
     portfolioDescription:
-        'Coursework at TU Dortmund: programming a TurtleBot with ROS in '
-        'C++. SLAM exercises, motion control and signal handling on a '
-        'real differential-drive robot.',
+        'Coursework at TU Dortmund: programming a TurtleBot with ROS '
+        'in C++. SLAM exercises, motion control and signal handling on '
+        'a real differential-drive robot.',
     isPublic: false,
     isLive: false,
   ),
@@ -343,135 +639,9 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     coverUrl: '$_d/paper-citysim/cover.png',
     technologyUsed: 'YOLOv8 · Unreal Engine · Python',
     portfolioDescription:
-        'Scientific paper (graded 1.3) on the application and optimization '
-        'of deep-learning object detection in a simulated urban environment '
-        'from the perspective of a moving car.',
-    isPublic: false,
-    isLive: false,
-  ),
-  ProjectItemData(
-    title: 'Flappy Griffon',
-    subtitle: '3D ray-traced Flappy Bird',
-    category: 'GAME / UNREAL',
-    platform: 'Windows',
-    primaryColor: const Color(0xFFF59E0B),
-    image: '$_d/flappy-griffon/cover.png',
-    coverUrl: '$_d/flappy-griffon/cover.png',
-    technologyUsed: 'Unreal Engine · Blueprints · Ray Tracing',
-    portfolioDescription:
-        'Indie game: a 3D ray-traced re-imagining of Flappy Bird, shipped '
-        'on itch.io.',
-    isPublic: true,
-    isLive: true,
-    webUrl: 'https://burakbasci.itch.io/flappygriffon',
-  ),
-  ProjectItemData(
-    title: 'MyJumpNRun',
-    subtitle: 'Unreal Engine platformer',
-    category: 'GAME / UNREAL',
-    platform: 'Windows',
-    primaryColor: const Color(0xFF65A30D),
-    image: '$_d/jumpnrun/cover.png',
-    coverUrl: '$_d/jumpnrun/cover.png',
-    technologyUsed: 'Unreal Engine · Blueprints',
-    portfolioDescription:
-        'Personal Unreal Engine platformer built across multiple iterations '
-        'to learn level design, character physics and Blueprint scripting.',
-    isPublic: false,
-    isLive: false,
-  ),
-  ProjectItemData(
-    title: 'Unity Hackathon',
-    subtitle: 'Game-jam prototype',
-    category: 'GAME / UNITY',
-    platform: 'Windows · Web',
-    primaryColor: const Color(0xFF1F2937),
-    image: '$_d/unity-hackathon/cover.png',
-    coverUrl: '$_d/unity-hackathon/cover.png',
-    technologyUsed: 'Unity · C# · Blender',
-    portfolioDescription:
-        'Small Unity prototype built under a weekend deadline at a game '
-        'jam — concept, art pipeline, scripting and build, all from '
-        'scratch.',
-    isPublic: false,
-    isLive: false,
-  ),
-  ProjectItemData(
-    title: 'Steam Market Arbitrage',
-    subtitle: 'Trading automation',
-    category: 'AUTOMATION / FINANCE',
-    platform: 'Linux',
-    primaryColor: const Color(0xFF1B2838),
-    image: '$_d/steam-market/cover.png',
-    coverUrl: '$_d/steam-market/cover.png',
-    technologyUsed: 'Python · Selenium · SQLite',
-    portfolioDescription:
-        'Personal-research bot that scrapes Steam Community Market listings '
-        'and surfaces price discrepancies. Disciplined risk rules, '
-        'rate-limited, sandboxed.',
-    isPublic: false,
-    isLive: false,
-  ),
-  ProjectItemData(
-    title: 'CSFloat Sniper',
-    subtitle: 'Marketplace scanner',
-    category: 'AUTOMATION / RESEARCH',
-    platform: 'Linux',
-    primaryColor: const Color(0xFFEAB308),
-    image: '$_d/csfloat/cover.png',
-    coverUrl: '$_d/csfloat/cover.png',
-    technologyUsed: 'Python · Playwright · Webhooks',
-    portfolioDescription:
-        'Marketplace scanner that watches new listings for price/condition '
-        'mismatches and notifies a private channel. Built to learn '
-        'browser-automation and event-driven Python.',
-    isPublic: false,
-    isLive: false,
-  ),
-  ProjectItemData(
-    title: 'Image Upscaler',
-    subtitle: 'GPU-accelerated batch tool',
-    category: 'TOOL / ML',
-    platform: 'Linux',
-    primaryColor: const Color(0xFF9333EA),
-    image: '$_d/image-upscaler/cover.png',
-    coverUrl: '$_d/image-upscaler/cover.png',
-    technologyUsed: 'Python · Real-ESRGAN · CUDA',
-    portfolioDescription:
-        'GPU-accelerated batch image-upscaling tool wired to a watch '
-        'folder. Drop files, walk away, find them upscaled minutes later.',
-    isPublic: false,
-    isLive: false,
-  ),
-  ProjectItemData(
-    title: 'Image Uploader',
-    subtitle: 'Bulk-upload utility',
-    category: 'TOOL / UTILITY',
-    platform: 'Linux',
-    primaryColor: const Color(0xFF0EA5E9),
-    image: '$_d/image-uploader/cover.png',
-    coverUrl: '$_d/image-uploader/cover.png',
-    technologyUsed: 'Python · CDN APIs',
-    portfolioDescription:
-        'Small CLI utility for bulk-uploading and renaming images to a '
-        'CDN with consistent slug rules. Built to keep the design pipeline '
-        'fast.',
-    isPublic: false,
-    isLive: false,
-  ),
-  ProjectItemData(
-    title: 'Django Canvas',
-    subtitle: 'Programmatic image generator',
-    category: 'TOOL / WEB',
-    platform: 'Web',
-    primaryColor: const Color(0xFF064E3B),
-    image: '$_d/django-canva/cover.png',
-    coverUrl: '$_d/django-canva/cover.png',
-    technologyUsed: 'Django · Pillow · PostgreSQL',
-    portfolioDescription:
-        'Django service that renders branded social cards and product '
-        'images from JSON. Used internally to produce the shop pipeline '
-        'art at scale.',
+        'Scientific paper (graded 1.3) on the application and '
+        'optimisation of deep-learning object detection in a simulated '
+        'urban environment from the perspective of a moving car.',
     isPublic: false,
     isLive: false,
   ),
@@ -485,9 +655,9 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     coverUrl: '$_d/this-site/cover.png',
     technologyUsed: 'Flutter Web · GitHub Pages',
     portfolioDescription:
-        'The site you are reading. Flutter Web, deployed to GitHub Pages '
-        'with a custom domain. Source heavily restructured from David '
-        "Cobbina's portfolio template.",
+        'The site you are reading. Flutter Web, deployed to GitHub '
+        'Pages with a custom domain. Source heavily restructured from '
+        "David Cobbina's portfolio template.",
     isPublic: true,
     isLive: true,
     webUrl: 'https://www.burakbasci.de',
@@ -495,12 +665,12 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
   ),
 ];
 
-/// Subset shown on the home page "selection of recent work" — top picks only.
+/// Subset shown on the home page "selection of recent work" — flagship picks.
 final List<ProjectItemData> recentWorksHighlights = <ProjectItemData>[
   recentWorks[0], // Patent AI Search
   recentWorks[1], // Sovereign Cloud
-  recentWorks[2], // LLM Email Automation
-  recentWorks[3], // Utopia
-  recentWorks[6], // Durak
-  recentWorks[4], // Night-Detection Thesis
+  recentWorks[2], // Postflow
+  recentWorks[3], // LuminaRep
+  recentWorks[7], // VR Anxiety
+  recentWorks[8], // Durak
 ];
