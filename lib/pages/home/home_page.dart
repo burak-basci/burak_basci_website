@@ -176,12 +176,12 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
           LayoutBuilder(
             builder: (context, constraints) {
               final double itemH = responsiveSize(
-                mobile: Get.height * 0.55,
-                tabletSmall: Get.height * 0.6,
-                tabletNormal: Get.height * 0.65,
-                desktop: Get.height * 0.7,
+                mobile: Get.height * 0.40,
+                tabletSmall: Get.height * 0.40,
+                tabletNormal: Get.height * 0.42,
+                desktop: Get.height * 0.45,
               );
-              final double subH = itemH * 0.75;
+              final double subH = itemH * 0.72;
               final List<ProjectItemData> projects = recentWorks;
               final int n = projects.length;
 

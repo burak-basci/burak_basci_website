@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
-"""Generate placeholder cover images for portfolio projects.
+"""Generate cinematic placeholder cover images for portfolio projects.
 
-Each card: 1600x900, vertical gradient from primary to a darker shade,
-title + subtitle in white, subtle initials watermark.
+Design:
+  - 1600x900 cinematic frame
+  - Smooth diagonal gradient from the brand color to a darker shade
+  - Faint diagonal-line texture for depth
+  - A single huge wordmark (the title) centered, ~20% opacity, blurred
+  - No edge-aligned text (so BoxFit.cover crops don't truncate anything)
+  - Two thin accent rules in the lower-third for a "directed-by" feel
 """
 import os
 import math
@@ -12,22 +17,22 @@ OUT_ROOT = os.path.join(os.path.dirname(__file__), "..", "assets", "images", "pr
 W, H = 1600, 900
 
 PROJECTS = [
-    ("binance-tax",    "Binance Tax Report",       "CSV to German PDF",              "#B45309"),
-    ("cv-plugin",      "CV Plugin for Unreal",     "Segmentation & datasets",        "#0E7490"),
-    ("postflow",       "Postflow",                 "Social-media SaaS for SMBs",     "#0F766E"),
-    ("luminarep",      "LuminaRep",                "AI social proof for clinics",    "#047857"),
-    ("python-recall",  "Recall",                   "AI screenshot analysis",         "#1D4ED8"),
-    ("whisper",        "Whisper Service",          "Self-hosted speech-to-text",     "#0284C7"),
-    ("voice-assistant","Local AI Voice Assistant", "Offline LLM + wake word",        "#14B8A6"),
-    ("theater",        "Theater Website",          "Programme & ticketing",          "#7E22CE"),
-    ("wp-plugins",     "WordPress Plugins",        "Open-source utilities",          "#21759B"),
-    ("turtlebot",      "Turtlebot Programming",    "B.Sc. coursework",               "#B91C1C"),
-    ("paper-citysim",  "Object-Detection Paper",   "Deep learning in simulated city","#0E7490"),
-    ("unity-hackathon","ALSignal Hackathon",       "ASL detection prototype",        "#1F2937"),
-    ("steam-market",   "Steam Market Arbitrage",   "Trading automation",             "#1B2838"),
-    ("csfloat",        "CSFloat Sniper",           "Marketplace scanner",            "#EAB308"),
-    ("image-uploader", "Image Uploader",           "Bulk-upload utility",            "#0EA5E9"),
-    ("django-canva",   "Django Canvas",            "Programmatic image generator",   "#064E3B"),
+    ("binance-tax",    "Binance Tax Report",       "#B45309"),
+    ("cv-plugin",      "CV Plugin for Unreal",     "#0E7490"),
+    ("postflow",       "Postflow",                 "#0F766E"),
+    ("luminarep",      "LuminaRep",                "#047857"),
+    ("python-recall",  "Recall",                   "#1D4ED8"),
+    ("whisper",        "Whisper Service",          "#0284C7"),
+    ("voice-assistant","Voice Assistant",          "#14B8A6"),
+    ("theater",        "Theater",                  "#7E22CE"),
+    ("wp-plugins",     "WordPress",                "#21759B"),
+    ("turtlebot",      "Turtlebot",                "#B91C1C"),
+    ("paper-citysim",  "City Simulation",          "#0E7490"),
+    ("unity-hackathon","ALSignal",                 "#1F2937"),
+    ("steam-market",   "Steam Market",             "#1B2838"),
+    ("csfloat",        "CSFloat",                  "#EAB308"),
+    ("image-uploader", "Image Uploader",           "#0EA5E9"),
+    ("django-canva",   "Django Canvas",            "#064E3B"),
 ]
 
 
@@ -36,11 +41,11 @@ def hex_to_rgb(h):
     return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
 
 
-def darken(rgb, factor=0.45):
+def darken(rgb, factor):
     return tuple(max(0, int(c * factor)) for c in rgb)
 
 
-def lighten(rgb, factor=0.18):
+def lighten(rgb, factor):
     return tuple(min(255, int(c + (255 - c) * factor)) for c in rgb)
 
 
@@ -53,33 +58,23 @@ def _find_font(*candidates, size=120):
     return ImageFont.load_default()
 
 
-def gradient(top, bottom):
-    img = Image.new("RGB", (W, H), top)
+def diagonal_gradient(top_left, bottom_right):
+    img = Image.new("RGB", (W, H), top_left)
     px = img.load()
+    diag = math.hypot(W, H)
     for y in range(H):
-        t = y / (H - 1)
-        r = int(top[0] * (1 - t) + bottom[0] * t)
-        g = int(top[1] * (1 - t) + bottom[1] * t)
-        b = int(top[2] * (1 - t) + bottom[2] * t)
-        for x in range(W):
-            px[x, y] = (r, g, b)
-    return img
-
-
-def add_grain(img, strength=12):
-    """Add subtle noise for a less flat look."""
-    from random import randint
-    px = img.load()
-    for y in range(0, H, 2):
         for x in range(0, W, 2):
-            r, g, b = px[x, y]
-            n = randint(-strength, strength)
-            px[x, y] = (max(0, min(255, r + n)), max(0, min(255, g + n)), max(0, min(255, b + n)))
+            t = (x + y) / diag
+            r = int(top_left[0] * (1 - t) + bottom_right[0] * t)
+            g = int(top_left[1] * (1 - t) + bottom_right[1] * t)
+            b = int(top_left[2] * (1 - t) + bottom_right[2] * t)
+            px[x, y] = (r, g, b)
+            if x + 1 < W:
+                px[x + 1, y] = (r, g, b)
     return img
 
 
-def add_diagonal_lines(img, color, spacing=80, alpha=22):
-    """Subtle diagonal lines for texture."""
+def add_diagonal_lines(img, color, spacing=140, alpha=18):
     overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
     for i in range(-H, W + H, spacing):
@@ -87,71 +82,81 @@ def add_diagonal_lines(img, color, spacing=80, alpha=22):
     return Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
 
 
-def render(slug, title, subtitle, color_hex):
-    base = hex_to_rgb(color_hex)
-    top = lighten(base, 0.05)
-    bottom = darken(base, 0.40)
-    img = gradient(top, bottom)
-    img = add_diagonal_lines(img, lighten(base, 0.45), spacing=120, alpha=30)
-    img = add_grain(img, strength=8)
+def add_vignette(img, strength=0.5):
+    overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(overlay)
+    cx, cy = W // 2, H // 2
+    max_d = math.hypot(cx, cy)
+    for r in range(int(max_d), 0, -8):
+        a = int(strength * 255 * (r / max_d) ** 3)
+        draw.ellipse(
+            [cx - r, cy - r * 0.7, cx + r, cy + r * 0.7],
+            outline=(0, 0, 0, a),
+            width=4,
+        )
+    return Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
 
-    # Watermark initials (very faint, large)
-    initials = "".join(w[0].upper() for w in title.split() if w[0].isalpha())[:3]
+
+def render(slug, title, color_hex):
+    base = hex_to_rgb(color_hex)
+    top = lighten(base, 0.10)
+    bottom = darken(base, 0.35)
+
+    img = diagonal_gradient(top, bottom)
+    img = add_diagonal_lines(img, lighten(base, 0.50), spacing=160, alpha=22)
+
+    # Huge wordmark of the title, centered, low alpha, slightly blurred
     wm_font = _find_font(
         "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
         "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
-        size=620,
+        size=200,
     )
-    wm = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    wd = ImageDraw.Draw(wm)
-    wbbox = wd.textbbox((0, 0), initials, font=wm_font)
+    wm_layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    wd = ImageDraw.Draw(wm_layer)
+    wbbox = wd.textbbox((0, 0), title, font=wm_font)
     wW = wbbox[2] - wbbox[0]
     wH_ = wbbox[3] - wbbox[1]
+    # Don't let the wordmark overflow horizontally — auto-shrink if needed
+    if wW > W - 200:
+        scale = (W - 200) / wW
+        new_size = max(80, int(200 * scale))
+        wm_font = _find_font(
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+            size=new_size,
+        )
+        wbbox = wd.textbbox((0, 0), title, font=wm_font)
+        wW = wbbox[2] - wbbox[0]
+        wH_ = wbbox[3] - wbbox[1]
     wd.text(
-        ((W - wW) // 2 - wbbox[0], (H - wH_) // 2 - wbbox[1] - 20),
-        initials,
+        ((W - wW) // 2 - wbbox[0], (H - wH_) // 2 - wbbox[1] - 40),
+        title,
         font=wm_font,
-        fill=(255, 255, 255, 30),
+        fill=(255, 255, 255, 38),
     )
-    wm = wm.filter(ImageFilter.GaussianBlur(radius=2))
-    img = Image.alpha_composite(img.convert("RGBA"), wm).convert("RGB")
+    wm_layer = wm_layer.filter(ImageFilter.GaussianBlur(radius=1.5))
+    img = Image.alpha_composite(img.convert("RGBA"), wm_layer).convert("RGB")
 
-    # Title + subtitle (bottom-left)
-    title_font = _find_font(
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-        size=96,
-    )
-    sub_font = _find_font(
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-        size=44,
-    )
+    img = add_vignette(img, strength=0.55)
+
+    # A thin pair of accent rules in the bottom third — premium "wide shot" feel
     d = ImageDraw.Draw(img)
-    pad = 90
-    sub_bbox = d.textbbox((0, 0), subtitle, font=sub_font)
-    sub_h = sub_bbox[3] - sub_bbox[1]
-    title_bbox = d.textbbox((0, 0), title, font=title_font)
-    title_h = title_bbox[3] - title_bbox[1]
-    y_sub = H - pad - sub_h
-    y_title = y_sub - 28 - title_h
-    d.text((pad, y_title), title, font=title_font, fill=(255, 255, 255))
-    d.text((pad, y_sub), subtitle, font=sub_font, fill=(255, 255, 255, 220))
-
-    # Top-right tag bar
-    d.rectangle([W - 220, 60, W - 60, 64], fill=(255, 255, 255, 180))
+    y1 = int(H * 0.66)
+    d.line([(W * 0.08, y1), (W * 0.22, y1)], fill=(255, 255, 255, 120), width=2)
+    d.line([(W * 0.08, y1 + 16), (W * 0.16, y1 + 16), ], fill=(255, 255, 255, 60), width=2)
 
     out_dir = os.path.join(OUT_ROOT, slug)
     os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, "cover.png")
     img.save(out_path, "PNG", optimize=True)
-    print(f"  {slug:18s} → {out_path}")
+    print(f"  {slug:18s} -> {out_path}")
     return out_path
 
 
 def main():
     os.makedirs(OUT_ROOT, exist_ok=True)
-    print(f"Generating {len(PROJECTS)} cover images into {OUT_ROOT}")
-    for slug, title, subtitle, color_hex in PROJECTS:
-        render(slug, title, subtitle, color_hex)
+    print(f"Generating {len(PROJECTS)} cinematic placeholders into {OUT_ROOT}")
+    for slug, title, color_hex in PROJECTS:
+        render(slug, title, color_hex)
     print("Done.")
 
 
