@@ -18,7 +18,7 @@ class FloatingBackButton extends StatefulWidget {
     this.color = CustomColors.black,
     this.iconColor = Colors.white,
     this.size = 48,
-    this.margin = const EdgeInsets.only(left: 24, top: 24),
+    this.margin = const EdgeInsets.only(left: 40, top: 120),
   });
 
   final AnimationController? controller;

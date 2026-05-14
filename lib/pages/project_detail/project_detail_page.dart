@@ -9,7 +9,6 @@ import '../../../utils/values/values.dart';
 import '../../utils/values/spaces.dart';
 import '../../data/projects.dart';
 import '../../widgets/animations/animated_wave_line.dart';
-import '../../widgets/buttons/animated_bubble_button.dart';
 import '../../widgets/device_mockup.dart';
 import '../../widgets/helper/custom_spacer.dart';
 import '../../widgets/project_item/project_item.dart';
@@ -17,6 +16,80 @@ import '../../widgets/scaffolding/footer/full_footer.dart';
 import '../../widgets/scaffolding/page_wrapper.dart';
 import '../../widgets/text/self_positioning_text.dart';
 import '../../widgets/text/slide_box_transitioning_text.dart';
+
+/// Pill CTA. Visible at rest — solid color background with white text —
+/// and lifts on hover. Replaces the AnimatedBubbleButton on the detail page
+/// because the bubble's small-at-rest pattern only works on dark backgrounds.
+class _PillButton extends StatefulWidget {
+  const _PillButton({
+    required this.label,
+    required this.color,
+    required this.onTap,
+  });
+
+  final String label;
+  final Color color;
+  final VoidCallback onTap;
+
+  @override
+  State<_PillButton> createState() => _PillButtonState();
+}
+
+class _PillButtonState extends State<_PillButton> {
+  bool _hover = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hover = true),
+      onExit: (_) => setState(() => _hover = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOut,
+          padding: EdgeInsets.symmetric(
+            horizontal: _hover ? 36 : 32,
+            vertical: 18,
+          ),
+          decoration: BoxDecoration(
+            color: widget.color,
+            borderRadius: BorderRadius.circular(60),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: widget.color.withValues(alpha: _hover ? 0.32 : 0.16),
+                blurRadius: _hover ? 24 : 12,
+                offset: Offset(0, _hover ? 10 : 6),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                widget.label,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: StringConst.INTER,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 2,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Icon(
+                Icons.arrow_forward,
+                color: Colors.white,
+                size: 16,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 /// Navigator argument shape.
 class ProjectDetailArguments {
@@ -493,39 +566,19 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
   Widget _ctaRow(ProjectItemData p) {
     if (p.webUrl.isEmpty && p.gitHubUrl.isEmpty) return const SizedBox.shrink();
     return Wrap(
-      spacing: 24,
+      spacing: 20,
       runSpacing: 16,
       children: <Widget>[
         if (p.webUrl.isNotEmpty)
-          AnimatedBubbleButton(
-            title: 'OPEN LIVE',
-            height: 56,
-            targetWidth: 200,
-            bubbleColor: p.primaryColor,
-            imageColor: Colors.white,
-            titleStyle: Get.textTheme.bodyLarge?.copyWith(
-              fontFamily: StringConst.INTER,
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 2,
-            ),
+          _PillButton(
+            label: 'OPEN LIVE',
+            color: p.primaryColor,
             onTap: () => Functions.launchUrl(p.webUrl),
           ),
         if (p.gitHubUrl.isNotEmpty)
-          AnimatedBubbleButton(
-            title: 'VIEW SOURCE',
-            height: 56,
-            targetWidth: 220,
-            bubbleColor: CustomColors.black,
-            imageColor: Colors.white,
-            titleStyle: Get.textTheme.bodyLarge?.copyWith(
-              fontFamily: StringConst.INTER,
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 2,
-            ),
+          _PillButton(
+            label: 'VIEW SOURCE',
+            color: CustomColors.black,
             onTap: () => Functions.launchUrl(p.gitHubUrl),
           ),
       ],
@@ -733,13 +786,18 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
               },
               child: LayoutBuilder(builder: (context, constraints) {
                 final bool wide = constraints.maxWidth > 800;
+                final double titleWidth = wide
+                    ? (constraints.maxWidth - 40) * 0.55
+                    : constraints.maxWidth;
                 final Widget title = AnimatedSlideBoxTransitionText(
                   controller: _nextProjectController,
                   text: next.title,
+                  width: titleWidth,
                   textStyle: Get.textTheme.displayMedium?.copyWith(
                     fontFamily: StringConst.VISUELT_PRO,
-                    fontSize: responsiveSize(mobile: 32, desktop: 56),
+                    fontSize: responsiveSize(mobile: 28, desktop: 48),
                     fontWeight: FontWeight.w700,
+                    height: 1.15,
                     color: CustomColors.black,
                   ),
                 );

@@ -203,7 +203,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       subheight: subH,
                       backgroundColor:
                           CustomColors.accentColor2.withValues(alpha: 0.35),
-                      title: projects[i].title.toLowerCase(),
+                      title: projects[i].title,
                       subtitle: projects[i].category,
                       containerColor: projects[i].primaryColor,
                       onTap: () {
