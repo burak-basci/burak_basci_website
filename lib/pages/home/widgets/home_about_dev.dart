@@ -1,6 +1,7 @@
 import 'package:burak_basci_website/pages/about/about_page.dart';
 import 'package:burak_basci_website/utils/values/spaces.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 
 import '../../../../utils/adaptive_layout.dart';
@@ -160,9 +161,14 @@ class HomeAboutDevState extends State<HomeAboutDev> {
           text: data[index].name,
           slideBoxController: widget.controller,
           hasSlideBoxAnimation: true,
-          textStyle: Get.textTheme.bodyLarge?.copyWith(color: CustomColors.grey750).copyWith(
-                decoration: TextDecoration.underline,
-              ),
+          underlineBottomOffset: 1.0,
+          textStyle: Get.textTheme.bodyLarge?.copyWith(
+            fontFamily: StringConst.INTER,
+            fontSize: Sizes.TEXT_SIZE_16,
+            fontWeight: FontWeight.w300,
+            color: CustomColors.grey750,
+            decoration: TextDecoration.underline,
+          ),
           onTap: () {
             Functions.launchUrl(data[index].url);
           },
@@ -178,7 +184,20 @@ class HomeAboutDevState extends State<HomeAboutDev> {
               fontWeight: FontWeight.w400,
               fontSize: 18,
             ),
-          ),
+          )
+              .animate(controller: widget.controller, autoPlay: false)
+              .fadeIn(
+                duration: const Duration(milliseconds: 400),
+                delay: Duration(milliseconds: 1000 + index * 200),
+                curve: Curves.easeOut,
+              )
+              .slideY(
+                begin: 0.5,
+                end: 0,
+                duration: const Duration(milliseconds: 500),
+                delay: Duration(milliseconds: 1000 + index * 200),
+                curve: Curves.fastOutSlowIn,
+              ),
         );
       }
     }

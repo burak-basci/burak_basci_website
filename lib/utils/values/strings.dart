@@ -116,8 +116,15 @@ class StringConst {
 
   static const String ABOUT_DEV_TECHNOLOGY_TITLE = "What I use";
   static const String ABOUT_DEV_TECHNOLOGY_CONTENT =
-      "I use a number of tools to aid my creative process when bringing things to life. "
-      "Listed below are the tools and technologies that I have used over the years.";
+      "I use a wide range of tools to take ideas from prototype to production. "
+      "On the platform side I lean on Kubernetes, Terraform, ArgoCD and GitLab "
+      "CI/CD for reproducible, GitOps-driven infrastructure. For product work "
+      "I reach for Flutter, Next.js, Django and FastAPI, with PostgreSQL, "
+      "ElasticSearch and vector databases sitting behind them. On the AI side, "
+      "I orchestrate LLMs and RAG pipelines, train and evaluate computer-"
+      "vision models, and build synthetic-data simulations in Unreal Engine "
+      "(C++). The full list of languages, frameworks and tools I have shipped "
+      "with over the years is below.";
 
   static const String PROGRAMMING_LANGUAGES = "Programming Languages";
   static const String APPLICATIONS = "Applications & Frameworks";

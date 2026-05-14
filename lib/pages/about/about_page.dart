@@ -229,7 +229,7 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                               slideBoxController: _contactController,
                               text: StringConst.DEV_EMAIL,
                               hasSlideBoxAnimation: true,
-                              underlineBottomOffset: 3.0,
+                              underlineBottomOffset: 1.0,
                               textStyle: Get.textTheme.bodyLarge?.copyWith(
                                 fontFamily: StringConst.INTER,
                                 fontSize: Sizes.TEXT_SIZE_16,
@@ -320,7 +320,7 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
           slideBoxController: _contactController,
           text: data[index].name,
           hasSlideBoxAnimation: true,
-          underlineBottomOffset: 3.0,
+          underlineBottomOffset: 1.0,
           textStyle: Get.textTheme.bodyLarge?.copyWith(
             fontFamily: StringConst.INTER,
             fontSize: Sizes.TEXT_SIZE_16,

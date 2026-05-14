@@ -176,48 +176,77 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
             builder: (context, constraints) {
               final double itemH = responsiveSize(
                 mobile: 360,
-                tabletSmall: 480,
-                tabletNormal: 560,
-                desktop: 620,
+                tabletSmall: 460,
+                tabletNormal: 540,
+                desktop: 580,
               );
               final double subH = itemH * 0.32;
-              final List<ProjectItemData> projects = recentWorks;
-              return Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: responsiveSize(
-                    mobile: Get.width * 0.10,
-                    desktop: Get.width * 0.15,
-                  ),
+              final List<ProjectItemData> projects = recentWorksHighlights;
+              final EdgeInsets margin = EdgeInsets.symmetric(
+                horizontal: responsiveSize(
+                  mobile: Get.width * 0.08,
+                  desktop: Get.width * 0.12,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    for (int i = 0; i < projects.length; i++)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 48),
-                        child: ProjectItemLarge(
-                          projectNumber: (i + 1) > 9 ? "${i + 1}" : "0${i + 1}",
-                          imageUrl: projects[i].image,
-                          projectItemheight: itemH,
-                          subheight: subH,
-                          backgroundColor: CustomColors.accentColor2.withValues(alpha: 0.35),
-                          title: projects[i].title.toLowerCase(),
-                          subtitle: projects[i].category,
-                          containerColor: projects[i].primaryColor,
-                          onTap: () {
-                            final String url = projects[i].webUrl.isNotEmpty
-                                ? projects[i].webUrl
-                                : (projects[i].gitHubUrl.isNotEmpty ? projects[i].gitHubUrl : '');
-                            if (url.isNotEmpty) {
-                              Functions.launchUrl(url);
-                            }
-                          },
-                        ),
-                      ),
-                  ],
+              );
+
+              final int n = projects.length;
+              final List<Widget> cascade = <Widget>[];
+              // build cards bottom-up so later items sit on top in the Stack
+              for (int i = n - 1; i >= 0; i--) {
+                final double topMargin = subH * i;
+                final int displayIndex = i;
+                cascade.add(
+                  Container(
+                    margin: EdgeInsets.only(top: topMargin),
+                    child: ProjectItemLarge(
+                      projectNumber:
+                          (displayIndex + 1) > 9 ? "${displayIndex + 1}" : "0${displayIndex + 1}",
+                      imageUrl: projects[displayIndex].image,
+                      projectItemheight: itemH,
+                      subheight: subH,
+                      backgroundColor: CustomColors.accentColor2.withValues(alpha: 0.35),
+                      title: projects[displayIndex].title.toLowerCase(),
+                      subtitle: projects[displayIndex].category,
+                      containerColor: projects[displayIndex].primaryColor,
+                      onTap: () {
+                        final p = projects[displayIndex];
+                        final String url = p.webUrl.isNotEmpty
+                            ? p.webUrl
+                            : (p.gitHubUrl.isNotEmpty ? p.gitHubUrl : '');
+                        if (url.isNotEmpty) {
+                          Functions.launchUrl(url);
+                        }
+                      },
+                    ),
+                  ),
+                );
+              }
+              return Container(
+                margin: margin,
+                child: SizedBox(
+                  height: subH * (n - 1) + itemH,
+                  child: Stack(children: cascade),
                 ),
               );
             },
+          ),
+          const CustomSpacer(heightFactor: 0.05),
+          Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: responsiveSize(
+                mobile: Get.width * 0.08,
+                desktop: Get.width * 0.12,
+              ),
+            ),
+            child: Text(
+              "${recentWorks.length} projects total · " +
+                  "tap any card to open the live link.",
+              style: Get.textTheme.bodyLarge?.copyWith(
+                fontSize: 14,
+                color: CustomColors.grey700,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
           ),
           // ResponsiveBuilder(
           //   builder: (context, sizingInformation) {
