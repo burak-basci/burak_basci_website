@@ -94,11 +94,22 @@ class StringConst {
   static const String ABOUT_DEV_STORY_TITLE = "A little bit about myself";
   static const String ABOUT_DEV_STORY_CONTENT_1 =
       "I'm pursuing a dual degree in Industrial Engineering and Psychology, with a keen interest in "
-      "entrepreneurship, information technology, philosophy, and personal growth I enjoy learning new "
-      "skills and applying them to diverse projects, such as developing a website, a VR application, "
-      "a driving robot, a side-scroller game or an AI training data generator. Outside of academics "
-      "and work, I find fulfillment in playing the piano, calisthenics, hiking, juggling, and "
-      "exploring new topics.";
+      "entrepreneurship, information technology, philosophy, and personal growth. I enjoy learning "
+      "new skills and applying them to diverse projects, such as developing a website, a VR "
+      "application, a driving robot, a side-scroller game or an AI training data generator. "
+      "Outside of academics and work, I find fulfillment in playing the piano, calisthenics, "
+      "hiking, juggling, and exploring new topics.\n\n"
+      "Professionally, I work as a Technical Product Owner and Platform Engineer with more than "
+      "three years of experience delivering production-grade DevSecOps environments and AI-driven "
+      "automation. I reduced environment provisioning time by 95% on one project and architected "
+      "a sovereign cloud infrastructure for a 700+ unit real estate portfolio. I love owning the "
+      "full product lifecycle, from Enterprise Architect modeling all the way to GitOps-based "
+      "deployment.\n\n"
+      "My dual background in Industrial Engineering and Psychology lets me take a human-centric "
+      "approach to platform engineering: bridging deep technical execution (Kubernetes, Terraform, "
+      "ArgoCD, FastAPI, RAG) and stakeholder alignment through cognitive usability analysis. I "
+      "currently lead cross-functional teams and DevSecOps transformations for multiple clients "
+      "across Germany, focusing on Architecture-as-Code and scalable AI integration.";
 
   /// Section 2
   static const String ABOUT_DEV_TECHNOLOGY = "Technology";

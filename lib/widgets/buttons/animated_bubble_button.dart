@@ -69,7 +69,7 @@ class AnimatedBubbleButtonState extends State<AnimatedBubbleButton>
     final TextStyle? baseTitleStyle = widget.titleStyle ??
         Get.textTheme.bodyLarge?.copyWith(
           color: CustomColors.accentColor,
-          fontSize: Sizes.TEXT_SIZE_16,
+          fontSize: Sizes.TEXT_SIZE_15,
           fontWeight: FontWeight.w700,
           letterSpacing: 1.2,
         );

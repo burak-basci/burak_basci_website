@@ -118,7 +118,7 @@ class AnimatedUnderlineTextButtonState extends State<AnimatedUnderlineTextButton
                     ? Container(
                         height: 2.0,
                         color: widget.underlineColor,
-                        width: textWidth, //forwardAnimation.value,
+                        width: textWidth * 0.92, //forwardAnimation.value, -8% trim to align with visible glyph width
                       )
                         .animate(
                           controller: _animationController,
@@ -134,7 +134,7 @@ class AnimatedUnderlineTextButtonState extends State<AnimatedUnderlineTextButton
                     : Container(
                         height: 2.0,
                         color: widget.underlineColor,
-                        width: textWidth, //forwardAnimation.value,
+                        width: textWidth * 0.92, //forwardAnimation.value, -8% trim to align with visible glyph width
                       )
                         .animate(
                           controller: _animationController,

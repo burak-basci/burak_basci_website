@@ -54,14 +54,14 @@ class AppTheme {
 
   static const TextTheme _textTheme = TextTheme(
     displayLarge: TextStyle(
-      fontFamily: StringConst.CENTURY_GOTHIC,
+      fontFamily: StringConst.VISUELT_PRO,
       fontSize: Sizes.TEXT_SIZE_96,
       color: CustomColors.black,
       fontWeight: _bold,
       fontStyle: FontStyle.normal,
     ),
     displayMedium: TextStyle(
-      fontFamily: StringConst.CENTURY_GOTHIC,
+      fontFamily: StringConst.VISUELT_PRO,
       fontSize: Sizes.TEXT_SIZE_60,
       color: CustomColors.black,
       fontWeight: _bold,
@@ -75,7 +75,7 @@ class AppTheme {
       fontStyle: FontStyle.normal,
     ),
     headlineMedium: TextStyle(
-      fontFamily: StringConst.CENTURY_GOTHIC,
+      fontFamily: StringConst.VISUELT_PRO,
       fontSize: Sizes.TEXT_SIZE_34,
       color: CustomColors.black,
       fontWeight: _bold,
@@ -89,7 +89,7 @@ class AppTheme {
       fontStyle: FontStyle.normal,
     ),
     titleLarge: TextStyle(
-      fontFamily: StringConst.CENTURY_GOTHIC,
+      fontFamily: StringConst.VISUELT_PRO,
       fontSize: Sizes.TEXT_SIZE_20,
       color: CustomColors.black,
       fontWeight: _bold,

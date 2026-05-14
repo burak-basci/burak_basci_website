@@ -173,7 +173,7 @@ class TopNavigationItemState extends State<TopNavigationItem> with TickerProvide
           hasSlideBoxAnimation: true,
           slideBoxController: widget.controller,
           textStyle: Get.textTheme.bodyLarge?.copyWith(
-            fontSize: 17.0,
+            fontSize: Sizes.TEXT_SIZE_16,
             color: CustomColors.black,
             fontWeight: FontWeight.w400,
           ),
@@ -184,7 +184,7 @@ class TopNavigationItemState extends State<TopNavigationItem> with TickerProvide
           text: widget.title,
           hoverTextColor: CustomColors.black,
           textStyle: Get.textTheme.bodyLarge?.copyWith(
-            fontSize: 17.0,
+            fontSize: Sizes.TEXT_SIZE_16,
             color: widget.titleColor,
             fontWeight: FontWeight.w400,
           ),

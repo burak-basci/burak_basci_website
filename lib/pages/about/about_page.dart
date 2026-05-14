@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -228,7 +229,7 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                               slideBoxController: _contactController,
                               text: StringConst.DEV_EMAIL,
                               hasSlideBoxAnimation: true,
-                              underlineBottomOffset: 1.0,
+                              underlineBottomOffset: 3.0,
                               textStyle: Get.textTheme.bodyLarge?.copyWith(
                                 fontFamily: StringConst.INTER,
                                 fontSize: Sizes.TEXT_SIZE_16,
@@ -319,7 +320,7 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
           slideBoxController: _contactController,
           text: data[index].name,
           hasSlideBoxAnimation: true,
-          underlineBottomOffset: 1.0,
+          underlineBottomOffset: 3.0,
           textStyle: Get.textTheme.bodyLarge?.copyWith(
             fontFamily: StringConst.INTER,
             fontSize: Sizes.TEXT_SIZE_16,
@@ -340,7 +341,23 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                 color: CustomColors.grey750,
                 fontWeight: FontWeight.w400,
                 fontSize: 18,
-              )),
+              ))
+              .animate(
+                controller: _contactController,
+                autoPlay: false,
+              )
+              .fadeIn(
+                duration: const Duration(milliseconds: 400),
+                delay: Duration(milliseconds: 1000 + index * 200),
+                curve: Curves.easeOut,
+              )
+              .slideY(
+                begin: 0.5,
+                end: 0,
+                duration: const Duration(milliseconds: 500),
+                delay: Duration(milliseconds: 1000 + index * 200),
+                curve: Curves.fastOutSlowIn,
+              ),
         );
       }
     }

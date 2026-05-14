@@ -103,7 +103,7 @@ class HomePageHeader extends StatelessWidget {
                     ? const SizedBox()
                     : Positioned(
                         right: 0,
-                        bottom: 0,
+                        bottom: -26,
                         child: Padding(
                           padding: padding.copyWith(bottom: 0.0),
                           child: Transform(

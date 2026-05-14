@@ -78,7 +78,7 @@ class FullFooter extends StatelessWidget {
                 width: Get.width,
                 textStyle: Get.textTheme.bodyLarge?.copyWith(
                   color: CustomColors.grey550,
-                  fontSize: Sizes.TEXT_SIZE_20,
+                  fontSize: Sizes.TEXT_SIZE_18,
                   fontWeight: FontWeight.w400,
                 ),
                 controller: controller,
