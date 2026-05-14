@@ -28,6 +28,16 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'NDA — closed source.',
     isPublic: false,
     isLive: true,
+    mockupType: 'laptop',
+    decisions: <String>[
+      'Hybrid retrieval (BM25 keyword + dense vector embeddings) was the only configuration that beat domain experts on the held-out patent set — pure semantic search alone missed too many exact-term matches that legal teams actually search for.',
+      'A/B-tested every ranking-weight change against a fixed query bank instead of shipping by feel — a 25% precision lift only stuck after three losing rollouts.',
+      'Modelled the full landscape in Enterprise Architect (UML/SysML) before writing code; the upfront diagram caught a missing security boundary that would have blocked the audit otherwise.',
+    ],
+    learnings: <String>[
+      'Cognitive-load audits with the actual users (patent counsel) revealed that the bottleneck was \'reading dozens of false positives\', not query latency — re-prioritised the roadmap toward ranking quality over response time.',
+      'Documenting infrastructure-to-code dependencies as a first-class artefact accelerated the DevSecOps handover; the diagram became a contract that survived three team rotations.',
+    ],
   ),
   ProjectItemData(
     title: 'Sovereign Cloud Platform',
@@ -54,6 +64,23 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'velocity climbed 25% in the first two quarters.',
     isPublic: false,
     isLive: true,
+
+    mockupType: 'terminal',
+    screenshots: <String>[
+      'assets/images/projects/k3s/cover.png',
+    ],
+    decisions: <String>[
+      'Picked Hetzner Cloud + k3s over EKS/GKE: 10% the cost, full root, and no managed-control-plane tax for an HA workload.',
+      'Three nodes with workload taints split control-plane storage (Postgres, MariaDB, Redis) from application pods so no app deploy can starve the databases.',
+      'Hetzner Volumes hold the database tier (RWO, single replica, hot-detach); Longhorn handles application RWX where shared state actually wants replication.',
+      'DNS-01 wildcard TLS via Cloudflare cert-manager so every subdomain across *.benotable.de gets the same cert, no HTTP-01 round-trips on each new service.',
+      'Helm + a .env single source of truth for every service: WordPress, n8n, Outline, Homarr — same release ritual, no per-app drift.',
+    ],
+    learnings: <String>[
+      'WordPress Multisite was bottlenecked by Longhorn NFS share-manager on RWX volumes; moving to a single-replica RWO ext4 block device cut TTFB from 110 ms to 65 ms.',
+      'Longhorn RWX share-manager pods silently fail to schedule without an explicit taint-toleration entry — caught only by puzzling at Pending pods.',
+      'Wiring everything through one `.env` makes the disaster-recovery story simple: scp the env file in, `terraform apply`, `helm install` — done.',
+    ],
   ),
   ProjectItemData(
     title: 'Postflow / beNotable',
@@ -79,6 +106,22 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     isPublic: false,
     isLive: true,
     webUrl: 'https://app.benotable.de',
+
+    mockupType: 'laptop',
+    screenshots: <String>[
+      'assets/images/projects/postflow/cover.png',
+    ],
+    decisions: <String>[
+      'Strict TypeScript on the Next.js 15 frontend with no `any` escape hatches — the whole client surface is contractually typed against the FastAPI schema.',
+      'Temporal as the workflow engine instead of cron + Redis locks: every multi-step posting flow gets retry, history and a UI for free.',
+      'PostgreSQL 16 + pgvector for embeddings rather than a separate vector DB — one Postgres backup covers everything.',
+      'GitLab CI/CD refuses to deploy without a fresh DB snapshot first; the `db-backup-first` job is a hard prerequisite.',
+      'Self-hosted on a single Hetzner CX33 — the entire stack costs less than a managed Postgres SKU at the comparable scale.',
+    ],
+    learnings: <String>[
+      'LangGraph-style agent graphs are easier to reason about than chains once you have more than two LLM steps with conditional routing.',
+      'Putting GitHub Copilot Pro behind the LLM agents (instead of OpenAI direct) keeps cost predictable as the workload scales linearly with content volume.',
+    ],
   ),
   ProjectItemData(
     title: 'LuminaRep',
@@ -102,6 +145,21 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'so a clinic can run it on-prem if they prefer.',
     isPublic: false,
     isLive: true,
+
+    mockupType: 'laptop',
+    screenshots: <String>[
+      'assets/images/projects/luminarep/cover.png',
+    ],
+    decisions: <String>[
+      'NextAuth for email + password rather than rolling auth — small clinic + GDPR audit; less surface to defend.',
+      'Stripe metered subscriptions with a 7-day trial; the free trial is the conversion funnel, not a marketing claim.',
+      'Gemini for the content generation pass — it consistently produced the best clinic-friendly tone in side-by-side comparison.',
+      'Full Docker Compose so a clinic that wants self-hosting can run it on its own server in the back office with one command.',
+    ],
+    learnings: <String>[
+      'A luxury dark-mode UI (emerald + gold) matters more to clinic owners than the underlying tech — design effort paid back faster than feature work.',
+      'Auto-extracting 5-star reviews is the right starting funnel; once it works there, the rest of the platform expansion is upsell.',
+    ],
   ),
   ProjectItemData(
     title: 'LLM Email Automation',
@@ -126,6 +184,20 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'a week on a real customer mailbox.',
     isPublic: false,
     isLive: true,
+
+    mockupType: 'terminal',
+    screenshots: <String>[
+      'assets/images/projects/llm-mail/cover.png',
+    ],
+    decisions: <String>[
+      'JSON-schema enforcement on the LLM reply (strict mode, retry on parse failure) lifted accuracy more than swapping models — bigger model with loose JSON still hallucinated tags.',
+      'Pluggable provider via a single config field (`LLM_PROVIDER`) — Mistral, Claude, OpenAI, local OpenWebUI — so EU-residency requirements get a config change, not a refactor.',
+      'Mock mode is the default when API keys are missing, so contributors can run the full stack without paying for tokens.',
+    ],
+    learnings: <String>[
+      '11-category classification needs an iteratively-tuned gold set; the first 55-email set surfaced three categories the original taxonomy was missing.',
+      'Human-in-the-loop is non-negotiable for outbound replies in a regulated industry. The throughput win comes from triage + drafting, not auto-send.',
+    ],
   ),
   ProjectItemData(
     title: 'Utopia Community',
@@ -151,6 +223,21 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'Fair to 20+ stakeholders and investors.',
     isPublic: false,
     isLive: true,
+
+    mockupType: 'phone',
+    screenshots: <String>[
+      'assets/images/projects/utopia/cover.png',
+    ],
+    decisions: <String>[
+      'ERC-20 on Polygon, not Ethereum mainnet — gas costs would have killed any micro-donation use case.',
+      'UUPS upgradeable proxy (OpenZeppelin) so token logic can evolve without forcing holders to migrate.',
+      'Multi-signature for mint/burn/pause; no single private key can move supply.',
+      'Cross-platform Flutter app for the wallet UI rather than a Web3 web frontend — mobile-first was the audience.',
+    ],
+    learnings: <String>[
+      'Demoing at KUER.NRW Green Entrepreneurship Fair forced the team to articulate value to non-technical stakeholders within 30 seconds; that exercise rewrote half the documentation.',
+      'Token economics design (vesting, governance thresholds) is more time-consuming than the smart contract itself.',
+    ],
   ),
   ProjectItemData(
     title: 'Night-Detection Thesis',
@@ -176,6 +263,25 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'synthetic driving datasets.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'unreal-still',
+    screenshots: <String>[
+      'assets/images/projects/thesis-night/cover.png',
+      'assets/images/projects/thesis-night/shot-01.png',
+      'assets/images/projects/thesis-night/shot-02.png',
+      'assets/images/projects/thesis-night/shot-03.png',
+    ],
+    decisions: <String>[
+      'Synthetic Unreal Engine 5 city instead of collecting real night-driving footage — eliminated annotation cost entirely and made lighting parameters exact and reproducible.',
+      'NVIDIA NDDS (Deep learning Dataset Synthesizer) plugin generated labels alongside frames; no separate annotation pipeline existed.',
+      'Houdini for procedural city geometry so the 6,000-sample run was reproducible from a seed, not a one-off render.',
+      'Variable lighting + weather + camera-noise parameters were exposed as the experimental axes — the paper formalised which ones move the network the most.',
+    ],
+    learnings: <String>[
+      'Five environmental parameters disproportionately drove CNN feature extraction; everything else was noise. Future synthetic-data work should ablate on these first.',
+      'Closing the sim-to-real gap is more about distribution matching than render fidelity. Lower-quality renders with the right distribution beat photoreal renders with the wrong one.',
+      'Grade 1.3 on both the thesis and the companion paper — the thesis built the simulator, the paper formalised the analysis.',
+    ],
   ),
   ProjectItemData(
     title: 'VR Anxiety Trainer',
@@ -197,6 +303,20 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'the university\'s startup incubator pipeline.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'unreal-still',
+    screenshots: <String>[
+      'assets/images/projects/vr-anxiety/cover.png',
+    ],
+    decisions: <String>[
+      'Unreal Engine 5 instead of Unity — the team had Unreal expertise and the photoreal opera-house scene needed Lumen.',
+      'Built the smallest believable scenario (walk to the stage of a virtual opera, deliver a short speech) instead of trying for breadth — depth read as polish to the judges.',
+      'Coach script + breathing guidance in audio, not on a HUD — keeps the user looking at the audience.',
+    ],
+    learnings: <String>[
+      'Winning the TU Dortmund Startup Weekend 2023 came down to demoable depth in 48 hours, not feature count. We rehearsed the demo more than we built features.',
+      'Selection into the university\'s incubator pipeline was worth the weekend many times over.',
+    ],
   ),
   ProjectItemData(
     title: 'Durak Multiplayer',
@@ -224,6 +344,23 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     isPublic: false,
     isLive: true,
     webUrl: 'https://durak.burakbasci.de',
+
+    mockupType: 'phone',
+    screenshots: <String>[
+      'assets/images/projects/durak/shot-01.png',
+      'assets/images/projects/durak/shot-02.png',
+      'assets/images/projects/durak/shot-03.png',
+    ],
+    decisions: <String>[
+      'Generic `GameRules` interface + `GameRegistry` from Phase 13 so the same engine ships Hearts, Spades, Belote, Preferans, Uno without forking the game logic.',
+      'Playwright E2E (32 tests) + server API tests (10) + exhaustive rule unit tests (57) — total >100 — added only after a 15-bug spike around the card-flip z-index taught us the cost of skipping E2E.',
+      'WebSockets + Elo-based matchmaking with guest-token persistence so people can play without registering. Friction kills cards-app retention.',
+      'GetX for state and a custom rendering layer hitting 60 FPS across Android, iOS, Web, Windows, macOS and Linux from one Flutter codebase.',
+    ],
+    learnings: <String>[
+      'Rolling-update deadlocks bit us with required pod-anti-affinity + maxSurge>0; fix was `maxUnavailable: 1, maxSurge: 0` so a new pod can\'t starve a still-needed old one.',
+      'Localisation in four languages (EN/RU/TR/DE) doubled organic downloads in the test markets at the cost of one engineering week.',
+    ],
   ),
   ProjectItemData(
     title: 'Home Assistant Edge',
@@ -248,6 +385,21 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         '12+ devices.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'laptop',
+    screenshots: <String>[
+      'assets/images/projects/home-assistant/cover.png',
+    ],
+    decisions: <String>[
+      'Proxmox VE virtualising HAOS + an MQTT broker + InfluxDB + Grafana in lightweight VMs instead of running everything on one bare-metal install — failure of any component doesn\'t take the rest down.',
+      'OpenWRT in front for segmented VLANs (IoT vs trusted) — every camera, light and presence sensor sits behind a different network policy.',
+      'Forty-plus room-level automations rather than chained-trigger global scenes; each room owns its rules and they compose.',
+      'No cloud middleman for any sensor data — privacy was the whole point.',
+    ],
+    learnings: <String>[
+      'Energy monitoring across 12+ devices in Grafana found two always-on devices that ate ~€200/year between them — the dashboard paid for the hardware in under a year.',
+      'Segmenting IoT on its own VLAN early is much cheaper than retrofitting it after a CVE.',
+    ],
   ),
   ProjectItemData(
     title: 'Local AI Voice Assistant',
@@ -272,6 +424,21 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'in well under a second on a single GPU.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'terminal',
+    screenshots: <String>[
+      'assets/images/projects/voice-assistant/cover.png',
+    ],
+    decisions: <String>[
+      'Custom wake-word from openWakeWord, not an off-the-shelf \'hey-XYZ\' — full control over which phrase wakes the mic.',
+      'faster-whisper for STT instead of cloud Whisper — same model, end-to-end on-device, no audio leaves the LAN.',
+      'Piper for TTS — small, fast, and indistinguishable from cloud TTS at headphone quality.',
+      'MQTT into Home Assistant rather than the HA REST API — keeps the assistant in the same automation graph as any door sensor or doorbell.',
+    ],
+    learnings: <String>[
+      'Sub-second round-trip is what makes the assistant feel \'real\' versus \'a smart speaker that works when it works\' — every component had a latency budget.',
+      'Context persistence across sessions makes simple commands (\'turn that off\', \'and the other one\') feel natural — without it, every utterance has to be self-contained.',
+    ],
   ),
   ProjectItemData(
     title: 'Whisper STT Service',
@@ -295,6 +462,21 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'confidence scores and timing metadata included.',
     isPublic: false,
     isLive: true,
+
+    mockupType: 'terminal',
+    screenshots: <String>[
+      'assets/images/projects/whisper/cover.png',
+    ],
+    decisions: <String>[
+      'faster-whisper, not the official OpenAI Whisper — int8 quantisation + four-thread CPU makes it run on resource-constrained boxes.',
+      'Minimal Flask API on :10300; OpenAI-compatible enough that any client which talks to Whisper-style endpoints works against it.',
+      'Multi-stage Python 3.11-slim Docker image with ffmpeg baked in — any codec the rest of the stack throws at it just works.',
+      'Beam size 1 + VAD filter in production for predictable latency; quality loss vs. beam=5 is below the perception threshold for short utterances.',
+    ],
+    learnings: <String>[
+      'Int8 quantisation cuts memory by ~3x with no audible accuracy loss on <30 s utterances; CPU inference is genuinely practical for normal commands.',
+      'Treating STT as a generic sidecar (one container, fixed port, OpenAI-compatible shape) made it trivial to wire into both the voice-assistant and CaterSmart AI core later.',
+    ],
   ),
   ProjectItemData(
     title: 'Shop Automation Pipeline',
@@ -320,6 +502,21 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     isPublic: true,
     isLive: true,
     webUrl: 'https://shop.burakbasci.de',
+
+    mockupType: 'laptop',
+    screenshots: <String>[
+      'assets/images/projects/shop-automation/cover.png',
+    ],
+    decisions: <String>[
+      'FLUX.1 via a self-hosted ComfyUI graph instead of a SaaS image API — local GPU, predictable per-image cost, full control over the latent noise.',
+      'Pandas-based reconciliation so every SKU on the shop is traceable back to the prompt + seed that generated it — debuggable forever.',
+      'Printify for the print-on-demand backend; WooCommerce for the storefront — both have stable APIs, neither is a vendor lock-in.',
+      'Three sub-services (Printify automation, image generation, property database) talking through a shared SQLite/Postgres layer rather than one monolithic CLI.',
+    ],
+    learnings: <String>[
+      'Once the loop is fully automated, the design constraint becomes \'do the generated images sell?\' — that\'s a different (much harder) problem than building the pipeline.',
+      'AI-generated product art needs consistent typography and palette rules to avoid the \'AI slop\' look; brand kits in ComfyUI were the unlock.',
+    ],
   ),
   ProjectItemData(
     title: 'ImmoPilot',
@@ -346,6 +543,23 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'platform with full Prometheus + Grafana observability.',
     isPublic: false,
     isLive: true,
+
+    mockupType: 'laptop',
+    screenshots: <String>[
+      'assets/images/projects/immopilot/cover.png',
+    ],
+    decisions: <String>[
+      'PostgreSQL 18.1 row-level security with `tenant_id` everywhere as defence-in-depth; SQLAlchemy-level filtering is the primary check, RLS catches the bugs.',
+      'Email default is Draft in Outlook, not direct-send — every broker sees the AI draft before it goes out.',
+      'Client-facing config sits in a NocoDB view, not a custom admin panel — brokers tune tonality, follow-up cadence and routing without a developer in the loop.',
+      'ARQ scheduled polling against the onOffice API, not a webhook queue — onOffice doesn\'t emit webhooks and faking events out of polling is always wrong.',
+      'Mistral (EU-hosted, GDPR-compliant) primary; OpenAI and Anthropic stay wired as fallbacks behind a feature flag so the provider can change in one config edit.',
+    ],
+    learnings: <String>[
+      'onOffice\'s `qualifiedsuitors` endpoint converts free-form lead text into a 0-100% match score against the broker\'s active portfolio — once shipped, no client wanted to go back to manual matching.',
+      'DSGVO + AVV documentation done before sales (DIN-5008-formatted, 50+ pages) shortens enterprise contract negotiation considerably; clients read it as a maturity signal.',
+      'onPreo has no public API; architecting onOffice as the single source of truth (not a partnership integration) made the platform survive vendor uncertainty.',
+    ],
   ),
   ProjectItemData(
     title: 'CaterSmart',
@@ -371,6 +585,23 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'unit tests in CI. Shipped at catersmart.de.',
     isPublic: false,
     isLive: true,
+
+    mockupType: 'laptop',
+    screenshots: <String>[
+      'assets/images/projects/catersmart/cover.png',
+    ],
+    decisions: <String>[
+      'AI core is stateless — every request returns immediately, context is fetched on-demand from the CaterSmart REST API, single source of truth.',
+      'Tenant isolation enforced on every API call with strict RAG embedding scoping per tenant — no chance of cross-tenant feedback leak.',
+      'Mistral primary, Claude/OpenAI/local-OpenWebUI as drop-in fallbacks behind one env var.',
+      'Service auto-enters mock mode when API keys are absent so contributors can run the full stack without paying for tokens.',
+      'Strict-JSON-schema enforcement on every LLM reply lifted classification correctness more than swapping for a bigger model did.',
+    ],
+    learnings: <String>[
+      'Phase-1 success target was \'60% perfect, 30% light-edit, 10% manual\' — naming acceptable failure modes up front kept the team from over-engineering for the long tail.',
+      'Eleven email categories (NEW_INQUIRY, CHANGE_REQUEST, COMPLAINT, SPAM_NEWSLETTER, ...) took three rounds of refinement; the first taxonomy missed three real-world cases.',
+      'Deferring pgvector + RAG storage out of Phase 1 was the right call — basic mock mode unblocked the API contract long before the embeddings layer was needed.',
+    ],
   ),
   ProjectItemData(
     title: 'NestNode',
@@ -392,6 +623,17 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'Assistant Edge stack.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'phone',
+    screenshots: <String>[
+      'assets/images/projects/nestnode/cover.png',
+    ],
+    decisions: <String>[
+      'Archived at concept stage: a Word doc, logos and a moodboard exist; no codebase ever materialised because the Home Assistant Edge stack absorbed the design language.',
+    ],
+    learnings: <String>[
+      'Some projects are most useful as design exercises — the gesture-first nav and tactile energy view were rolled into the Home Assistant Edge UX work instead of shipped standalone.',
+    ],
   ),
   ProjectItemData(
     title: 'Open Design',
@@ -420,6 +662,29 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     isLive: true,
     webUrl: 'https://github.com/nexu-io/open-design',
     gitHubUrl: 'https://github.com/nexu-io/open-design',
+
+    mockupType: 'laptop',
+    screenshots: <String>[
+      'assets/images/projects/open-design/shot-01.png',
+      'assets/images/projects/open-design/shot-02.png',
+      'assets/images/projects/open-design/shot-03.png',
+      'assets/images/projects/open-design/shot-04.png',
+      'assets/images/projects/open-design/shot-05.png',
+      'assets/images/projects/open-design/shot-06.png',
+    ],
+    decisions: <String>[
+      'Auto-detect every coding-agent CLI on \$PATH (Claude Code, Cursor, Devin, Copilot, Gemini, Qwen + 6 more) instead of picking one — BYOK at every layer, no vendor lock-in.',
+      'Thirty-one composable skills (27 prototype modes, 4 deck modes) grouped by scenario (design / marketing / engineering / finance / hr); the discovery form locks the brief before the agent writes a pixel.',
+      'Seventy-two pre-curated brand-grade design systems (Linear, Stripe, Vercel, Notion, Anthropic, Apple) so the agent never starts from a blank page; freestyle = slop.',
+      'Real `Read`/`Write`/`Bash` access against an on-disk project folder; Windows `ENAMETOOLONG` forces stdin/prompt-file fallbacks on every adapter.',
+      'SQLite at `.od/app.sqlite` for project state — close the laptop, open it tomorrow, the todo card + open files are where you left them.',
+      'Apache-2.0 license, runs locally or one-click to Vercel, OpenAI-compatible proxy as a universal fallback.',
+    ],
+    learnings: <String>[
+      'Five curated visual directions (Monocle / Minimal / Utility / Brutalist / Soft) with deterministic OKLch palettes and font stacks beat \'let the LLM pick\' every time on real client work.',
+      'A skill-driven workflow with locked briefs eliminates the \'agent rabbit-hole\' failure mode — the agent stops mid-iteration to ask, instead of barrelling forward.',
+      'Streaming artifact preview in a sandboxed iframe gives the demo its emotional payoff. Without the streaming, the tool feels asynchronous and slow.',
+    ],
   ),
   ProjectItemData(
     title: 'Custom Client Platform',
@@ -444,6 +709,22 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'with horizontal autoscaling per service.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'laptop',
+    screenshots: <String>[
+      'assets/images/projects/freelance/cover.png',
+    ],
+    decisions: <String>[
+      'Per-concern microservices (3D floor-plan, video, AI staging, geometry, image compression) so each can scale and fail independently.',
+      'Direct stream from object storage in and out — memory pressure stays constant regardless of input size.',
+      'Sandboxed Three.js viewer for live preview lets brokers see the processed asset before it leaves the platform.',
+      'Mock LLM provider in development; Claude/GPT-4o swappable in production via a UI toggle.',
+      'WSL2 + Podman + Makefile orchestration. Critical lesson the README enforces: the project MUST NOT live on OneDrive — active sync during build causes I/O locks.',
+    ],
+    learnings: <String>[
+      'Health-check + disk-space check before every start catches stale dependencies or low-disk before they crash mid-run.',
+      'A single `make` entry point (health-check / up / logs / db-check / seed) cuts cognitive load far more than raw docker-compose ever did.',
+    ],
   ),
   ProjectItemData(
     title: 'PSCoat',
@@ -466,6 +747,21 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'shots for the public site.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'laptop',
+    screenshots: <String>[
+      'assets/images/projects/pscoat/cover.png',
+    ],
+    decisions: <String>[
+      'Playwright over scraping — Upwork ships Cloudflare Turnstile + browser fingerprinting + fraud detection (Incognia, Forter); only an authenticated session bypasses the challenges.',
+      'Manual login on first run; the cookie jar (`upwork_session.json`) gets reused across subsequent runs.',
+      'Tone-matched reply drafting via Mistral in the company\'s voice — inbound classification (pricing / technical / callback) feeds a templating layer.',
+      'Explicit TOS guardrails: documented as \'educational, personal job search\' use; commercial scraping is not the use case.',
+    ],
+    learnings: <String>[
+      'Selector fragility against modern marketplaces is permanent — instrument the scraper so breakage is visible the day it happens, not the day a deal is lost.',
+      'Session expiration cadence is undocumented; building re-auth retry in from day one is cheaper than discovering its absence at 11pm.',
+    ],
   ),
   ProjectItemData(
     title: 'Theater Website',
@@ -487,6 +783,19 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'media library.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'laptop',
+    screenshots: <String>[
+      'assets/images/projects/theater/cover.png',
+    ],
+    decisions: <String>[
+      'WordPress + Elementor Pro instead of bespoke — the artistic team needs a CMS they can touch, not a JAMstack repo.',
+      'Versioning via timestamped backup archives (~2.8 GB across DB + uploads + plugins + themes) — Git would have been heavier and more brittle for an editorial workflow.',
+      'Eventim integration for ticketing rather than a self-hosted shop — payments and refunds are someone else\'s problem.',
+    ],
+    learnings: <String>[
+      'Backup-archive versioning works for editorial sites with one or two editors, but drift risk is real the moment a third hand touches the admin.',
+    ],
   ),
   ProjectItemData(
     title: 'burakbasci_widgets',
@@ -507,6 +816,19 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     isPublic: true,
     isLive: true,
     webUrl: 'https://pub.dev/packages/burakbasci_widgets',
+
+    mockupType: 'terminal',
+    screenshots: <String>[
+      'assets/images/projects/widgets-pkg/cover.png',
+    ],
+    decisions: <String>[
+      'Null-safety-first; tracks the current stable Flutter SDK and bumps in lockstep.',
+      'Each widget ships with its own widget tests and dartdoc — no untested widget leaves the package.',
+      'Maintained as a standalone package on pub.dev rather than vendored per-project — every Flutter app of mine starts by adding it as a dep.',
+    ],
+    learnings: <String>[
+      'The split between portfolio app and reusable package has not always been clean; the discipline of \'if I copy-paste this widget twice, it goes into the package\' keeps it honest.',
+    ],
   ),
   ProjectItemData(
     title: 'Python Recall',
@@ -529,6 +851,22 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'on screen without having to alt-tab into a chatbot.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'terminal',
+    screenshots: <String>[
+      'assets/images/projects/python-recall/cover.png',
+    ],
+    decisions: <String>[
+      'Wayland mouse-button daemon reads `/dev/input/eventN` via evdev directly — bypasses `zwp_keyboard_shortcuts_inhibitor_v1` in FreeRDP fullscreen VMs entirely.',
+      'Race Gemini and Copilot on parallel threads; stream whichever responds first over SSE to a local overlay.',
+      'User systemd service rather than a global daemon — runs in the user session, no root privileges needed.',
+      'cosmic-screenshot on Wayland + Nvidia for frame capture; mss returns all-black frames there.',
+    ],
+    learnings: <String>[
+      '`EVIOCGRAB` prevents others *grabbing* the device but NOT reading it — that one insight unlocked the entire daemon approach after `input-remapper` + inhibitor + compositor refused to cooperate.',
+      'Systemd user services don\'t inherit group changes from `newgrp` or `usermod -aG` — a full relogin is required. Discovered the hard way.',
+      'input-remapper v2 JSON expects arrays + `Super_L+F5` syntax, not `key(super+F5)`. Broken JSON fails silently.',
+    ],
   ),
   ProjectItemData(
     title: 'BoxHead',
@@ -549,6 +887,22 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'screenshot tooling for level-design iteration.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'unreal-still',
+    screenshots: <String>[
+      'assets/images/projects/boxhead/shot-01.png',
+      'assets/images/projects/boxhead/shot-02.png',
+      'assets/images/projects/boxhead/shot-03.png',
+      'assets/images/projects/boxhead/shot-04.png',
+    ],
+    decisions: <String>[
+      'Unreal Engine 5 C++ for the weapon systems (spread, ricochet, projectile pooling) so the per-shot feel could be tuned to single-frame accuracy.',
+      'High-res screenshot tooling baked into the build so every level-design iteration generates a marketing-grade still.',
+      'Editor + shipping targets for both Linux and Windows out of the same project — no parallel platform tree.',
+    ],
+    learnings: <String>[
+      'Maze-like claustrophobic arenas drive the wave-shooter feel more than enemy variety does; one ambient mood + tight corridors carries the game further than a roster of monsters.',
+    ],
   ),
   ProjectItemData(
     title: 'Flappy Griffon',
@@ -568,6 +922,19 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     isPublic: true,
     isLive: true,
     webUrl: 'https://burakbasci.itch.io/flappygriffon',
+
+    mockupType: 'unreal-still',
+    screenshots: <String>[
+      'assets/images/projects/flappy-griffon/cover.png',
+    ],
+    decisions: <String>[
+      'Ray-tracing for water reflections + global illumination — it\'s the visual hook in a genre that\'s usually 2D pixel art.',
+      'Cross-platform from one project: Windows, Linux, Android, Mac — no parallel ports.',
+      'itch.io for distribution instead of a storefront with gatekeeping — same-day publishing, no review queue.',
+    ],
+    learnings: <String>[
+      'Reskinning a known mechanic (Flappy Bird) is a learning-vehicle accelerator; nobody has to figure out how to play, the surprise is purely visual.',
+    ],
   ),
   ProjectItemData(
     title: 'MyJumpNRun',
@@ -588,6 +955,19 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'on their own.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'unreal-still',
+    screenshots: <String>[
+      'assets/images/projects/jumpnrun/cover.png',
+    ],
+    decisions: <String>[
+      'Tight movement (jump buffering, coyote time, wall-slide detection) tuned up front — the level design started only after the feel was locked.',
+      'Multiple project iterations (5.2, variant, ...) tracked as separate folders so old level files stayed playable as the engine updated.',
+      'Checkpoints + a small replay system so the speedrun community has something to hold onto.',
+    ],
+    learnings: <String>[
+      'Iterating on platformer feel is mostly about input latency and the curve of the jump arc; everything else (art, music, levels) is decoration on top.',
+    ],
   ),
   ProjectItemData(
     title: 'CV Plugin for Unreal',
@@ -611,6 +991,20 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'training set.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'unreal-still',
+    screenshots: <String>[
+      'assets/images/projects/cv-plugin/shot-01.png',
+      'assets/images/projects/cv-plugin/shot-02.png',
+    ],
+    decisions: <String>[
+      'First-party Unreal plugin (C++) rather than an external pipeline — keeps the dataset generator on the same render thread as the scene.',
+      'Writes both rendered frame and segmentation mask to disk in a YOLOv8-ready format so there\'s no intermediate conversion script.',
+      'Extracted from the thesis work specifically so it can outlive the thesis as a reusable artifact.',
+    ],
+    learnings: <String>[
+      'Plugin-as-deliverable made the research result reproducible by anyone else with UE5 — the contribution shifted from \'I trained a model\' to \'anyone can generate this dataset\'.',
+    ],
   ),
   ProjectItemData(
     title: 'ALSignal Hackathon',
@@ -630,6 +1024,19 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'on the camera feed.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'fullbleed',
+    screenshots: <String>[
+      'assets/images/projects/unity-hackathon/cover.png',
+    ],
+    decisions: <String>[
+      'MediaPipe hand-pose estimation feeding an LSTM trained on a custom captured set — off-the-shelf hand-tracking + small custom model beats one-shot models for niche gesture sets at this scale.',
+      'Unity instead of a web frontend so the captured gesture set could remain on-device.',
+      'Confidence bar + label overlay live on the webcam feed — visible decisions are easier to debug at a hackathon than logs.',
+    ],
+    learnings: <String>[
+      'Computer-vision UX at a hackathon stands or falls on a working live demo; the LSTM beat the one-shot model purely because it was demoable.',
+    ],
   ),
   ProjectItemData(
     title: 'Steam Market Arbitrage',
@@ -652,6 +1059,19 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'out before a human even sees them.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'terminal',
+    screenshots: <String>[
+      'assets/images/projects/steam-market/cover.png',
+    ],
+    decisions: <String>[
+      'Cookie-based authenticated session that respects Steam\'s rate limits — anonymous scraping gets banned within minutes.',
+      'Steam\'s 15% market fee baked into every simulated trade — opportunities that ignore the fee look 10x bigger than they are.',
+      'Local SQLite with a risk-score per opportunity so stale or thin-volume listings get filtered out before a human sees them.',
+    ],
+    learnings: <String>[
+      'Most \'arbitrage\' opportunities on inefficient marketplaces are actually liquidity traps; ranking by risk-of-execution beats ranking by raw margin.',
+    ],
   ),
   ProjectItemData(
     title: 'Image Upscaler',
@@ -673,6 +1093,22 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'job for the shop pipeline.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'terminal',
+    screenshots: <String>[
+      'assets/images/projects/image-upscaler/cover.png',
+    ],
+    decisions: <String>[
+      'Real-ESRGAN `realesr-general-x4v3` (VGG-style) with an optional `wdn` (denoising) variant — configurable denoise control beats RRDB models for end-user content.',
+      'GPU and tile size abstracted via `GPU_ID` and `TILE` environment variables so the inference server can route across hardware without code changes.',
+      'Face-aware denoise as an env-flag (`FACE_DENOISE`) to preserve facial detail without forcing the latency cost when content has no faces.',
+      'Suffix-based output dedup (`OUTPUT_SUFFIX`) with a remote file check, so re-running the watcher never re-upscales the same image.',
+      'Bundled Real-ESRGAN clone vendored into the repo — avoids upstream dependency brittleness, with an active archival policy for training-only code in `tests/` and `scripts/`.',
+    ],
+    learnings: <String>[
+      'Environment variables (not `.env` files) for SFTP keys are essential for workflow engines like n8n that don\'t read disk-side env files.',
+      'Face detection adds real quality at real latency cost — making it env-optional, not always-on, lets the operator tune per use case.',
+    ],
   ),
   ProjectItemData(
     title: 'Image Uploader',
@@ -693,6 +1129,19 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'pipelines whenever a vendor doesn\'t expose an API.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'terminal',
+    screenshots: <String>[
+      'assets/images/projects/image-uploader/cover.png',
+    ],
+    decisions: <String>[
+      'Selenium-driven Chromium via the remote-debugging protocol so sessions persist across runs and auth survives.',
+      'Test harness (`test_selenium.py`) with optional debugger and profile parameters for local-iteration speed.',
+      'One pipeline supports both Adobe Stock and ImmoWare — same auth/upload/tag primitives, different selectors.',
+    ],
+    learnings: <String>[
+      'Browser automation against dynamic SPA content is more stable than parsing HTML once the auth/profile-reuse problem is solved.',
+    ],
   ),
   ProjectItemData(
     title: 'Django Canvas',
@@ -712,6 +1161,19 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'shop pipeline at scale.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'terminal',
+    screenshots: <String>[
+      'assets/images/projects/django-canva/cover.png',
+    ],
+    decisions: <String>[
+      'Django 5.2.5 + PostgreSQL + python-decouple for config — boring stack, fast iteration.',
+      'Templates expressed as JSON (text/color/image/gradient/icon) and composed with Pillow into pixel-perfect PNG/SVG.',
+      'Docker + docker-compose shaped to match production so \'works on my machine\' actually does mean works in production.',
+    ],
+    learnings: <String>[
+      'Declarative-template rendering server-side beats client-side canvas rendering when the asset has to land in an email or a CDN URL.',
+    ],
   ),
   ProjectItemData(
     title: 'Binance Tax Report',
@@ -730,6 +1192,19 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'WeasyPrint with the typography the German tax office expects.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'terminal',
+    screenshots: <String>[
+      'assets/images/projects/binance-tax/cover.png',
+    ],
+    decisions: <String>[
+      'WeasyPrint for the HTML-to-PDF step — pango + cairo handle German typography without typesetting drama.',
+      'FIFO cost basis (not LIFO/HIFO) because that\'s what the Finanzbehörde wants; no opinion required.',
+      'CLI rather than a UI: the tool is used once a year per portfolio, and headless fits CI / cron / one-off runs cleanly.',
+    ],
+    learnings: <String>[
+      'Compliance documents look way more credible when they use the right typography — DIN-style margins and faces did more for trust than feature work would have.',
+    ],
   ),
   ProjectItemData(
     title: 'WordPress Plugins',
@@ -750,6 +1225,19 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'long-term compatibility.',
     isPublic: true,
     isLive: false,
+
+    mockupType: 'laptop',
+    screenshots: <String>[
+      'assets/images/projects/wp-plugins/cover.png',
+    ],
+    decisions: <String>[
+      'Each plugin ships with PHPUnit tests and inline dartdoc-style docblocks; \'it boots on my server\' is not the bar.',
+      'Tracks the WordPress LTS line for long-term compatibility — every plugin survives at least three WP major versions.',
+      'Released under GPL so the client work can be re-used by other small teams without licensing friction.',
+    ],
+    learnings: <String>[
+      'WordPress.org plugin review is more about coding-standards conformance than feature value — meeting the standards once made every subsequent release frictionless.',
+    ],
   ),
   ProjectItemData(
     title: 'Turtlebot Programming',
@@ -770,6 +1258,20 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'deliver task on the physical robot.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'fullbleed',
+    screenshots: <String>[
+      'assets/images/projects/turtlebot/cover.png',
+    ],
+    decisions: <String>[
+      'ROS C++ as primary language — coursework-mandated, but it also turned out to be the right call for real-time control loops.',
+      'Modular nodes with message-passing IPC (canonical ROS pattern) instead of a monolithic controller.',
+      'Gazebo simulation as the first test harness; only after the SLAM + path planner passed simulation did we touch the physical robot.',
+    ],
+    learnings: <String>[
+      'ROS\'s publish/subscribe decoupling enforces disciplined state management more than any code-review process I\'ve been part of.',
+      'Hardware bugs feel different from software bugs — sensor jitter, motor torque variation, mechanical drift all show up as bizarre traces on the same wire you tested yesterday.',
+    ],
   ),
   ProjectItemData(
     title: 'Object-Detection Paper',
@@ -791,6 +1293,18 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'shifts the detector\'s behaviour.',
     isPublic: false,
     isLive: false,
+
+    mockupType: 'fullbleed',
+    screenshots: <String>[
+      'assets/images/projects/paper-citysim/cover.png',
+    ],
+    decisions: <String>[
+      'Companion paper to the thesis: thesis builds the simulator + dataset, the paper formalises the lighting/training-parameter analysis.',
+      'Grade 1.3 result — same as the thesis. Treating the paper as a separate artifact (not a section of the thesis) made the analysis sharper.',
+    ],
+    learnings: <String>[
+      'Writing the paper retroactively forced gaps in the experimental design to surface; the thesis could not have caught them on its own.',
+    ],
   ),
   ProjectItemData(
     title: 'burakbasci.de',
@@ -814,6 +1328,22 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     isLive: true,
     webUrl: 'https://www.burakbasci.de',
     gitHubUrl: 'https://github.com/burak-basci/burak_basci_website',
+
+    mockupType: 'laptop',
+    screenshots: <String>[
+      'assets/images/projects/this-site/cover.png',
+    ],
+    decisions: <String>[
+      'Forked david-legend\'s upstream Cobbina template, then maintained via cherry-pick (not direct rebase) — heavy customisations stay clean of upstream churn.',
+      '`useMaterial3: false` enforced to retain Material 2 ink ripples and elevation; M3 introduced visual drift in the top nav and footer that wasn\'t worth fighting.',
+      'Flutter 3.41.9 inside `ghcr.io/cirruslabs/flutter:stable` Podman container — no host Flutter install, builds reproduce on any machine.',
+      'Brand fonts: URW Gothic (Century Gothic substitute) + Carlito (Calibri, CanvasKit-compatible) + Inter — all OFL, no Microsoft DSIG blocker.',
+      'Two-repo pattern: source repo `burak_basci_website` for code, `burak-basci.github.io` for the deployed static site — independent release cycle, no live-site risk during dev.',
+    ],
+    learnings: <String>[
+      'Microsoft\'s DSIG-signed fonts break CanvasKit — discovered the hard way; OFL metric-compatible alternatives are non-negotiable for Flutter Web.',
+      'Plugging in real per-section animation controllers + VisibilityDetector lifts the perceived premium of the site more than any individual font or layout decision.',
+    ],
   ),
 ];
 

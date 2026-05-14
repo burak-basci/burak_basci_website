@@ -29,6 +29,10 @@ class ProjectItemData {
     this.navTitleColor = CustomColors.grey600,
     this.navSelectedTitleColor = CustomColors.black,
     this.appLogoColor = CustomColors.black,
+    this.screenshots = const <String>[],
+    this.decisions = const <String>[],
+    this.learnings = const <String>[],
+    this.mockupType = 'fullbleed',
   });
 
   final Color primaryColor;
@@ -53,6 +57,10 @@ class ProjectItemData {
   final bool isLive;
   final String webUrl;
   final String? technologyUsed;
+  final List<String> screenshots;
+  final List<String> decisions;
+  final List<String> learnings;
+  final String mockupType;
 }
 
 class ProjectData extends StatelessWidget {

@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 
 import '../../../utils/values/values.dart';
 import '../../pages/home/home_page.dart';
+import 'floating_back_button.dart';
 import 'header/app_drawer.dart';
 import 'header/top_navigation_bar.dart';
 import 'page_loading_slider.dart';
@@ -28,6 +29,7 @@ class PageWrapper extends StatefulWidget {
     this.onLoadingAnimationDone,
     this.hasStandardPageUnveilAnimation = true,
     this.reverseUnveilPageAnimationOnPop = true,
+    this.showFloatingBack = false,
     super.key,
   });
 
@@ -41,6 +43,7 @@ class PageWrapper extends StatefulWidget {
   final VoidCallback? onLoadingAnimationDone;
   final bool hasStandardPageUnveilAnimation;
   final bool reverseUnveilPageAnimationOnPop;
+  final bool showFloatingBack;
 
   @override
   PageWrapperState createState() => PageWrapperState();
@@ -137,6 +140,7 @@ class PageWrapperState extends State<PageWrapper> with TickerProviderStateMixin 
                     isSlideForward: false,
                   )
                 : widget.customLoadingAnimation,
+            if (widget.showFloatingBack) const FloatingBackButton(),
           ],
         ),
       ),
