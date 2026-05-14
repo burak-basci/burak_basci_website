@@ -4,44 +4,52 @@ import '../widgets/project_item/project_item.dart';
 
 const String _d = 'assets/images/projects';
 
+/// Ordered MOST → LEAST prestigious. The home-page cascade renders the full
+/// list; the per-entry `screenshots` + `decisions` + `learnings` lists drive
+/// the detail page.
 final List<ProjectItemData> recentWorks = <ProjectItemData>[
+  // 01 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'Patent AI Search',
-    subtitle: 'Hybrid semantic search engine',
+    title: 'Volkswagen AI Patent Search',
+    subtitle: 'Hybrid semantic search engine — VW Infotainment',
     category: 'AI / SEARCH',
     platform: 'Web · Internal',
     primaryColor: const Color(0xFF1E3A8A),
     image: '$_d/patent-search/cover.png',
     coverUrl: '$_d/patent-search/cover.png',
     technologyUsed:
-        'Flutter Web · Django · ElasticSearch · Vector Embeddings · UML/SysML',
+        'Flutter Web · Django · ElasticSearch · Vector Embeddings · Django Canvas (PDF/image gen) · UML/SysML',
     portfolioDescription:
-        'Production AI patent-search tool built for a major German '
-        'automotive infotainment subsidiary, scaled across 3 departments '
-        'and 50+ internal engineers. Hybrid retrieval over a tuned '
-        'ElasticSearch index combines keyword scoring with vector '
-        'embeddings; an A/B-tested ranking layer lifted precision by '
-        '25% and cut researcher time-to-discovery by 40%. The full '
-        'system landscape was modelled in Enterprise Architect '
-        '(UML/SysML), mapping 100% of infrastructure-to-code '
-        'dependencies for seamless DevSecOps handovers. Shipped under '
-        'NDA — closed source.',
+        'Production AI patent-search tool I built end-to-end at Volkswagen '
+        'Infotainment, scaled across three departments and 50+ internal '
+        'engineers. Hybrid retrieval over a tuned ElasticSearch index '
+        'combines BM25 keyword scoring with dense vector embeddings; an '
+        'A/B-tested ranking layer lifted precision by 25% and cut '
+        'researcher time-to-discovery by 40%. A small Django service '
+        '("Django Canvas") renders branded export PDFs and result-page '
+        'images on demand. The full landscape was modelled in Enterprise '
+        'Architect (UML/SysML), mapping 100% of infra-to-code '
+        'dependencies for the DevSecOps handover.',
     isPublic: false,
     isLive: true,
     mockupType: 'laptop',
+    screenshots: <String>['$_d/patent-search/cover.png'],
     decisions: <String>[
-      'Hybrid retrieval (BM25 keyword + dense vector embeddings) was the only configuration that beat domain experts on the held-out patent set — pure semantic search alone missed too many exact-term matches that legal teams actually search for.',
-      'A/B-tested every ranking-weight change against a fixed query bank instead of shipping by feel — a 25% precision lift only stuck after three losing rollouts.',
-      'Modelled the full landscape in Enterprise Architect (UML/SysML) before writing code; the upfront diagram caught a missing security boundary that would have blocked the audit otherwise.',
+      'Picked **hybrid BM25 + dense-vector retrieval** instead of pure semantic search — pure embeddings consistently missed the exact-term matches that legal teams actually search for (Patent IDs, claim numbers, named entities), and that gap was a non-starter for the audience.',
+      'Ran every ranking-weight change through an **A/B-test against a fixed query bank** rather than shipping by feel — only three configurations cleared the bar; the rest looked good in demos and lost on real searches.',
+      'Embedded **PDF + image rendering inside the same Django backend** ("Django Canvas") rather than calling a third-party export service, because every export contained patent text under NDA and could not leave the boundary.',
+      'Modelled the full system in **Enterprise Architect (UML/SysML) before writing code** — the upfront diagram surfaced a missing security boundary that would have failed the security audit if discovered later.',
     ],
     learnings: <String>[
-      'Cognitive-load audits with the actual users (patent counsel) revealed that the bottleneck was \'reading dozens of false positives\', not query latency — re-prioritised the roadmap toward ranking quality over response time.',
-      'Documenting infrastructure-to-code dependencies as a first-class artefact accelerated the DevSecOps handover; the diagram became a contract that survived three team rotations.',
+      'Cognitive-load audits with patent counsel showed the real bottleneck was *reading dozens of false positives*, not query latency — I rebalanced the roadmap toward ranking quality, away from response-time wins that wouldn\'t have moved the needle.',
+      'Treating the infra-to-code dependency graph as a first-class deliverable — not a side-effect — survived three team rotations as the operational contract.',
     ],
   ),
+
+  // 02 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'Sovereign Cloud Platform',
-    subtitle: 'Production k3s on Hetzner',
+    title: 'Hetzner k3s Infrastructure',
+    subtitle: 'Sovereign GitOps cluster for a 700-unit real-estate portfolio',
     category: 'DEVSECOPS / CLOUD',
     platform: 'Hetzner Cloud',
     primaryColor: const Color(0xFFEA580C),
@@ -50,82 +58,75 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     technologyUsed:
         'k3s · Terraform · ArgoCD · Traefik · Helm · Longhorn · CloudNativePG · Prometheus · Grafana',
     portfolioDescription:
-        'A sovereign Kubernetes platform on Hetzner Cloud running a '
-        'production HA k3s cluster with CloudNativePG, MariaDB Galera, '
-        'Longhorn distributed storage and a Traefik ingress that '
-        'auto-rotates Let\'s Encrypt certs. Everything provisions from a '
-        'single `terraform apply`; ArgoCD then GitOps-syncs the 15+ '
-        'self-hosted services that replaced the 700+ unit real-estate '
-        'portfolio\'s legacy SaaS stack. Provisioning lead time fell '
-        'from 4 days to 45 minutes (95% improvement), annual licensing '
-        'spend dropped €20k, and Prometheus + Grafana cut Mean Time to '
-        'Detection by 40%. A cross-functional team of 9 engineering '
-        'students ships against this platform under Scrum — sprint '
-        'velocity climbed 25% in the first two quarters.',
+        'A production-grade sovereign Kubernetes platform on Hetzner Cloud '
+        'running 15+ self-hosted services for a 700+ unit real-estate '
+        'portfolio. Three-node HA k3s with CloudNativePG + MariaDB '
+        'Galera; Longhorn for application RWX, Hetzner Volumes for the '
+        'database tier. Provisioning is a single `terraform apply`; '
+        'ArgoCD then GitOps-syncs every service. Lead time fell from '
+        '4 days to 45 minutes (95% improvement), annual licensing spend '
+        'dropped €20k, and Prometheus + Grafana cut MTTD by 40%.',
     isPublic: false,
     isLive: true,
-
     mockupType: 'terminal',
-    screenshots: <String>[
-      'assets/images/projects/k3s/cover.png',
-    ],
+    screenshots: <String>['$_d/k3s/cover.png'],
     decisions: <String>[
-      'Picked Hetzner Cloud + k3s over EKS/GKE: 10% the cost, full root, and no managed-control-plane tax for an HA workload.',
-      'Three nodes with workload taints split control-plane storage (Postgres, MariaDB, Redis) from application pods so no app deploy can starve the databases.',
-      'Hetzner Volumes hold the database tier (RWO, single replica, hot-detach); Longhorn handles application RWX where shared state actually wants replication.',
-      'DNS-01 wildcard TLS via Cloudflare cert-manager so every subdomain across *.benotable.de gets the same cert, no HTTP-01 round-trips on each new service.',
-      'Helm + a .env single source of truth for every service: WordPress, n8n, Outline, Homarr — same release ritual, no per-app drift.',
+      'Chose **Hetzner Cloud + k3s** over managed Kubernetes (EKS/GKE/AKS) because the workload is HA-stable and predictable — managed control planes would have cost roughly 10× more for zero functional gain.',
+      'Split the cluster into **control-plane storage nodes vs. application nodes via taints/tolerations** — without that separation an app deploy could starve the databases of CPU/IO; learned that the hard way on an early test cluster.',
+      'Used **Hetzner Volumes (RWO) for databases** but **Longhorn (RWX) for application state** — single-replica block devices are dramatically faster for Postgres, and Longhorn\'s replication only earns its keep where multiple pods actually need shared state.',
+      'Opted for **DNS-01 wildcard TLS via Cloudflare cert-manager** over HTTP-01 — every new subdomain across `*.benotable.de` inherits the wildcard, avoiding a per-service ACME round-trip on first request.',
+      'Single **.env file as the source of truth** for every Helm release — disaster recovery is now "scp the env, terraform apply, helm install", not a treasure hunt across YAML files.',
     ],
     learnings: <String>[
-      'WordPress Multisite was bottlenecked by Longhorn NFS share-manager on RWX volumes; moving to a single-replica RWO ext4 block device cut TTFB from 110 ms to 65 ms.',
-      'Longhorn RWX share-manager pods silently fail to schedule without an explicit taint-toleration entry — caught only by puzzling at Pending pods.',
-      'Wiring everything through one `.env` makes the disaster-recovery story simple: scp the env file in, `terraform apply`, `helm install` — done.',
+      'WordPress Multisite was bottlenecked on Longhorn NFS share-manager (RWX); moving to a single-replica RWO ext4 block device cut TTFB from 110 ms to 65 ms — picked the wrong storage tier for the workload the first time around.',
+      'Longhorn RWX share-manager pods silently fail to schedule without explicit taint-toleration entries; the only signal is "Pending forever" — instrument scheduler logs early.',
+      'A GitOps reproducible cluster pays back the most on its second incarnation: I rebuilt the whole platform in a fork during a major change and the round-trip was an afternoon.',
     ],
   ),
+
+  // 03 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'Postflow / beNotable',
-    subtitle: 'Social-media SaaS for SMBs',
+    title: 'PostPilot — Social-Media Automation',
+    subtitle: 'AI-driven multi-platform content SaaS for SMBs',
     category: 'SAAS / AI',
     platform: 'Web',
     primaryColor: const Color(0xFF0F766E),
     image: '$_d/postflow/cover.png',
     coverUrl: '$_d/postflow/cover.png',
     technologyUsed:
-        'Next.js 15 · FastAPI · SQLAlchemy 2 async · Alembic · PostgreSQL 16 + pgvector · MinIO · Temporal · LangGraph · GitHub Copilot Pro',
+        'Next.js 15 · FastAPI · SQLAlchemy 2 async · Alembic · PostgreSQL 16 + pgvector · MinIO · Temporal · LangGraph',
     portfolioDescription:
-        'A social-media operations SaaS that lets small businesses post '
-        'to nine networks in under 15 minutes a day. Strict-TypeScript '
-        'Next.js 15 frontend with shadcn/ui and TanStack Query talks to '
-        'an async FastAPI + SQLAlchemy 2 backend; Temporal orchestrates '
-        'every long-running job, LangGraph agents (via GitHub Copilot '
-        'Pro) generate captions and post variants, and PostgreSQL 16 + '
-        'pgvector + MinIO handle structured data and media. Self-hosted '
-        'on a Hetzner CX33 in Falkenstein with a database-backup-first '
-        'GitLab CI/CD pipeline that refuses to deploy without a fresh '
-        'snapshot. Live at app.benotable.de.',
+        'PostPilot is a social-media automation SaaS that lets small '
+        'businesses post to nine networks in under 15 minutes a day. '
+        'Strict-TypeScript Next.js 15 frontend with shadcn/ui and '
+        'TanStack Query talks to an async FastAPI + SQLAlchemy 2 '
+        'backend. Temporal orchestrates the long-running posting flows; '
+        'LangGraph agents (on GitHub Copilot Pro) draft captions and '
+        'platform-specific variants; PostgreSQL 16 + pgvector + MinIO '
+        'hold structured data and media. Currently live at '
+        'app.benotable.de while the PostPilot domain is provisioned.',
     isPublic: false,
     isLive: true,
     webUrl: 'https://app.benotable.de',
-
     mockupType: 'laptop',
-    screenshots: <String>[
-      'assets/images/projects/postflow/cover.png',
-    ],
+    screenshots: <String>['$_d/postflow/cover.png'],
     decisions: <String>[
-      'Strict TypeScript on the Next.js 15 frontend with no `any` escape hatches — the whole client surface is contractually typed against the FastAPI schema.',
-      'Temporal as the workflow engine instead of cron + Redis locks: every multi-step posting flow gets retry, history and a UI for free.',
-      'PostgreSQL 16 + pgvector for embeddings rather than a separate vector DB — one Postgres backup covers everything.',
-      'GitLab CI/CD refuses to deploy without a fresh DB snapshot first; the `db-backup-first` job is a hard prerequisite.',
-      'Self-hosted on a single Hetzner CX33 — the entire stack costs less than a managed Postgres SKU at the comparable scale.',
+      'Picked **Temporal over cron + Redis locks** for the workflow engine — a multi-step "draft → moderate → schedule → post → confirm" flow gets retry, deterministic replay and an inspectable history for free; rebuilding that on plain queues is months of work.',
+      'Chose **PostgreSQL 16 + pgvector** instead of a separate vector DB — one backup, one wire protocol, one access-control surface. Operational simplicity beats best-of-breed when the team is one person.',
+      'Used **strict TypeScript with no `any` escape hatches** end-to-end against the FastAPI schema; the discipline catches contract drift between client and server in the editor, before any deploy.',
+      'Made the GitLab CI **db-backup-first** — the deploy job refuses to run without a fresh snapshot. Adding it cost ten minutes; not adding it would have cost a customer at some point.',
+      'Self-hosted on **a single Hetzner CX33** — the entire stack costs less than the comparable managed Postgres SKU alone, and the platform stays portable.',
     ],
     learnings: <String>[
-      'LangGraph-style agent graphs are easier to reason about than chains once you have more than two LLM steps with conditional routing.',
-      'Putting GitHub Copilot Pro behind the LLM agents (instead of OpenAI direct) keeps cost predictable as the workload scales linearly with content volume.',
+      'LangGraph-style agent graphs are easier to reason about than chains once you have more than two LLM steps with conditional routing; chains turn spaghetti, graphs stay legible.',
+      'Routing GitHub Copilot Pro behind the agents (instead of OpenAI direct) made costs scale linearly with content volume, not exponentially with re-prompts.',
     ],
   ),
+
+  // 04 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'LuminaRep',
-    subtitle: 'AI social-proof SaaS for clinics',
+    title: 'LuminaRep — Clinic Review SaaS',
+    subtitle: 'AI social-proof platform for medical-aesthetics practices',
     category: 'SAAS / AI',
     platform: 'Web',
     primaryColor: const Color(0xFF047857),
@@ -134,36 +135,34 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     technologyUsed:
         'Next.js 15 · TypeScript · PostgreSQL · NextAuth · Google Gemini · Stripe · Tailwind · Docker Compose',
     portfolioDescription:
-        'A premium SaaS aimed at medical-aesthetics and cosmetic-surgery '
-        'practices. It auto-extracts the clinic\'s 5-star Google reviews '
-        'and runs each through Gemini to produce three Instagram '
-        'captions, a TikTok script, and Midjourney/DALL-E image prompts '
-        'in the practice\'s tone. Auth via email + password (NextAuth), '
-        'metered Stripe subscriptions with a 7-day trial, and a luxury '
-        'dark-mode UI in emerald + gold. Fully containerised; ships '
-        'with a production deploy guide and self-hosted infrastructure '
-        'so a clinic can run it on-prem if they prefer.',
+        'LuminaRep is a premium SaaS for medical-aesthetics and '
+        'cosmetic-surgery clinics. It auto-extracts each clinic\'s '
+        '5-star Google reviews and turns every one into three Instagram '
+        'captions, a TikTok script and Midjourney/DALL-E image prompts '
+        'in the practice\'s tone of voice. Email-and-password auth via '
+        'NextAuth, Stripe metered subscriptions with a 7-day trial, '
+        'and a luxury dark-mode UI in emerald + gold. Fully '
+        'containerised — a clinic that wants self-hosting can run the '
+        'whole platform on its own server.',
     isPublic: false,
     isLive: true,
-
     mockupType: 'laptop',
-    screenshots: <String>[
-      'assets/images/projects/luminarep/cover.png',
-    ],
+    screenshots: <String>['$_d/luminarep/cover.png'],
     decisions: <String>[
-      'NextAuth for email + password rather than rolling auth — small clinic + GDPR audit; less surface to defend.',
-      'Stripe metered subscriptions with a 7-day trial; the free trial is the conversion funnel, not a marketing claim.',
-      'Gemini for the content generation pass — it consistently produced the best clinic-friendly tone in side-by-side comparison.',
-      'Full Docker Compose so a clinic that wants self-hosting can run it on its own server in the back office with one command.',
+      'Picked **Gemini for the content-generation pass** over GPT-4 and Claude — in side-by-side testing on real clinic reviews, Gemini consistently produced the most clinic-friendly tone with the fewest hallucinated medical claims (which would have been a regulatory risk).',
+      'Chose **NextAuth for email + password** instead of a third-party identity provider — clinics are GDPR-sensitive and a small attack surface I fully control beat outsourcing to a vendor I\'d have to audit anyway.',
+      'Designed the **5-star-only review-extraction funnel** rather than letting clinics cherry-pick — auto-extraction removes the cognitive load that kills retention, and the constraint is a feature ("we only ever amplify your real wins").',
+      'Bundled the whole stack into **Docker Compose with a production deploy guide** — clinics can keep patient-adjacent data on premises if they need to, without me having to support a second deployment path.',
     ],
     learnings: <String>[
-      'A luxury dark-mode UI (emerald + gold) matters more to clinic owners than the underlying tech — design effort paid back faster than feature work.',
-      'Auto-extracting 5-star reviews is the right starting funnel; once it works there, the rest of the platform expansion is upsell.',
+      'A luxury dark-mode UI (emerald + gold) actually mattered more to clinic owners than the underlying tech — design investment paid back faster than feature work in early sales conversations.',
     ],
   ),
+
+  // 05 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'LLM Email Automation',
-    subtitle: 'Intent-based triage service',
+    title: 'LLM Mail Triage — Intent Engine',
+    subtitle: 'Pluggable-provider email classification + drafting service',
     category: 'AI / AUTOMATION',
     platform: 'Backend',
     primaryColor: const Color(0xFF7C3AED),
@@ -174,34 +173,34 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     portfolioDescription:
         'A multi-provider LLM service that turns a noisy inbox into '
         'structured tickets. A three-stage pipeline classifies each '
-        'incoming mail into one of eleven categories, extracts the '
-        'sender, intent and any structured fields, then drafts a '
-        'reply — strictly behind a human-in-the-loop gate. Provider '
-        'is pluggable via a single config (Mistral, Claude, OpenAI, '
-        'local OpenWebUI), so EU-residency requirements can be met by '
-        'simply swapping endpoints. Throughput climbed 80%, accuracy '
-        'holds at 95%, and the service saves about 8 engineering-hours '
-        'a week on a real customer mailbox.',
+        'incoming mail into one of eleven categories, extracts sender + '
+        'intent + structured fields, and drafts a reply — strictly '
+        'behind a human-in-the-loop gate. Provider is pluggable via a '
+        'single config (Mistral / Claude / OpenAI / local OpenWebUI), '
+        'so EU-residency requirements get a config change instead of a '
+        'refactor. Throughput climbed 80%, accuracy holds at 95%, and '
+        'the service saves about 8 engineering-hours/week on a real '
+        'customer mailbox.',
     isPublic: false,
     isLive: true,
-
     mockupType: 'terminal',
-    screenshots: <String>[
-      'assets/images/projects/llm-mail/cover.png',
-    ],
+    screenshots: <String>['$_d/llm-mail/cover.png'],
     decisions: <String>[
-      'JSON-schema enforcement on the LLM reply (strict mode, retry on parse failure) lifted accuracy more than swapping models — bigger model with loose JSON still hallucinated tags.',
-      'Pluggable provider via a single config field (`LLM_PROVIDER`) — Mistral, Claude, OpenAI, local OpenWebUI — so EU-residency requirements get a config change, not a refactor.',
-      'Mock mode is the default when API keys are missing, so contributors can run the full stack without paying for tokens.',
+      'Enforced **strict JSON-schema mode on every LLM reply** with retry-on-parse-failure — the accuracy lift from that constraint alone was bigger than from swapping for a bigger model. Larger model with loose JSON still hallucinated tags.',
+      'Designed an **LLM_PROVIDER abstraction over a single env var** so EU-residency clients can switch from OpenAI to Mistral or to a self-hosted OpenWebUI without code changes; the alternative — per-tenant builds — would have multiplied the deployment matrix.',
+      'Kept the service **stateless** with a **mock mode default when keys are missing** — contributors can run and test the full stack without consuming tokens, and CI can run the end-to-end suite without a budget line.',
+      'Made the **human-in-the-loop a hard gate** rather than an opt-in — auto-send in a regulated industry has unbounded downside, and the throughput win comes from triage + drafting, not from sending.',
     ],
     learnings: <String>[
-      '11-category classification needs an iteratively-tuned gold set; the first 55-email set surfaced three categories the original taxonomy was missing.',
-      'Human-in-the-loop is non-negotiable for outbound replies in a regulated industry. The throughput win comes from triage + drafting, not auto-send.',
+      'Eleven-category classification needed three rounds of taxonomy refinement; the first gold set was missing three categories I only discovered by reading the long-tail of real mail.',
+      'JSON-schema enforcement is the highest-leverage knob in LLM serving today — it bought more correctness than two model-size jumps would have.',
     ],
   ),
+
+  // 06 ----------------------------------------------------------------------
   ProjectItemData(
     title: 'Utopia Community',
-    subtitle: 'Environmental Web3 platform',
+    subtitle: 'Environmental Web3 platform — Technical Lead',
     category: 'WEB3 / CHARITY',
     platform: 'iOS · Android · Web',
     primaryColor: const Color(0xFF16A34A),
@@ -210,82 +209,80 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     technologyUsed:
         'Flutter · Solidity 0.8 · OpenZeppelin · UUPS Proxy · Polygon · Firebase',
     portfolioDescription:
-        'Cross-platform Flutter app paired with an upgradeable ERC-20 '
+        'A cross-platform Flutter app paired with an upgradeable ERC-20 '
         '(UWCT) on Polygon, channelling token-aligned donations into '
-        'environmental and charitable causes. Built and shipped a '
-        'feature-complete MVP in 12 months as Technical Lead of a '
-        'remote agile team of two: owned the full technical roadmap '
-        'from token economics through requirements engineering to UI. '
-        'The token contract uses a UUPS proxy pattern (OpenZeppelin) '
-        'so logic upgrades stay possible without forcing holders to '
-        'migrate; mint, burn and pause are all governed by '
-        'multi-signature. Demoed at the KUER.NRW Green Entrepreneurship '
-        'Fair to 20+ stakeholders and investors.',
+        'environmental and charitable causes. As Technical Lead of a '
+        'remote agile team of two I owned the full roadmap from token '
+        'economics through requirements engineering to UI, and shipped '
+        'a feature-complete MVP in 12 months. Demoed at the KUER.NRW '
+        'Green Entrepreneurship Fair to 20+ stakeholders and investors.',
     isPublic: false,
     isLive: true,
-
     mockupType: 'phone',
-    screenshots: <String>[
-      'assets/images/projects/utopia/cover.png',
-    ],
+    screenshots: <String>['$_d/utopia/cover.png'],
     decisions: <String>[
-      'ERC-20 on Polygon, not Ethereum mainnet — gas costs would have killed any micro-donation use case.',
-      'UUPS upgradeable proxy (OpenZeppelin) so token logic can evolve without forcing holders to migrate.',
-      'Multi-signature for mint/burn/pause; no single private key can move supply.',
-      'Cross-platform Flutter app for the wallet UI rather than a Web3 web frontend — mobile-first was the audience.',
+      'Picked **Polygon over Ethereum mainnet** for the token contract — gas costs on L1 would have killed any micro-donation use case before the first transaction settled.',
+      'Used a **UUPS upgradeable proxy (OpenZeppelin)** rather than a non-upgradeable token because the protocol logic was certain to evolve, and forcing token holders to migrate is a one-way trip to abandonment.',
+      'Made **every supply-mutating operation (mint, burn, pause) multi-signature** — a single key on a charity token is a single point of failure for the entire mission.',
+      'Chose **Flutter cross-platform** for the wallet UI over a Web3 web frontend — donors are on phones, not desktops; meeting them where they are dropped onboarding friction.',
     ],
     learnings: <String>[
-      'Demoing at KUER.NRW Green Entrepreneurship Fair forced the team to articulate value to non-technical stakeholders within 30 seconds; that exercise rewrote half the documentation.',
-      'Token economics design (vesting, governance thresholds) is more time-consuming than the smart contract itself.',
+      'Demoing at KUER.NRW forced the team to articulate value to non-technical stakeholders in 30 seconds. That single exercise rewrote half the project documentation.',
+      'Token-economics design (vesting, governance thresholds, burn mechanics) consumed more time than the smart-contract code itself — model the incentives before the code.',
     ],
   ),
+
+  // 07 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'Night-Detection Thesis',
-    subtitle: 'Synthetic data for YOLOv8',
-    category: 'ML / RESEARCH',
-    platform: 'Unreal · Python',
+    title: 'Night-Drive Object Detection',
+    subtitle: 'TU Dortmund Institute of Robotics — thesis + paper + Unreal plugin + Turtlebot',
+    category: 'ML / ROBOTICS RESEARCH',
+    platform: 'Unreal · Python · ROS',
     primaryColor: const Color(0xFF1E1B4B),
     image: '$_d/thesis-night/cover.png',
     coverUrl: '$_d/thesis-night/cover.png',
     technologyUsed:
-        'Unreal Engine 5 (C++) · NVIDIA NDDS · Houdini · YOLOv8 · Python · PyTorch',
+        'Unreal Engine 5 (C++) · NVIDIA NDDS · Houdini · YOLOv8 · Python · PyTorch · ROS · C++',
     portfolioDescription:
-        'B.Sc. thesis at the TU Dortmund Institute of Robotics (graded '
-        '1.3 — top decile in the German system) on CNN-based '
-        'night-time object detection. Built a high-fidelity Unreal '
-        'Engine 5 city simulation with a Houdini procedural pipeline '
-        'and an NVIDIA NDDS labelling layer; the resulting automated '
-        'annotator eliminated 100% of manual labelling effort across '
-        '6,000+ training samples. The accompanying study identified '
-        'five lighting and environmental parameters that disproportionately '
-        'drive the network\'s feature extraction in low-light scenes, '
-        'and provided a foundation for closing the sim-to-real gap on '
-        'synthetic driving datasets.',
+        'My full body of work at the TU Dortmund Institute of Robotics: a '
+        'B.Sc. thesis on CNN-based night-time object detection, the '
+        'companion paper formalising the lighting/training-parameter '
+        'analysis (both graded 1.3 — top decile), a first-party Unreal '
+        'Engine 5 plugin that exposes semantic segmentation to gameplay '
+        'and writes YOLOv8-ready datasets, and earlier coursework '
+        'programming a TurtleBot with ROS in C++. The Unreal city '
+        'simulation with a Houdini procedural pipeline and NVIDIA NDDS '
+        'labelling eliminated 100% of manual annotation across 6,000+ '
+        'training samples.',
     isPublic: false,
     isLive: false,
-
     mockupType: 'unreal-still',
     screenshots: <String>[
-      'assets/images/projects/thesis-night/cover.png',
-      'assets/images/projects/thesis-night/shot-01.png',
-      'assets/images/projects/thesis-night/shot-02.png',
-      'assets/images/projects/thesis-night/shot-03.png',
+      '$_d/thesis-night/shot-01.png',
+      '$_d/thesis-night/shot-02.png',
+      '$_d/thesis-night/shot-03.png',
+      '$_d/cv-plugin/shot-01.png',
+      '$_d/cv-plugin/shot-02.png',
     ],
     decisions: <String>[
-      'Synthetic Unreal Engine 5 city instead of collecting real night-driving footage — eliminated annotation cost entirely and made lighting parameters exact and reproducible.',
-      'NVIDIA NDDS (Deep learning Dataset Synthesizer) plugin generated labels alongside frames; no separate annotation pipeline existed.',
-      'Houdini for procedural city geometry so the 6,000-sample run was reproducible from a seed, not a one-off render.',
-      'Variable lighting + weather + camera-noise parameters were exposed as the experimental axes — the paper formalised which ones move the network the most.',
+      'Generated the entire training set from a **synthetic Unreal Engine 5 city** instead of collecting real night-driving footage — annotation cost dropped to zero and every lighting parameter became exact, reproducible and ablatable. Real-world footage would have required either an army of annotators or a sketchy active-learning loop.',
+      'Used **NVIDIA NDDS (Deep-learning Dataset Synthesizer)** to generate labels alongside frames so the labelling pipeline was strictly bundled with the renderer — no separate annotation infrastructure to drift out of sync with the simulator.',
+      'Procedurally generated city geometry with **Houdini** so the 6,000-sample run was reproducible from a seed, not a hand-curated one-off render — re-running an experiment with different lighting took minutes, not days.',
+      'Built the segmentation logic as a **first-party Unreal C++ plugin** rather than an external Python pipeline so the dataset generator stayed on the same render thread as the scene — no copy-out-to-disk-and-back per frame.',
+      'Started the Robotics minor with **ROS C++ Turtlebot coursework** before touching deep learning — message-passing IPC discipline carried straight into how I structured the synthetic-data pipeline.',
     ],
     learnings: <String>[
-      'Five environmental parameters disproportionately drove CNN feature extraction; everything else was noise. Future synthetic-data work should ablate on these first.',
-      'Closing the sim-to-real gap is more about distribution matching than render fidelity. Lower-quality renders with the right distribution beat photoreal renders with the wrong one.',
-      'Grade 1.3 on both the thesis and the companion paper — the thesis built the simulator, the paper formalised the analysis.',
+      'Five environmental parameters disproportionately drove CNN feature extraction; everything else was noise. Future synthetic-data work should ablate on these five before touching architecture.',
+      'Closing the sim-to-real gap is more about distribution matching than render fidelity — lower-quality renders with the right distribution beat photoreal renders with the wrong one.',
+      'Treating the plugin as a deliverable in its own right (not buried in a thesis appendix) made the work reusable: anyone with UE5 can regenerate the dataset.',
+      'Hardware bugs feel different from software bugs — sensor jitter, motor torque variation, and mechanical drift on the Turtlebot taught me to instrument the wire, not just the code.',
     ],
   ),
+
+  // 08 ----------------------------------------------------------------------
   ProjectItemData(
     title: 'VR Anxiety Trainer',
-    subtitle: '1st place — TU Startup Weekend',
+    subtitle: '1st place — TU Dortmund Startup Weekend 2023',
     category: 'VR / HEALTHCARE',
     platform: 'Meta Quest',
     primaryColor: const Color(0xFF6D28D9),
@@ -293,34 +290,32 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     coverUrl: '$_d/vr-anxiety/cover.png',
     technologyUsed: 'Unreal Engine 5 · Blueprints · OpenXR',
     portfolioDescription:
-        'A VR exposure-therapy prototype for social anxiety, set on '
-        'the stage of a virtual opera house. Built in a single weekend '
-        'in Unreal Engine 5 — own the room, walk to the centre, deliver '
-        'a short speech to a virtual audience while a coach script '
-        'guides the breathing. Won 1st place at the TU Dortmund Startup '
-        'Weekend 2023, outperforming nine competing teams on technical '
-        'execution and market validation, and selected to advance into '
-        'the university\'s startup incubator pipeline.',
+        'A VR exposure-therapy prototype for social anxiety, set on the '
+        'stage of a virtual opera house. Own the room, walk to the '
+        'centre, deliver a short speech to a virtual audience while a '
+        'coach script guides the breathing. Won 1st place at TU '
+        'Dortmund Startup Weekend 2023, outperforming nine competing '
+        'teams on technical execution and market validation; selected '
+        'to advance into the university\'s incubator pipeline.',
     isPublic: false,
     isLive: false,
-
     mockupType: 'unreal-still',
-    screenshots: <String>[
-      'assets/images/projects/vr-anxiety/cover.png',
-    ],
+    screenshots: <String>['$_d/vr-anxiety/cover.png'],
     decisions: <String>[
-      'Unreal Engine 5 instead of Unity — the team had Unreal expertise and the photoreal opera-house scene needed Lumen.',
-      'Built the smallest believable scenario (walk to the stage of a virtual opera, deliver a short speech) instead of trying for breadth — depth read as polish to the judges.',
-      'Coach script + breathing guidance in audio, not on a HUD — keeps the user looking at the audience.',
+      'Picked **Unreal Engine 5** over Unity for the build because the team had Unreal expertise and the photoreal opera scene needed Lumen — Unity\'s URP at the time wouldn\'t have hit the same visual bar in a single weekend.',
+      'Built the **smallest believable scenario** (walk to the stage, deliver a short speech) instead of trying for breadth across multiple anxiety triggers — depth reads as polish to judges; breadth at a hackathon reads as half-finished.',
+      'Put the coach script + breathing guidance in **audio, not a HUD** — a heads-up display in VR breaks immersion the moment the user looks at it, and immersion is the entire therapeutic mechanism.',
     ],
     learnings: <String>[
-      'Winning the TU Dortmund Startup Weekend 2023 came down to demoable depth in 48 hours, not feature count. We rehearsed the demo more than we built features.',
-      'Selection into the university\'s incubator pipeline was worth the weekend many times over.',
+      'Winning a hackathon comes down to demoable depth in 48 hours, not feature count — we rehearsed the demo more than we built features in the last twelve hours.',
+      'Selection into the university\'s incubator pipeline turned out to be worth the weekend many times over.',
     ],
   ),
+
+  // 09 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'Durak Multiplayer',
-    subtitle: 'Cross-platform card game',
+    title: 'Durak — Cross-Platform Card Game',
+    subtitle: 'Six-platform Flutter game, live at durak.burakbasci.de',
     category: 'GAME / MOBILE',
     platform: 'iOS · Android · Web · Desktop',
     primaryColor: const Color(0xFFDC2626),
@@ -333,38 +328,37 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'card game, shipped to six platforms (Android, iOS, Web, '
         'Windows, macOS, Linux) from a single codebase. Three AI '
         'difficulty levels run fully offline; the move generator scores '
-        'every legal attack/defend pair against a heuristic that '
-        'mirrors how strong human players think about trump leverage '
-        'and hand-reduction. Custom rendering pushes 60 FPS on '
-        'commodity hardware, GetX drives a reactive state graph, and '
-        'a 31-test unit suite + Playwright E2E protect the core rules. '
-        'Localised in English, Russian, Turkish and German; the socket '
-        'layer is staged for online multiplayer. Live at '
-        'durak.burakbasci.de.',
+        'every legal attack/defend pair against a heuristic that mirrors '
+        'how strong human players think about trump leverage and '
+        'hand-reduction. Custom rendering pushes 60 FPS on commodity '
+        'hardware, GetX drives a reactive state graph, 31 unit tests + '
+        'Playwright E2E protect the core rules, and the socket layer is '
+        'staged for online multiplayer. Live at durak.burakbasci.de.',
     isPublic: false,
     isLive: true,
     webUrl: 'https://durak.burakbasci.de',
-
     mockupType: 'phone',
     screenshots: <String>[
-      'assets/images/projects/durak/shot-01.png',
-      'assets/images/projects/durak/shot-02.png',
-      'assets/images/projects/durak/shot-03.png',
+      '$_d/durak/shot-01.png',
+      '$_d/durak/shot-02.png',
+      '$_d/durak/shot-03.png',
     ],
     decisions: <String>[
-      'Generic `GameRules` interface + `GameRegistry` from Phase 13 so the same engine ships Hearts, Spades, Belote, Preferans, Uno without forking the game logic.',
-      'Playwright E2E (32 tests) + server API tests (10) + exhaustive rule unit tests (57) — total >100 — added only after a 15-bug spike around the card-flip z-index taught us the cost of skipping E2E.',
-      'WebSockets + Elo-based matchmaking with guest-token persistence so people can play without registering. Friction kills cards-app retention.',
-      'GetX for state and a custom rendering layer hitting 60 FPS across Android, iOS, Web, Windows, macOS and Linux from one Flutter codebase.',
+      'Extracted a **`GameRules` interface + `GameRegistry`** in Phase 13 so the engine could ship Hearts, Spades, Belote, Preferans and Uno without forking the game logic — previously every new variant was a copy-paste, which was bound to drift.',
+      'Adopted **Playwright E2E (32 tests) + server API tests (10) + exhaustive rule unit tests (57)** only after a 15-bug spike around the card-flip z-index — total >100 tests now block every release. Skipping E2E once cost a full week of regressions.',
+      'Used **WebSockets + Elo-based matchmaking with guest-token persistence** so people can play without registering. Required registration on a cards app destroys retention; the cost of supporting guests is rounding error.',
+      'Picked **GetX over Bloc/Riverpod** for state — at the time it had the lowest boilerplate-per-feature for a small team, and the reactive bindings fit a turn-based game cleanly.',
     ],
     learnings: <String>[
-      'Rolling-update deadlocks bit us with required pod-anti-affinity + maxSurge>0; fix was `maxUnavailable: 1, maxSurge: 0` so a new pod can\'t starve a still-needed old one.',
-      'Localisation in four languages (EN/RU/TR/DE) doubled organic downloads in the test markets at the cost of one engineering week.',
+      'A rolling-update deadlock bit us with required pod-anti-affinity + maxSurge>0 on the deployment; fix was `maxUnavailable: 1, maxSurge: 0` so a new pod can\'t starve a still-needed old one.',
+      'Localising in four languages (EN/RU/TR/DE) roughly doubled organic downloads in the test markets at the cost of one engineering week — best ROI of the year.',
     ],
   ),
+
+  // 10 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'Home Assistant Edge',
-    subtitle: 'Self-sovereign edge stack',
+    title: 'Sovereign Smart Home',
+    subtitle: 'Edge-only Proxmox + HAOS + MQTT stack',
     category: 'EDGE / SELF-HOSTED',
     platform: 'Proxmox · HAOS',
     primaryColor: const Color(0xFF18BCF2),
@@ -375,35 +369,32 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     portfolioDescription:
         'A self-hosted edge hub that keeps every physical-world signal '
         'inside the LAN — no cloud middleman, no telemetry leak. '
-        'Proxmox VE virtualises Home Assistant OS, an MQTT broker, '
+        'Proxmox virtualises Home Assistant OS, an MQTT broker, '
         'InfluxDB and Grafana in lightweight VMs; OpenWRT handles '
         'segmented VLANs for IoT vs. trusted devices; openSUSE runs '
         'background workloads. Forty-plus room-level automations tie '
         'climate, lighting, presence and security together through '
-        'sensor-fusion rules with conditional logic, and the Grafana '
-        'dashboard turns the same data into a live energy view across '
-        '12+ devices.',
+        'sensor-fusion rules.',
     isPublic: false,
     isLive: false,
-
     mockupType: 'laptop',
-    screenshots: <String>[
-      'assets/images/projects/home-assistant/cover.png',
-    ],
+    screenshots: <String>['$_d/home-assistant/cover.png'],
     decisions: <String>[
-      'Proxmox VE virtualising HAOS + an MQTT broker + InfluxDB + Grafana in lightweight VMs instead of running everything on one bare-metal install — failure of any component doesn\'t take the rest down.',
-      'OpenWRT in front for segmented VLANs (IoT vs trusted) — every camera, light and presence sensor sits behind a different network policy.',
-      'Forty-plus room-level automations rather than chained-trigger global scenes; each room owns its rules and they compose.',
-      'No cloud middleman for any sensor data — privacy was the whole point.',
+      'Virtualised every component on **Proxmox in lightweight VMs** instead of running them on one bare-metal install, because a single bad upgrade on the smart-home host shouldn\'t take the broker and the database down with it. Isolation is the whole point.',
+      'Put **OpenWRT in front for segmented VLANs** — every camera, light and presence sensor sits behind its own network policy. Retrofitting that segmentation after a CVE is much more expensive than starting with it.',
+      'Wrote **room-owned automations** rather than chained-trigger global scenes — each room\'s rules compose with the next without inheriting global side-effects, and a misbehaving rule blast-radius stays in that room.',
+      'Refused **every cloud middleman** — privacy was the entire reason for the project; trading it for convenience would have defeated the point.',
     ],
     learnings: <String>[
-      'Energy monitoring across 12+ devices in Grafana found two always-on devices that ate ~€200/year between them — the dashboard paid for the hardware in under a year.',
-      'Segmenting IoT on its own VLAN early is much cheaper than retrofitting it after a CVE.',
+      'Energy monitoring across 12+ devices in Grafana found two always-on appliances eating ~€200/year between them — the dashboard paid for the hardware in under a year.',
+      'IoT segmentation on its own VLAN from day one is dramatically cheaper than adding it after a smart bulb gets a CVE.',
     ],
   ),
+
+  // 11 ----------------------------------------------------------------------
   ProjectItemData(
     title: 'Local AI Voice Assistant',
-    subtitle: 'Offline LLM + custom wake word',
+    subtitle: 'On-device wake-word + Whisper STT + local LLM + Piper TTS',
     category: 'AI / EDGE',
     platform: 'Linux',
     primaryColor: const Color(0xFF14B8A6),
@@ -413,114 +404,79 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'faster-whisper · Piper TTS · openWakeWord · local LLM · Flask · MQTT',
     portfolioDescription:
         'A privacy-first voice assistant that runs end-to-end on '
-        'commodity hardware: a custom wake-word model from '
-        'openWakeWord, on-device speech-to-text via faster-whisper, '
-        'a local LLM for intent resolution, and Piper TTS for the '
-        'reply. No round-trip to the cloud, no third-party API. The '
-        'service speaks MQTT directly into Home Assistant, so '
-        '"turn on the kitchen lights" routes through the same '
-        'automation graph as any other event in the house. Conversation '
-        'context persists across sessions and the whole pipeline runs '
-        'in well under a second on a single GPU.',
+        'commodity hardware. A custom wake-word from openWakeWord '
+        'triggers a self-hosted faster-whisper service (Flask on '
+        ':10300, int8 quantised) for speech-to-text; a local LLM '
+        'resolves intent; Piper TTS speaks the reply. The Whisper '
+        'sidecar is generic enough that it also feeds the CaterSmart '
+        'AI core whenever audio needs transcription inside the '
+        'sovereign cluster. The whole pipeline returns under a second '
+        'on a single GPU, no audio ever leaves the LAN, and commands '
+        'route through MQTT into the same Home Assistant automation '
+        'graph as every other event in the house.',
     isPublic: false,
     isLive: false,
-
     mockupType: 'terminal',
-    screenshots: <String>[
-      'assets/images/projects/voice-assistant/cover.png',
-    ],
+    screenshots: <String>['$_d/voice-assistant/cover.png'],
     decisions: <String>[
-      'Custom wake-word from openWakeWord, not an off-the-shelf \'hey-XYZ\' — full control over which phrase wakes the mic.',
-      'faster-whisper for STT instead of cloud Whisper — same model, end-to-end on-device, no audio leaves the LAN.',
-      'Piper for TTS — small, fast, and indistinguishable from cloud TTS at headphone quality.',
-      'MQTT into Home Assistant rather than the HA REST API — keeps the assistant in the same automation graph as any door sensor or doorbell.',
+      'Used **faster-whisper (int8 quantised) instead of cloud Whisper** because the project\'s entire premise was that no audio leaves the LAN — same model accuracy, ~3× smaller memory footprint, runs on a CPU box.',
+      'Picked a **custom openWakeWord model** rather than a generic "hey-XYZ" wake phrase — full control over which sound wakes the mic, and no licence on the trigger word.',
+      'Chose **Piper TTS over a cloud voice API** — at headphone quality it\'s indistinguishable, free, and offline. The cloud version was a worse trade on every axis except setup time.',
+      'Speaks **MQTT into Home Assistant** rather than calling the HA REST API — keeps the assistant in the same automation graph as any door sensor or doorbell. REST would have created a second event bus.',
+      'Wrapped Whisper as a **generic OpenAI-compatible sidecar on :10300** so it can also serve the CaterSmart AI core — one sidecar, two consumers, no code duplication.',
     ],
     learnings: <String>[
-      'Sub-second round-trip is what makes the assistant feel \'real\' versus \'a smart speaker that works when it works\' — every component had a latency budget.',
-      'Context persistence across sessions makes simple commands (\'turn that off\', \'and the other one\') feel natural — without it, every utterance has to be self-contained.',
+      'Sub-second round-trip is what makes the assistant feel real versus "a smart speaker that works when it works" — every component (wake-word, STT, LLM, TTS) had to live inside its own latency budget.',
+      'Context persistence across utterances makes commands like "turn that off" or "and the other one" feel natural — without it, every utterance has to be self-contained, and adoption falls off a cliff.',
+      'Int8 quantisation cuts memory ~3× with no audible accuracy loss on short utterances — CPU inference is genuinely practical once the latency budget is respected.',
     ],
   ),
-  ProjectItemData(
-    title: 'Whisper STT Service',
-    subtitle: 'Containerised faster-whisper API',
-    category: 'AI / INFRASTRUCTURE',
-    platform: 'Container',
-    primaryColor: const Color(0xFF0284C7),
-    image: '$_d/whisper/cover.png',
-    coverUrl: '$_d/whisper/cover.png',
-    technologyUsed:
-        'Python 3.11 · Flask · faster-whisper · FFmpeg · Podman',
-    portfolioDescription:
-        'A lightweight transcription microservice that wraps OpenAI '
-        'Whisper via faster-whisper and exposes a REST endpoint on '
-        'port 10300. FFmpeg handles every audio codec the rest of the '
-        'stack throws at it, and the service ships in a rootless Podman '
-        'image with health and readiness probes for load-balancer '
-        'integration. It backs both the voice-assistant pipeline and '
-        'the CaterSmart AI core whenever a piece of audio needs to '
-        'become text inside the sovereign cluster — language detection, '
-        'confidence scores and timing metadata included.',
-    isPublic: false,
-    isLive: true,
 
-    mockupType: 'terminal',
-    screenshots: <String>[
-      'assets/images/projects/whisper/cover.png',
-    ],
-    decisions: <String>[
-      'faster-whisper, not the official OpenAI Whisper — int8 quantisation + four-thread CPU makes it run on resource-constrained boxes.',
-      'Minimal Flask API on :10300; OpenAI-compatible enough that any client which talks to Whisper-style endpoints works against it.',
-      'Multi-stage Python 3.11-slim Docker image with ffmpeg baked in — any codec the rest of the stack throws at it just works.',
-      'Beam size 1 + VAD filter in production for predictable latency; quality loss vs. beam=5 is below the perception threshold for short utterances.',
-    ],
-    learnings: <String>[
-      'Int8 quantisation cuts memory by ~3x with no audible accuracy loss on <30 s utterances; CPU inference is genuinely practical for normal commands.',
-      'Treating STT as a generic sidecar (one container, fixed port, OpenAI-compatible shape) made it trivial to wire into both the voice-assistant and CaterSmart AI core later.',
-    ],
-  ),
+  // 12 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'Shop Automation Pipeline',
-    subtitle: 'AI-driven print-on-demand',
+    title: 'AI-Driven Print-on-Demand Shop',
+    subtitle: 'shop.burakbasci.de — generative pipeline, upscaler, bulk uploader',
     category: 'AUTOMATION / E-COMMERCE',
     platform: 'Web',
     primaryColor: const Color(0xFFF59E0B),
     image: '$_d/shop-automation/cover.png',
     coverUrl: '$_d/shop-automation/cover.png',
     technologyUsed:
-        'Python · ComfyUI · FLUX.1 · Printify API · Pandas · WooCommerce',
+        'Python · ComfyUI · FLUX.1 · Real-ESRGAN · Selenium · Printify API · WooCommerce · Pandas',
     portfolioDescription:
-        'An end-to-end content and product pipeline. FLUX.1 (running '
-        'through a self-hosted ComfyUI graph) generates designs on a '
-        'cron schedule; a Python orchestrator places each design on '
-        'the right Printify product, generates the SKU metadata in '
-        'multiple languages, and pushes the listing live on the '
-        'WooCommerce storefront. A Pandas reconciliation step then '
-        'matches every order back to the original generation prompt, '
-        'so every product on the shop is traceable to the seed that '
-        'made it. The same pipeline doubles as a social-media '
-        'automation hub.',
+        'An end-to-end content and product pipeline: FLUX.1 (via a '
+        'self-hosted ComfyUI graph) generates designs on a cron '
+        'schedule; a Real-ESRGAN upscaler with face-aware denoise '
+        'pushes each design to 4× resolution over SFTP; a Selenium '
+        'uploader pushes the resulting product to the Adobe Stock + '
+        'ImmoWare side-listings; the Printify API places designs on '
+        'print-on-demand products and ships them to the WooCommerce '
+        'storefront. A Pandas reconciliation step matches every order '
+        'back to the original prompt + seed, so every product on the '
+        'shop is traceable to the latent that made it.',
     isPublic: true,
     isLive: true,
     webUrl: 'https://shop.burakbasci.de',
-
     mockupType: 'laptop',
-    screenshots: <String>[
-      'assets/images/projects/shop-automation/cover.png',
-    ],
+    screenshots: <String>['$_d/shop-automation/cover.png'],
     decisions: <String>[
-      'FLUX.1 via a self-hosted ComfyUI graph instead of a SaaS image API — local GPU, predictable per-image cost, full control over the latent noise.',
-      'Pandas-based reconciliation so every SKU on the shop is traceable back to the prompt + seed that generated it — debuggable forever.',
-      'Printify for the print-on-demand backend; WooCommerce for the storefront — both have stable APIs, neither is a vendor lock-in.',
-      'Three sub-services (Printify automation, image generation, property database) talking through a shared SQLite/Postgres layer rather than one monolithic CLI.',
+      'Picked **self-hosted ComfyUI + FLUX.1 on local GPU** over a SaaS image API — predictable per-image cost, no rate limit, full control over the latent and the brand-kit prompt graph; SaaS would have priced the whole funnel out of viability.',
+      'Built the **Real-ESRGAN upscaler as an SFTP-watcher sidecar** with `realesr-general-x4v3` (VGG-style) instead of the heavier RRDB models — configurable denoise control mattered more for print quality than peak benchmark numbers.',
+      'Used **Selenium with the Chromium remote-debugging protocol** for the Adobe Stock + ImmoWare uploads because neither has a workable API for batch posting — automation against the actual web UI was the only viable path.',
+      'Made **suffix-based output dedup** (`OUTPUT_SUFFIX`) with a remote-existence check so the watcher never re-upscales the same image after a restart — without it, the queue would spin on already-done work.',
+      'Built **Pandas-based reconciliation** so every SKU is traceable back to the prompt + seed that generated it — once it works, the next bug becomes "do the generated images sell?", which is the right next problem.',
     ],
     learnings: <String>[
-      'Once the loop is fully automated, the design constraint becomes \'do the generated images sell?\' — that\'s a different (much harder) problem than building the pipeline.',
-      'AI-generated product art needs consistent typography and palette rules to avoid the \'AI slop\' look; brand kits in ComfyUI were the unlock.',
+      'Once the pipeline is fully automated, the design constraint shifts from "does it ship" to "does the art sell" — a totally different problem.',
+      'Brand kits in ComfyUI (consistent typography, palette, composition rules) were the unlock for avoiding the generic "AI-slop" look that kills conversion.',
+      'Face-aware denoise was worth the latency cost for portrait-style designs and dead weight for everything else — making it environment-optional, not always-on, let the operator tune per batch.',
     ],
   ),
+
+  // 13 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'ImmoPilot',
-    subtitle: 'Real-estate operations SaaS',
+    title: 'ImmoPilot — Real-Estate SaaS',
+    subtitle: 'Multi-tenant CRM-and-mail automation for German brokers',
     category: 'B2B / SAAS',
     platform: 'Web · iOS · Android',
     primaryColor: const Color(0xFF334155),
@@ -533,37 +489,35 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'plugs into onOffice, onPreo and Outlook and automates the '
         'busy-work between lead and contract. PostgreSQL 18 with '
         'row-level security keeps every tenant\'s data isolated; ARQ '
-        'workers poll the onOffice API for new leads while LLM '
-        'classifiers (Mistral, OpenAI or Claude — chosen per tenant) '
+        'workers poll onOffice for new leads while LLM classifiers '
         'draft replies and match leads against the broker\'s active '
-        'portfolio. The "qualified-suitors" matcher converts the '
-        'free-form lead text into a structured 0–100% match score; '
-        'n8n then formats and dispatches the result as a DIN-5008 '
-        'compliant DOCX/PDF "Angebot". Runs on the sovereign k3s '
-        'platform with full Prometheus + Grafana observability.',
+        'portfolio. The "qualified-suitors" matcher converts free-form '
+        'lead text into a 0-100% match score; n8n then formats the '
+        'result as a DIN-5008 compliant DOCX/PDF "Angebot". Runs on '
+        'the sovereign k3s platform with full Prometheus + Grafana '
+        'observability.',
     isPublic: false,
     isLive: true,
-
     mockupType: 'laptop',
-    screenshots: <String>[
-      'assets/images/projects/immopilot/cover.png',
-    ],
+    screenshots: <String>['$_d/immopilot/cover.png'],
     decisions: <String>[
-      'PostgreSQL 18.1 row-level security with `tenant_id` everywhere as defence-in-depth; SQLAlchemy-level filtering is the primary check, RLS catches the bugs.',
-      'Email default is Draft in Outlook, not direct-send — every broker sees the AI draft before it goes out.',
-      'Client-facing config sits in a NocoDB view, not a custom admin panel — brokers tune tonality, follow-up cadence and routing without a developer in the loop.',
-      'ARQ scheduled polling against the onOffice API, not a webhook queue — onOffice doesn\'t emit webhooks and faking events out of polling is always wrong.',
-      'Mistral (EU-hosted, GDPR-compliant) primary; OpenAI and Anthropic stay wired as fallbacks behind a feature flag so the provider can change in one config edit.',
+      'Enforced multi-tenancy with **row-level security on PostgreSQL 18 as defence-in-depth** — SQLAlchemy filters are the primary check, RLS exists to catch the bugs in the primary check before they ship customer data the wrong way.',
+      'Made email default to **"Draft in Outlook", not direct-send** — every broker sees the AI draft before it goes out. The trust win has been larger than any feature; an early auto-send experiment surfaced exactly the bias problems you\'d expect.',
+      'Put **client-facing settings in a NocoDB view** rather than building a custom admin panel — brokers tune tonality, follow-up cadence and routing rules without a developer in the loop. Building the admin panel ourselves would have eaten a quarter.',
+      'Chose **ARQ-scheduled polling against the onOffice API** over a webhook queue — onOffice doesn\'t emit webhooks, and faking events out of polling is always wrong. Architecture has to fit the upstream\'s actual shape.',
+      'Made **Mistral primary, OpenAI/Anthropic fallbacks behind a feature flag** so EU-residency clients can switch in a config change instead of a refactor.',
     ],
     learnings: <String>[
-      'onOffice\'s `qualifiedsuitors` endpoint converts free-form lead text into a 0-100% match score against the broker\'s active portfolio — once shipped, no client wanted to go back to manual matching.',
-      'DSGVO + AVV documentation done before sales (DIN-5008-formatted, 50+ pages) shortens enterprise contract negotiation considerably; clients read it as a maturity signal.',
-      'onPreo has no public API; architecting onOffice as the single source of truth (not a partnership integration) made the platform survive vendor uncertainty.',
+      'onOffice\'s `qualifiedsuitors` endpoint converts free-form lead text into a 0-100% match score against the active portfolio — once shipped, no broker wanted to go back to manual matching.',
+      'DSGVO + AVV documentation produced before sales (DIN-5008-formatted, 50+ pages) shortens enterprise contract negotiation considerably; clients read it as a maturity signal.',
+      'onPreo has no public API in 2026; architecting onOffice as the single source of truth made the platform survive vendor uncertainty.',
     ],
   ),
+
+  // 14 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'CaterSmart',
-    subtitle: 'Catering operations + AI core',
+    title: 'CaterSmart — Catering Ops + AI Core',
+    subtitle: 'FastAPI backend + pluggable-LLM inquiry triage',
     category: 'B2B / OPERATIONS',
     platform: 'Web · API',
     primaryColor: const Color(0xFF65A30D),
@@ -573,39 +527,143 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'FastAPI · SQLAlchemy 2 async · Alembic · PostgreSQL · Redis · Mistral / Claude / OpenAI · Supabase pgvector',
     portfolioDescription:
         'A full-stack catering operations platform: an async FastAPI + '
-        'SQLAlchemy 2 backend on PostgreSQL and Redis, plus an "AI '
-        'core" microservice that turns inbound inquiry mails into '
+        'SQLAlchemy 2 backend on PostgreSQL and Redis, plus a stateless '
+        '"AI core" microservice that turns inbound inquiry mails into '
         'structured tickets. The classifier sorts every message into '
-        'one of eleven catering categories (inquiry, supplier request, '
-        'cancellation, complaint, ...) against a 55-email gold set; '
-        'strict JSON schema enforcement keeps the LLM output parseable. '
-        'Pluggable provider (Mistral / Claude / OpenAI / OpenWebUI), '
-        'RAG over a Supabase pgvector store for prior decisions, a mock '
-        'mode for tests, JSONL audit logs of every decision, plus 88 '
-        'unit tests in CI. Shipped at catersmart.de.',
+        'one of eleven catering categories against a 55-email gold '
+        'set; strict JSON-schema enforcement keeps the LLM output '
+        'parseable. Pluggable provider (Mistral / Claude / OpenAI / '
+        'OpenWebUI), RAG over a Supabase pgvector store for prior '
+        'decisions, mock mode for tests, JSONL audit logs of every '
+        'decision, plus 88 unit tests in CI. Shipped at catersmart.de.',
     isPublic: false,
     isLive: true,
-
     mockupType: 'laptop',
-    screenshots: <String>[
-      'assets/images/projects/catersmart/cover.png',
-    ],
+    screenshots: <String>['$_d/catersmart/cover.png'],
     decisions: <String>[
-      'AI core is stateless — every request returns immediately, context is fetched on-demand from the CaterSmart REST API, single source of truth.',
-      'Tenant isolation enforced on every API call with strict RAG embedding scoping per tenant — no chance of cross-tenant feedback leak.',
-      'Mistral primary, Claude/OpenAI/local-OpenWebUI as drop-in fallbacks behind one env var.',
-      'Service auto-enters mock mode when API keys are absent so contributors can run the full stack without paying for tokens.',
-      'Strict-JSON-schema enforcement on every LLM reply lifted classification correctness more than swapping for a bigger model did.',
+      'Built the AI core **stateless** with on-demand context fetch from the CaterSmart REST API rather than mirroring state — single source of truth, no cache invalidation problem, zero risk of stale-context drift.',
+      'Enforced **tenant isolation on every API call** with strict per-tenant RAG embedding scoping — cross-tenant feedback leak in a multi-tenant LLM system is a catastrophic failure mode, RLS-style isolation is the only acceptable answer.',
+      'Made the LLM provider swappable behind **one env var** (Mistral primary, Claude / OpenAI / local OpenWebUI as fallbacks) so an EU-residency client gets a config change, not a deployment.',
+      'Defaulted to **mock mode when API keys are absent** so contributors and CI can run the full stack without consuming tokens — this also makes the contract testable in isolation.',
+      'Set Phase-1 success at **"60% perfect, 30% light-edit, 10% manual"** — naming acceptable failure modes up front kept the team from over-engineering for the long tail and shipped a useful product months earlier.',
     ],
     learnings: <String>[
-      'Phase-1 success target was \'60% perfect, 30% light-edit, 10% manual\' — naming acceptable failure modes up front kept the team from over-engineering for the long tail.',
-      'Eleven email categories (NEW_INQUIRY, CHANGE_REQUEST, COMPLAINT, SPAM_NEWSLETTER, ...) took three rounds of refinement; the first taxonomy missed three real-world cases.',
-      'Deferring pgvector + RAG storage out of Phase 1 was the right call — basic mock mode unblocked the API contract long before the embeddings layer was needed.',
+      'Eleven email categories (NEW_INQUIRY / CHANGE_REQUEST / COMPLAINT / SPAM_NEWSLETTER / ...) took three rounds of refinement; the first taxonomy missed three real-world cases that only surfaced in the long tail.',
+      'Deferring pgvector + RAG storage out of Phase 1 was the right call — basic mock mode unblocked the API contract months before the embeddings layer was needed.',
     ],
   ),
+
+  // 15 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'NestNode',
-    subtitle: 'Smart-home control concept',
+    title: 'Dynamic Property 3D Tours',
+    subtitle: 'Browser-based walkable 3D building models for real-estate',
+    category: 'CLIENT / 3D',
+    platform: 'Web · Cloud',
+    primaryColor: const Color(0xFF475569),
+    image: '$_d/freelance/cover.png',
+    coverUrl: '$_d/freelance/cover.png',
+    technologyUsed:
+        'Three.js · FastAPI · Node + TypeScript · PostgreSQL · FFmpeg · Sharp · Docker · Kubernetes',
+    portfolioDescription:
+        'A platform for dynamic, walkable 3D building models that '
+        'prospective buyers explore in the browser — no plugin, no '
+        'app install. Each listing is composed by a per-concern '
+        'microservice mesh: a 3D floor-plan generator builds the '
+        'geometry, a video processor cuts walkthrough footage, an AI '
+        'staging service drops furniture into empty rooms, a geometry '
+        'optimiser collapses the asset count for browser delivery, and '
+        'an image pipeline (Sharp) compresses textures. The Node + '
+        'TypeScript orchestrator streams every asset to and from '
+        'object storage so memory pressure stays constant regardless '
+        'of input size, and the sandboxed Three.js viewer lets brokers '
+        'preview the processed asset live before publishing.',
+    isPublic: false,
+    isLive: false,
+    mockupType: 'laptop',
+    screenshots: <String>['$_d/freelance/cover.png'],
+    decisions: <String>[
+      'Split the platform into **per-concern microservices** (geometry, video, AI staging, optimisation, compression) instead of a monolith — each service has its own GPU/CPU profile, scales independently, and can fail without taking the rest of the pipeline down.',
+      'Streamed every asset **directly to/from object storage** — memory pressure stays constant regardless of input size, so a 4 GB walkthrough doesn\'t OOM the box that processes a 200 MB one.',
+      'Picked a **sandboxed Three.js viewer** for the broker preview rather than a fat client — works in any browser, no plugin install, no app distribution headache.',
+      'Built around **WSL2 + Podman + Makefile** orchestration with one explicit rule the README enforces: the project must not live on OneDrive — sync mid-build causes I/O locks that crash `make`.',
+    ],
+    learnings: <String>[
+      'A `make` entry point (`health-check`, `up`, `logs`, `db-check`, `seed`) cuts cognitive load much more than raw docker-compose for a service mesh of this size.',
+      'Health + disk-space checks before every start catch stale dependencies or low-disk conditions before they crash mid-run. Cheap habit, big save.',
+    ],
+  ),
+
+  // 16 ----------------------------------------------------------------------
+  ProjectItemData(
+    title: 'PSCoat — Industrial Coatings Ops',
+    subtitle: 'Playwright lead discovery + LLM inquiry triage',
+    category: 'CLIENT / AUTOMATION',
+    platform: 'Web · Python',
+    primaryColor: const Color(0xFF0F172A),
+    image: '$_d/pscoat/cover.png',
+    coverUrl: '$_d/pscoat/cover.png',
+    technologyUsed: 'Python 3.12 · Playwright · async/await · Mistral · WordPress',
+    portfolioDescription:
+        'Operations and lead-automation toolkit for an industrial '
+        'coatings business. A Playwright-driven job-board crawler (with '
+        'TOS-aware throttling and authenticated sessions) pulls '
+        'qualified projects from vertical boards; a small LLM '
+        'classifier sorts inbound inquiries into pricing / technical / '
+        'callback buckets and drafts tone-matched responses in the '
+        'company\'s voice. The same stack feeds the marketing-asset '
+        'pipeline behind the public site.',
+    isPublic: false,
+    isLive: false,
+    mockupType: 'laptop',
+    screenshots: <String>['$_d/pscoat/cover.png'],
+    decisions: <String>[
+      'Used **Playwright over plain scraping** because Upwork ships Cloudflare Turnstile + browser fingerprinting + fraud detection (Incognia, Forter); only an authenticated, fingerprint-matched session bypasses the challenges. Naive `requests`-based scraping was blocked within minutes.',
+      'Did a **manual login on first run, then reused the session jar** (`upwork_session.json`) — automated login would have been a continuous arms race against the bot-detection vendor, manual reauth-as-needed cost nothing extra.',
+      'Made the **classifier output tone-matched drafts** in the company\'s voice via a small Mistral prompt — saved the operator from rewriting every reply from scratch while keeping the final send in human hands.',
+      'Documented **explicit TOS guardrails**: educational + personal use only; nothing in the system supports commercial scraping. Drew the line up front instead of discovering it through a take-down.',
+    ],
+    learnings: <String>[
+      'Selector fragility against modern marketplaces is permanent — instrument the scraper so breakage is visible the day it happens, not the day a deal is lost.',
+      'Session expiration cadence is undocumented; building re-auth retry in from day one is much cheaper than discovering its absence at 11pm.',
+    ],
+  ),
+
+  // 17 ----------------------------------------------------------------------
+  ProjectItemData(
+    title: 'Theater Website — Ruhrbühne Witten',
+    subtitle: 'Programme + Eventim ticketing for a German regional theater',
+    category: 'CLIENT / WEB',
+    platform: 'Web',
+    primaryColor: const Color(0xFF7E22CE),
+    image: '$_d/theater/cover.png',
+    coverUrl: '$_d/theater/cover.png',
+    technologyUsed: 'WordPress · Elementor Pro · PHP · MySQL · Eventim',
+    portfolioDescription:
+        'Public-facing site for a German regional theater (Ruhrbühne '
+        'Witten e.V.): programme listings, season-pass purchasing '
+        'through an Eventim ticketing integration, accessibility-first '
+        'styling and a low-friction Elementor-based CMS so the artistic '
+        'team can update copy without the developer being in the loop. '
+        'Hosted with GDPR-compliant audience data handling and '
+        'role-scoped admin.',
+    isPublic: false,
+    isLive: false,
+    mockupType: 'laptop',
+    screenshots: <String>['$_d/theater/cover.png'],
+    decisions: <String>[
+      'Picked **WordPress + Elementor Pro** instead of bespoke or JAMstack because the artistic team needed a CMS they could touch — not a Git repo. Wrong tool for engineers, right tool for actors.',
+      'Versioned the site through **timestamped backup archives** (~2.8 GB of DB + uploads + plugins + themes) — Git would have been heavier and more brittle for an editorial workflow.',
+      'Routed ticketing to **Eventim** rather than a self-hosted shop — payments, refunds and tax handling become someone else\'s problem; that\'s the right trade for a small theater.',
+    ],
+    learnings: <String>[
+      'Backup-archive versioning works for editorial sites with one or two editors; drift risk grows the moment a third hand touches the admin.',
+    ],
+  ),
+
+  // 18 ----------------------------------------------------------------------
+  ProjectItemData(
+    title: 'NestNode — Smart-Home Concept',
+    subtitle: 'Archived mobile concept rolled into Sovereign Smart Home',
     category: 'IOT / MOBILE',
     platform: 'iOS · Android',
     primaryColor: const Color(0xFF0891B2),
@@ -616,190 +674,25 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'A mobile concept for a self-hosted Home Assistant deployment: '
         'lights, climate, energy and security in a tactile, '
         'fast-responding UI that talks MQTT directly from the device '
-        'rather than through a cloud bridge. The exploration covered '
-        'gesture-first navigation, scene curation and an energy view '
-        'that surfaces deviations as actionable cards. Currently '
-        'archived — the design language was rolled into the Home '
-        'Assistant Edge stack.',
+        'rather than through a cloud bridge. Archived at concept '
+        'stage — the design language was rolled into the Sovereign '
+        'Smart Home stack.',
     isPublic: false,
     isLive: false,
-
     mockupType: 'phone',
-    screenshots: <String>[
-      'assets/images/projects/nestnode/cover.png',
-    ],
+    screenshots: <String>['$_d/nestnode/cover.png'],
     decisions: <String>[
-      'Archived at concept stage: a Word doc, logos and a moodboard exist; no codebase ever materialised because the Home Assistant Edge stack absorbed the design language.',
+      'Archived as **concept-stage** — only a Word doc, logos and a moodboard exist; no codebase. The Home Assistant Edge stack absorbed the design language, so building a separate app would have been duplicate effort.',
     ],
     learnings: <String>[
-      'Some projects are most useful as design exercises — the gesture-first nav and tactile energy view were rolled into the Home Assistant Edge UX work instead of shipped standalone.',
+      'Some projects are most useful as design exercises — the gesture-first nav and tactile energy view were rolled into the Sovereign Smart Home UX instead of shipped standalone.',
     ],
   ),
-  ProjectItemData(
-    title: 'Open Design',
-    subtitle: 'OSS AI design platform',
-    category: 'OPEN SOURCE / DESIGN',
-    platform: 'Web · Desktop',
-    primaryColor: const Color(0xFFD946EF),
-    image: '$_d/open-design/cover.png',
-    coverUrl: '$_d/open-design/cover.png',
-    technologyUsed:
-        'Next.js · TypeScript · React 18 · Vite · Tailwind · pnpm · Electron',
-    portfolioDescription:
-        'An open-source, local-first alternative to closed AI design '
-        'tools. The platform auto-detects whichever coding-agent CLI '
-        'is on \$PATH — Claude Code, Cursor, Devin, GitHub Copilot, '
-        'Gemini, Qwen, and nine others — and wires it into a '
-        'skill-driven design workflow. Thirty-one composable design '
-        'skills (decks, mobile, dashboards, branding, ...) and 72+ '
-        'brand-grade design systems (Linear, Stripe, Notion, Figma, '
-        'Apple, ...) sit behind an interactive discovery form, with a '
-        'streaming live-artifacts panel and a sandboxed iframe '
-        'preview. Runs entirely on the developer\'s machine or deploys '
-        'one-click to Vercel; BYOK at every layer. Apache-2.0 on '
-        'GitHub.',
-    isPublic: true,
-    isLive: true,
-    webUrl: 'https://github.com/nexu-io/open-design',
-    gitHubUrl: 'https://github.com/nexu-io/open-design',
 
-    mockupType: 'laptop',
-    screenshots: <String>[
-      'assets/images/projects/open-design/shot-01.png',
-      'assets/images/projects/open-design/shot-02.png',
-      'assets/images/projects/open-design/shot-03.png',
-      'assets/images/projects/open-design/shot-04.png',
-      'assets/images/projects/open-design/shot-05.png',
-      'assets/images/projects/open-design/shot-06.png',
-    ],
-    decisions: <String>[
-      'Auto-detect every coding-agent CLI on \$PATH (Claude Code, Cursor, Devin, Copilot, Gemini, Qwen + 6 more) instead of picking one — BYOK at every layer, no vendor lock-in.',
-      'Thirty-one composable skills (27 prototype modes, 4 deck modes) grouped by scenario (design / marketing / engineering / finance / hr); the discovery form locks the brief before the agent writes a pixel.',
-      'Seventy-two pre-curated brand-grade design systems (Linear, Stripe, Vercel, Notion, Anthropic, Apple) so the agent never starts from a blank page; freestyle = slop.',
-      'Real `Read`/`Write`/`Bash` access against an on-disk project folder; Windows `ENAMETOOLONG` forces stdin/prompt-file fallbacks on every adapter.',
-      'SQLite at `.od/app.sqlite` for project state — close the laptop, open it tomorrow, the todo card + open files are where you left them.',
-      'Apache-2.0 license, runs locally or one-click to Vercel, OpenAI-compatible proxy as a universal fallback.',
-    ],
-    learnings: <String>[
-      'Five curated visual directions (Monocle / Minimal / Utility / Brutalist / Soft) with deterministic OKLch palettes and font stacks beat \'let the LLM pick\' every time on real client work.',
-      'A skill-driven workflow with locked briefs eliminates the \'agent rabbit-hole\' failure mode — the agent stops mid-iteration to ask, instead of barrelling forward.',
-      'Streaming artifact preview in a sandboxed iframe gives the demo its emotional payoff. Without the streaming, the tool feels asynchronous and slow.',
-    ],
-  ),
-  ProjectItemData(
-    title: 'Custom Client Platform',
-    subtitle: 'Real-estate media & 3D processing',
-    category: 'CLIENT / FULL-STACK',
-    platform: 'Web · Cloud',
-    primaryColor: const Color(0xFF475569),
-    image: '$_d/freelance/cover.png',
-    coverUrl: '$_d/freelance/cover.png',
-    technologyUsed:
-        'FastAPI · Node + TypeScript · PostgreSQL · Three.js · Sharp · FFmpeg · Docker · Kubernetes',
-    portfolioDescription:
-        'A multi-tier platform for premium real-estate marketing, '
-        'broken out into per-concern microservices: a 3D floor-plan '
-        'generator, a video processor (FFmpeg), an AI staging '
-        'service, a geometry optimiser and an image-compression '
-        'pipeline (Sharp). The Node + TypeScript orchestrator '
-        'streams assets directly to and from object storage to keep '
-        'memory pressure constant regardless of input size, while a '
-        'sandboxed Three.js viewer renders the processed outputs in '
-        'real time for the broker to review. Deployed on Kubernetes '
-        'with horizontal autoscaling per service.',
-    isPublic: false,
-    isLive: false,
-
-    mockupType: 'laptop',
-    screenshots: <String>[
-      'assets/images/projects/freelance/cover.png',
-    ],
-    decisions: <String>[
-      'Per-concern microservices (3D floor-plan, video, AI staging, geometry, image compression) so each can scale and fail independently.',
-      'Direct stream from object storage in and out — memory pressure stays constant regardless of input size.',
-      'Sandboxed Three.js viewer for live preview lets brokers see the processed asset before it leaves the platform.',
-      'Mock LLM provider in development; Claude/GPT-4o swappable in production via a UI toggle.',
-      'WSL2 + Podman + Makefile orchestration. Critical lesson the README enforces: the project MUST NOT live on OneDrive — active sync during build causes I/O locks.',
-    ],
-    learnings: <String>[
-      'Health-check + disk-space check before every start catches stale dependencies or low-disk before they crash mid-run.',
-      'A single `make` entry point (health-check / up / logs / db-check / seed) cuts cognitive load far more than raw docker-compose ever did.',
-    ],
-  ),
-  ProjectItemData(
-    title: 'PSCoat',
-    subtitle: 'Industrial coatings ops',
-    category: 'CLIENT / AUTOMATION',
-    platform: 'Web · Python',
-    primaryColor: const Color(0xFF0F172A),
-    image: '$_d/pscoat/cover.png',
-    coverUrl: '$_d/pscoat/cover.png',
-    technologyUsed: 'Python 3.12 · Playwright · async/await · Mistral · WordPress',
-    portfolioDescription:
-        'Operations and lead-automation toolkit for an industrial '
-        'coatings business. A Playwright-driven job-board crawler '
-        '(with TOS-aware throttling and authenticated sessions) '
-        'pulls qualified projects from Upwork and verticals, while a '
-        'small LLM classifier sorts inbound inquiries into pricing, '
-        'technical or callback buckets and drafts a tone-matched '
-        'response in the company\'s voice. The same stack feeds a '
-        'marketing-asset pipeline that produces banners and hero '
-        'shots for the public site.',
-    isPublic: false,
-    isLive: false,
-
-    mockupType: 'laptop',
-    screenshots: <String>[
-      'assets/images/projects/pscoat/cover.png',
-    ],
-    decisions: <String>[
-      'Playwright over scraping — Upwork ships Cloudflare Turnstile + browser fingerprinting + fraud detection (Incognia, Forter); only an authenticated session bypasses the challenges.',
-      'Manual login on first run; the cookie jar (`upwork_session.json`) gets reused across subsequent runs.',
-      'Tone-matched reply drafting via Mistral in the company\'s voice — inbound classification (pricing / technical / callback) feeds a templating layer.',
-      'Explicit TOS guardrails: documented as \'educational, personal job search\' use; commercial scraping is not the use case.',
-    ],
-    learnings: <String>[
-      'Selector fragility against modern marketplaces is permanent — instrument the scraper so breakage is visible the day it happens, not the day a deal is lost.',
-      'Session expiration cadence is undocumented; building re-auth retry in from day one is cheaper than discovering its absence at 11pm.',
-    ],
-  ),
-  ProjectItemData(
-    title: 'Theater Website',
-    subtitle: 'German regional theater',
-    category: 'CLIENT / WEB',
-    platform: 'Web',
-    primaryColor: const Color(0xFF7E22CE),
-    image: '$_d/theater/cover.png',
-    coverUrl: '$_d/theater/cover.png',
-    technologyUsed: 'WordPress · Elementor Pro · PHP · MySQL · Eventim',
-    portfolioDescription:
-        'Public-facing site for a German regional theater: programme '
-        'listings, season-pass purchasing through an Eventim ticketing '
-        'integration, accessibility-first styling and a low-friction '
-        'Elementor-based CMS so the artistic team can update copy '
-        'without the developer being in the loop. Hosted with '
-        'GDPR-compliant audience data handling and role-scoped admin; '
-        'automated nightly snapshots back up content, plugins and the '
-        'media library.',
-    isPublic: false,
-    isLive: false,
-
-    mockupType: 'laptop',
-    screenshots: <String>[
-      'assets/images/projects/theater/cover.png',
-    ],
-    decisions: <String>[
-      'WordPress + Elementor Pro instead of bespoke — the artistic team needs a CMS they can touch, not a JAMstack repo.',
-      'Versioning via timestamped backup archives (~2.8 GB across DB + uploads + plugins + themes) — Git would have been heavier and more brittle for an editorial workflow.',
-      'Eventim integration for ticketing rather than a self-hosted shop — payments and refunds are someone else\'s problem.',
-    ],
-    learnings: <String>[
-      'Backup-archive versioning works for editorial sites with one or two editors, but drift risk is real the moment a third hand touches the admin.',
-    ],
-  ),
+  // 19 ----------------------------------------------------------------------
   ProjectItemData(
     title: 'burakbasci_widgets',
-    subtitle: 'Flutter package on pub.dev',
+    subtitle: 'Reusable Flutter widget library on pub.dev',
     category: 'OPEN SOURCE / PACKAGE',
     platform: 'Flutter',
     primaryColor: const Color(0xFF02569B),
@@ -816,23 +709,22 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     isPublic: true,
     isLive: true,
     webUrl: 'https://pub.dev/packages/burakbasci_widgets',
-
     mockupType: 'terminal',
-    screenshots: <String>[
-      'assets/images/projects/widgets-pkg/cover.png',
-    ],
+    screenshots: <String>['$_d/widgets-pkg/cover.png'],
     decisions: <String>[
-      'Null-safety-first; tracks the current stable Flutter SDK and bumps in lockstep.',
-      'Each widget ships with its own widget tests and dartdoc — no untested widget leaves the package.',
-      'Maintained as a standalone package on pub.dev rather than vendored per-project — every Flutter app of mine starts by adding it as a dep.',
+      'Maintained as a **standalone pub.dev package** rather than vendored per-project because every new Flutter app starts by adding it as a dep — the moment a widget is copy-pasted twice, it belongs in a library.',
+      'Made the package **null-safety-first** and SDK-tracking — bumping the Flutter SDK never breaks the consumers because the package moves in lockstep.',
+      'Required **widget tests + dartdoc on every widget** before merging — "it boots on my server" is not a release criterion for shared code.',
     ],
     learnings: <String>[
-      'The split between portfolio app and reusable package has not always been clean; the discipline of \'if I copy-paste this widget twice, it goes into the package\' keeps it honest.',
+      'The "copy-paste twice → extract" discipline keeps the package honest; without it the package fills with one-off widgets and stops being a kit.',
     ],
   ),
+
+  // 20 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'Python Recall',
-    subtitle: 'AI screenshot analysis',
+    title: 'AI Screenshot Recall',
+    subtitle: 'Wayland-native evdev daemon racing Gemini vs Copilot',
     category: 'AI / TOOL',
     platform: 'Linux · Desktop',
     primaryColor: const Color(0xFF1D4ED8),
@@ -846,31 +738,29 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'parallel threads and streams whichever responds first to a '
         'local SSE overlay. Mouse-triggered with configurable '
         'shortcuts, per-provider timeouts and a small Wayland-native '
-        'input layer that bypasses the inhibitor by reading evdev '
-        'directly. The result is sub-second insight into whatever is '
-        'on screen without having to alt-tab into a chatbot.',
+        'input layer that reads evdev directly. Sub-second insight '
+        'into what\'s on screen without alt-tabbing into a chatbot.',
     isPublic: false,
     isLive: false,
-
     mockupType: 'terminal',
-    screenshots: <String>[
-      'assets/images/projects/python-recall/cover.png',
-    ],
+    screenshots: <String>['$_d/python-recall/cover.png'],
     decisions: <String>[
-      'Wayland mouse-button daemon reads `/dev/input/eventN` via evdev directly — bypasses `zwp_keyboard_shortcuts_inhibitor_v1` in FreeRDP fullscreen VMs entirely.',
-      'Race Gemini and Copilot on parallel threads; stream whichever responds first over SSE to a local overlay.',
-      'User systemd service rather than a global daemon — runs in the user session, no root privileges needed.',
-      'cosmic-screenshot on Wayland + Nvidia for frame capture; mss returns all-black frames there.',
+      'Read `/dev/input/eventN` via **evdev directly** instead of going through `input-remapper` + the Wayland inhibitor — the inhibitor blocks compositor shortcuts in FreeRDP fullscreen VMs, and evdev simply doesn\'t care. The triple-bind of input-remapper + inhibitor + compositor refused to cooperate; evdev was the escape hatch.',
+      'Ran the daemon as a **user systemd service** rather than a global one — no root, no setuid binary, no per-machine sysadmin overhead.',
+      'Raced **Gemini vs Copilot on parallel threads with SSE-stream-of-first-winner** because either provider can stall by 2–4 seconds on a bad day — never letting one block the other gave a hard p95 floor.',
+      'Used **cosmic-screenshot for the frame capture on Wayland + Nvidia** — mss returns all-black frames there. Empirical finding; no other capture method worked.',
     ],
     learnings: <String>[
-      '`EVIOCGRAB` prevents others *grabbing* the device but NOT reading it — that one insight unlocked the entire daemon approach after `input-remapper` + inhibitor + compositor refused to cooperate.',
-      'Systemd user services don\'t inherit group changes from `newgrp` or `usermod -aG` — a full relogin is required. Discovered the hard way.',
-      'input-remapper v2 JSON expects arrays + `Super_L+F5` syntax, not `key(super+F5)`. Broken JSON fails silently.',
+      '`EVIOCGRAB` prevents *grabbing* the device by others but not *reading* it — that single insight unlocked the entire daemon approach. Could have saved a weekend if I\'d read the kernel docs sooner.',
+      'Systemd user services do **not** inherit group changes from `newgrp` or `usermod -aG` — a full re-login is required. Discovered the hard way; documented in README so the next person doesn\'t.',
+      'input-remapper v2 JSON expects arrays + `Super_L+F5` syntax, not `key(super+F5)`. Broken JSON fails silently — instrument the loader.',
     ],
   ),
+
+  // 21 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'BoxHead',
-    subtitle: 'Unreal Engine 5 FPS',
+    title: 'BoxHead — Unreal FPS',
+    subtitle: 'Wave-based first-person shooter built in UE5 + C++',
     category: 'GAME / UNREAL',
     platform: 'Windows · Linux',
     primaryColor: const Color(0xFF1F2937),
@@ -878,35 +768,36 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     coverUrl: '$_d/boxhead/cover.png',
     technologyUsed: 'Unreal Engine 5 · C++ · Blueprints',
     portfolioDescription:
-        'A fast-paced 3D shooter built in Unreal Engine 5 — claustrophobic '
-        'maze-like arenas, wave-based AI, ranged and melee weapons '
-        'with their own ammo and feel. C++ handles the weapon systems '
-        '(spread, ricochet, projectile pooling), particle effects '
-        'sell the impacts, and the same project builds editor and '
-        'shipping targets for both Linux and Windows with high-res '
+        'A fast-paced 3D shooter built in Unreal Engine 5 — '
+        'claustrophobic maze-like arenas, wave-based AI, ranged and '
+        'melee weapons with their own feel. C++ handles the weapon '
+        'systems (spread, ricochet, projectile pooling), particle '
+        'effects sell the impacts, and the same project builds editor '
+        'and shipping targets for both Linux and Windows with high-res '
         'screenshot tooling for level-design iteration.',
     isPublic: false,
     isLive: false,
-
     mockupType: 'unreal-still',
     screenshots: <String>[
-      'assets/images/projects/boxhead/shot-01.png',
-      'assets/images/projects/boxhead/shot-02.png',
-      'assets/images/projects/boxhead/shot-03.png',
-      'assets/images/projects/boxhead/shot-04.png',
+      '$_d/boxhead/shot-01.png',
+      '$_d/boxhead/shot-02.png',
+      '$_d/boxhead/shot-03.png',
+      '$_d/boxhead/shot-04.png',
     ],
     decisions: <String>[
-      'Unreal Engine 5 C++ for the weapon systems (spread, ricochet, projectile pooling) so the per-shot feel could be tuned to single-frame accuracy.',
-      'High-res screenshot tooling baked into the build so every level-design iteration generates a marketing-grade still.',
-      'Editor + shipping targets for both Linux and Windows out of the same project — no parallel platform tree.',
+      'Wrote the **weapon systems in C++**, not Blueprints, because the per-shot feel has to be tunable to single-frame accuracy — Blueprints add latency and the spread/ricochet math is fiddly enough that a typed compiler is worth it.',
+      'Baked **high-res screenshot tooling into the build** so every level-design iteration auto-generates a marketing-grade still — work product is also documentation.',
+      'Built **editor + shipping targets for both Linux and Windows from one project tree** — parallel platform branches always drift, single-tree builds force the platform diffs to live in code review.',
     ],
     learnings: <String>[
-      'Maze-like claustrophobic arenas drive the wave-shooter feel more than enemy variety does; one ambient mood + tight corridors carries the game further than a roster of monsters.',
+      'Maze-like claustrophobic arenas drive the wave-shooter feel more than enemy variety does; one tight corridor + one mood carries the game further than a roster of monster types.',
     ],
   ),
+
+  // 22 ----------------------------------------------------------------------
   ProjectItemData(
     title: 'Flappy Griffon',
-    subtitle: '3D ray-traced Flappy Bird',
+    subtitle: 'Ray-traced indie game on itch.io',
     category: 'GAME / UNREAL',
     platform: 'Windows · Android',
     primaryColor: const Color(0xFFF59E0B),
@@ -916,29 +807,28 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     portfolioDescription:
         'A 3D, ray-traced reimagining of Flappy Bird. A griffon '
         'navigates a continuously generated obstacle course; the '
-        'Water plugin handles the cinematic lake reflections, ray-'
-        'tracing carries the lighting, and the same project builds '
+        'Water plugin handles the cinematic lake reflections, '
+        'ray-tracing carries the lighting, and the same project builds '
         'across Windows, Linux, Android and Mac. Shipped on itch.io.',
     isPublic: true,
     isLive: true,
     webUrl: 'https://burakbasci.itch.io/flappygriffon',
-
     mockupType: 'unreal-still',
-    screenshots: <String>[
-      'assets/images/projects/flappy-griffon/cover.png',
-    ],
+    screenshots: <String>['$_d/flappy-griffon/cover.png'],
     decisions: <String>[
-      'Ray-tracing for water reflections + global illumination — it\'s the visual hook in a genre that\'s usually 2D pixel art.',
-      'Cross-platform from one project: Windows, Linux, Android, Mac — no parallel ports.',
-      'itch.io for distribution instead of a storefront with gatekeeping — same-day publishing, no review queue.',
+      'Picked **ray-tracing for water + global illumination** because it\'s the visual hook in a genre that\'s usually 2D pixel art — the surprise is the entire selling point.',
+      'Built **one cross-platform project (Windows / Linux / Android / Mac)** instead of parallel ports — same reason as BoxHead, parallel trees always drift.',
+      'Shipped on **itch.io** rather than a gatekeeping storefront — same-day publishing, no review queue, no platform tax on indie experiments.',
     ],
     learnings: <String>[
-      'Reskinning a known mechanic (Flappy Bird) is a learning-vehicle accelerator; nobody has to figure out how to play, the surprise is purely visual.',
+      'Reskinning a known mechanic (Flappy Bird) is a learning-vehicle accelerator; nobody has to figure out how to play, so the surprise is purely visual.',
     ],
   ),
+
+  // 23 ----------------------------------------------------------------------
   ProjectItemData(
     title: 'MyJumpNRun',
-    subtitle: 'Unreal Engine platformer series',
+    subtitle: 'Iterative UE5 platformer series',
     category: 'GAME / UNREAL',
     platform: 'Windows',
     primaryColor: const Color(0xFF65A30D),
@@ -947,68 +837,28 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     technologyUsed: 'Unreal Engine 5 · C++ · Blueprints',
     portfolioDescription:
         'A personal Unreal Engine platformer rebuilt across multiple '
-        'iterations (5.2, 5.2 + variant, ...) to keep pushing on '
-        'level design, character physics and Blueprint scripting. '
-        'Tight movement (jump buffering, coyote time, wall-slide '
-        'detection), checkpoints and a small replay system make the '
-        'core mechanics feel responsive enough that the levels stand '
-        'on their own.',
+        'iterations (5.2, 5.2-variant, ...) to keep pushing on level '
+        'design, character physics and Blueprint scripting. Tight '
+        'movement (jump buffering, coyote time, wall-slide detection), '
+        'checkpoints and a small replay system make the core mechanics '
+        'feel responsive enough that the levels stand on their own.',
     isPublic: false,
     isLive: false,
-
     mockupType: 'unreal-still',
-    screenshots: <String>[
-      'assets/images/projects/jumpnrun/cover.png',
-    ],
+    screenshots: <String>['$_d/jumpnrun/cover.png'],
     decisions: <String>[
-      'Tight movement (jump buffering, coyote time, wall-slide detection) tuned up front — the level design started only after the feel was locked.',
-      'Multiple project iterations (5.2, variant, ...) tracked as separate folders so old level files stayed playable as the engine updated.',
-      'Checkpoints + a small replay system so the speedrun community has something to hold onto.',
+      'Tuned **jump buffering + coyote time + wall-slide detection up front** before designing any level — feel-tuning early means the levels exist for movement that already works, not the other way around.',
+      'Tracked **multiple project iterations as separate folders** (5.2, variant, ...) so old level files stayed playable as the engine updated — destructive in-place upgrades would have lost the early-iteration content.',
     ],
     learnings: <String>[
       'Iterating on platformer feel is mostly about input latency and the curve of the jump arc; everything else (art, music, levels) is decoration on top.',
     ],
   ),
-  ProjectItemData(
-    title: 'CV Plugin for Unreal',
-    subtitle: 'Custom segmentation & datasets',
-    category: 'ML / RESEARCH',
-    platform: 'Unreal',
-    primaryColor: const Color(0xFF0E7490),
-    image: '$_d/cv-plugin/cover.png',
-    coverUrl: '$_d/cv-plugin/cover.png',
-    technologyUsed:
-        'Unreal Engine 5 · C++ · NVIDIA NDDS · ONNX Runtime · Semantic Segmentation',
-    portfolioDescription:
-        'A first-party Unreal Engine 5 plugin extracted from the '
-        'night-detection thesis work. It exposes real-time semantic '
-        'segmentation (road, vehicle, person, sky, building, ...) to '
-        'gameplay code through a thin C++ API, and writes both the '
-        'rendered frame and its labelled mask to disk in a format the '
-        'downstream YOLOv8 training pipeline can ingest. The same '
-        'plugin powers an automated dataset generator that '
-        'eliminated 100% of manual annotation effort on a 6,000-frame '
-        'training set.',
-    isPublic: false,
-    isLive: false,
 
-    mockupType: 'unreal-still',
-    screenshots: <String>[
-      'assets/images/projects/cv-plugin/shot-01.png',
-      'assets/images/projects/cv-plugin/shot-02.png',
-    ],
-    decisions: <String>[
-      'First-party Unreal plugin (C++) rather than an external pipeline — keeps the dataset generator on the same render thread as the scene.',
-      'Writes both rendered frame and segmentation mask to disk in a YOLOv8-ready format so there\'s no intermediate conversion script.',
-      'Extracted from the thesis work specifically so it can outlive the thesis as a reusable artifact.',
-    ],
-    learnings: <String>[
-      'Plugin-as-deliverable made the research result reproducible by anyone else with UE5 — the contribution shifted from \'I trained a model\' to \'anyone can generate this dataset\'.',
-    ],
-  ),
+  // 24 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'ALSignal Hackathon',
-    subtitle: 'ASL detection in Unity',
+    title: 'ALSignal — ASL Hackathon',
+    subtitle: 'Real-time American Sign Language in Unity',
     category: 'HACKATHON / CV',
     platform: 'Windows · Unity',
     primaryColor: const Color(0xFF1F2937),
@@ -1024,23 +874,22 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'on the camera feed.',
     isPublic: false,
     isLive: false,
-
     mockupType: 'fullbleed',
-    screenshots: <String>[
-      'assets/images/projects/unity-hackathon/cover.png',
-    ],
+    screenshots: <String>['$_d/unity-hackathon/cover.png'],
     decisions: <String>[
-      'MediaPipe hand-pose estimation feeding an LSTM trained on a custom captured set — off-the-shelf hand-tracking + small custom model beats one-shot models for niche gesture sets at this scale.',
-      'Unity instead of a web frontend so the captured gesture set could remain on-device.',
-      'Confidence bar + label overlay live on the webcam feed — visible decisions are easier to debug at a hackathon than logs.',
+      'Picked **MediaPipe + a small custom LSTM** over a one-shot vision model — off-the-shelf hand-tracking plus a tiny trainable classifier beats a single big model for niche gesture sets at this scale, and trains in minutes instead of hours.',
+      'Built the demo in **Unity** instead of a web frontend so the captured gesture set could stay on-device — privacy was a hackathon talking point as much as a real constraint.',
+      'Overlaid the **confidence bar + label live on the webcam feed** because visible decisions are easier to debug at a hackathon than logs are — judges see the model thinking.',
     ],
     learnings: <String>[
-      'Computer-vision UX at a hackathon stands or falls on a working live demo; the LSTM beat the one-shot model purely because it was demoable.',
+      'Computer-vision UX at a hackathon stands or falls on a working live demo; the LSTM won purely because it was demoable.',
     ],
   ),
+
+  // 25 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'Steam Market Arbitrage',
-    subtitle: 'Trading-card economy analyser',
+    title: 'Steam Market Arbitrage Bot',
+    subtitle: 'Trading-card economy analyser with risk scoring',
     category: 'AUTOMATION / FINANCE',
     platform: 'Linux',
     primaryColor: const Color(0xFF1B2838),
@@ -1048,136 +897,63 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     coverUrl: '$_d/steam-market/cover.png',
     technologyUsed: 'Python · BeautifulSoup · Requests · SQLite',
     portfolioDescription:
-        'A research toolkit for the Steam Community Market: it scans '
+        'A research toolkit for the Steam Community Market: scans '
         'thousands of listings a day and detects arbitrage loops — '
         'gem → booster pack crafting spreads, card → gem conversions, '
-        'foil-card price gaps, and badge → component economics. Uses '
-        'a cookie-based authenticated session that respects Steam\'s '
-        'rate limits, factors in Steam\'s 15% market fee on every '
-        'simulated trade, and writes opportunities to a local SQLite '
-        'with a risk score so the obviously-stale ones get filtered '
-        'out before a human even sees them.',
+        'foil-card price gaps, and badge → component economics. '
+        'Cookie-based authenticated session respects Steam\'s rate '
+        'limits, every simulated trade factors in Steam\'s 15% market '
+        'fee, and a local SQLite stores opportunities with a risk '
+        'score so the obviously-stale ones get filtered before a human '
+        'sees them.',
     isPublic: false,
     isLive: false,
-
     mockupType: 'terminal',
-    screenshots: <String>[
-      'assets/images/projects/steam-market/cover.png',
-    ],
+    screenshots: <String>['$_d/steam-market/cover.png'],
     decisions: <String>[
-      'Cookie-based authenticated session that respects Steam\'s rate limits — anonymous scraping gets banned within minutes.',
-      'Steam\'s 15% market fee baked into every simulated trade — opportunities that ignore the fee look 10x bigger than they are.',
-      'Local SQLite with a risk-score per opportunity so stale or thin-volume listings get filtered out before a human sees them.',
+      'Used a **cookie-based authenticated session** that respects rate limits because anonymous scraping of the market gets blocked within minutes — being a guest on Valve\'s API isn\'t viable for this kind of scan.',
+      'Baked **Steam\'s 15% market fee into every simulated trade** because opportunities that ignore the fee look 10× bigger than they are; ranking by raw spread is a fast way to lose money.',
+      'Ranked opportunities by **risk score** (depth-of-book + listing age + spread volatility) rather than raw margin — most "arbitrage" on inefficient marketplaces is actually a liquidity trap.',
     ],
     learnings: <String>[
-      'Most \'arbitrage\' opportunities on inefficient marketplaces are actually liquidity traps; ranking by risk-of-execution beats ranking by raw margin.',
+      'Ranking by risk-of-execution beats ranking by margin every time on a thin marketplace; the right top-1 is the listing you can actually clear, not the listing that looks biggest.',
     ],
   ),
-  ProjectItemData(
-    title: 'Image Upscaler',
-    subtitle: 'Real-ESRGAN over SFTP',
-    category: 'TOOL / ML',
-    platform: 'Linux · GPU',
-    primaryColor: const Color(0xFF9333EA),
-    image: '$_d/image-upscaler/cover.png',
-    coverUrl: '$_d/image-upscaler/cover.png',
-    technologyUsed: 'Python · PyTorch · Real-ESRGAN · OpenCV · SFTP · n8n',
-    portfolioDescription:
-        'A GPU-accelerated batch image upscaler that watches a remote '
-        'SFTP folder, runs Real-ESRGAN (with face-aware enhancement '
-        'and a configurable denoise pass), and uploads the upscaled '
-        'result back to the same path. Tile-based inference keeps '
-        '10k+ megapixel inputs from OOM-ing the GPU, and the watcher '
-        'skips anything already processed via a filename-suffix '
-        'check. Plugged into the n8n workflow stack as a background '
-        'job for the shop pipeline.',
-    isPublic: false,
-    isLive: false,
 
-    mockupType: 'terminal',
-    screenshots: <String>[
-      'assets/images/projects/image-upscaler/cover.png',
-    ],
-    decisions: <String>[
-      'Real-ESRGAN `realesr-general-x4v3` (VGG-style) with an optional `wdn` (denoising) variant — configurable denoise control beats RRDB models for end-user content.',
-      'GPU and tile size abstracted via `GPU_ID` and `TILE` environment variables so the inference server can route across hardware without code changes.',
-      'Face-aware denoise as an env-flag (`FACE_DENOISE`) to preserve facial detail without forcing the latency cost when content has no faces.',
-      'Suffix-based output dedup (`OUTPUT_SUFFIX`) with a remote file check, so re-running the watcher never re-upscales the same image.',
-      'Bundled Real-ESRGAN clone vendored into the repo — avoids upstream dependency brittleness, with an active archival policy for training-only code in `tests/` and `scripts/`.',
-    ],
-    learnings: <String>[
-      'Environment variables (not `.env` files) for SFTP keys are essential for workflow engines like n8n that don\'t read disk-side env files.',
-      'Face detection adds real quality at real latency cost — making it env-optional, not always-on, lets the operator tune per use case.',
-    ],
-  ),
+  // 26 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'Image Uploader',
-    subtitle: 'Selenium helpers',
-    category: 'TOOL / UTILITY',
+    title: 'CSFloat Sniper',
+    subtitle: 'CS:GO marketplace scanner with API integration',
+    category: 'AUTOMATION / RESEARCH',
     platform: 'Linux',
-    primaryColor: const Color(0xFF0EA5E9),
-    image: '$_d/image-uploader/cover.png',
-    coverUrl: '$_d/image-uploader/cover.png',
-    technologyUsed: 'Python · Selenium · WebDriver Manager · Chromium DevTools',
+    primaryColor: const Color(0xFFEAB308),
+    image: '$_d/csfloat/cover.png',
+    coverUrl: '$_d/csfloat/cover.png',
+    technologyUsed: 'Python · aiohttp · CSFloat API · asyncio',
     portfolioDescription:
-        'Browser-automation helpers for Adobe Stock and ImmoWare '
-        'workflows. Drives a real Chrome/Chromium (snap or system) '
-        'over the remote-debugging protocol so sessions persist '
-        'across runs, filling forms, uploading batches and tagging '
-        'metadata extracted from the filename. The same primitives '
-        'are reused across the freelance asset-management '
-        'pipelines whenever a vendor doesn\'t expose an API.',
+        'A scanner that watches CSFloat marketplace listings (Bayonet '
+        'Vanilla, covert tier) for price + condition mismatches and '
+        'notifies a private channel. Built to learn browser-automation '
+        'and event-driven Python; configurable dry-run mode skips '
+        'order placement during testing.',
     isPublic: false,
     isLive: false,
-
     mockupType: 'terminal',
-    screenshots: <String>[
-      'assets/images/projects/image-uploader/cover.png',
-    ],
+    screenshots: <String>['$_d/csfloat/cover.png'],
     decisions: <String>[
-      'Selenium-driven Chromium via the remote-debugging protocol so sessions persist across runs and auth survives.',
-      'Test harness (`test_selenium.py`) with optional debugger and profile parameters for local-iteration speed.',
-      'One pipeline supports both Adobe Stock and ImmoWare — same auth/upload/tag primitives, different selectors.',
+      'Cached **listings + buy orders into a single immutable `MarketDataCache` dataclass** rather than fetching per function — collapsed 3 API calls per item into 2 (a 33% reduction) and stopped a class of "is this data still fresh?" bugs at the type level.',
+      'Loaded API tokens **from environment via a gitignored `.env`** — never check the credential surface into git, even for personal tooling.',
     ],
     learnings: <String>[
-      'Browser automation against dynamic SPA content is more stable than parsing HTML once the auth/profile-reuse problem is solved.',
+      'Redundant API calls show up easily in multi-function workflows; one systematic audit of call sites before optimisation prevents regression and is faster than chasing them one at a time.',
+      'Caching by whole-value-object (entire market snapshot) instead of per-field simplified downstream signatures and removed a lot of state-passing noise.',
     ],
   ),
-  ProjectItemData(
-    title: 'Django Canvas',
-    subtitle: 'Programmatic image generator',
-    category: 'TOOL / WEB',
-    platform: 'Web',
-    primaryColor: const Color(0xFF064E3B),
-    image: '$_d/django-canva/cover.png',
-    coverUrl: '$_d/django-canva/cover.png',
-    technologyUsed: 'Django · Pillow · PostgreSQL · Docker',
-    portfolioDescription:
-        'A Django service that renders branded social cards and '
-        'product hero images from JSON payloads. Templates are '
-        'expressed declaratively (text, color, image, gradient, '
-        'icon) and the renderer composes them with Pillow into '
-        'pixel-perfect PNG or SVG, ready to be fed back into the '
-        'shop pipeline at scale.',
-    isPublic: false,
-    isLive: false,
 
-    mockupType: 'terminal',
-    screenshots: <String>[
-      'assets/images/projects/django-canva/cover.png',
-    ],
-    decisions: <String>[
-      'Django 5.2.5 + PostgreSQL + python-decouple for config — boring stack, fast iteration.',
-      'Templates expressed as JSON (text/color/image/gradient/icon) and composed with Pillow into pixel-perfect PNG/SVG.',
-      'Docker + docker-compose shaped to match production so \'works on my machine\' actually does mean works in production.',
-    ],
-    learnings: <String>[
-      'Declarative-template rendering server-side beats client-side canvas rendering when the asset has to land in an email or a CDN URL.',
-    ],
-  ),
+  // 27 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'Binance Tax Report',
-    subtitle: 'CSV to German PDF',
+    title: 'Binance → German Tax PDF',
+    subtitle: 'CSV-to-Steuerbericht generator',
     category: 'TOOL / UTILITY',
     platform: 'Linux',
     primaryColor: const Color(0xFFB45309),
@@ -1192,23 +968,22 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'WeasyPrint with the typography the German tax office expects.',
     isPublic: false,
     isLive: false,
-
     mockupType: 'terminal',
-    screenshots: <String>[
-      'assets/images/projects/binance-tax/cover.png',
-    ],
+    screenshots: <String>['$_d/binance-tax/cover.png'],
     decisions: <String>[
-      'WeasyPrint for the HTML-to-PDF step — pango + cairo handle German typography without typesetting drama.',
-      'FIFO cost basis (not LIFO/HIFO) because that\'s what the Finanzbehörde wants; no opinion required.',
-      'CLI rather than a UI: the tool is used once a year per portfolio, and headless fits CI / cron / one-off runs cleanly.',
+      'Used **WeasyPrint over Pdfkit / ReportLab** because pango + cairo handle German typography (umlauts, hyphenation, kerning) without typesetting drama; ReportLab would have required hand-tuning every column.',
+      'Picked the **FIFO cost basis** because that\'s what the Finanzbehörde wants — no opinion required. Implementing LIFO/HIFO would have been a tax-audit conversation nobody wants.',
+      'Shipped as a **CLI, not a UI** — the tool is used once a year per portfolio; headless fits cron / CI / one-off runs cleanly and there\'s no demand for a chrome around it.',
     ],
     learnings: <String>[
-      'Compliance documents look way more credible when they use the right typography — DIN-style margins and faces did more for trust than feature work would have.',
+      'Compliance documents look dramatically more credible when they use the right typography — DIN-style margins and faces did more for trust than feature work would have.',
     ],
   ),
+
+  // 28 ----------------------------------------------------------------------
   ProjectItemData(
-    title: 'WordPress Plugins',
-    subtitle: 'Open-source utilities',
+    title: 'Open-Source WordPress Plugins',
+    subtitle: 'Small GPL plugins for ImmoWare-style sites + utilities',
     category: 'OPEN SOURCE / PHP',
     platform: 'WordPress',
     primaryColor: const Color(0xFF21759B),
@@ -1216,7 +991,7 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
     coverUrl: '$_d/wp-plugins/cover.png',
     technologyUsed: 'PHP · WordPress · MySQL · PHPUnit',
     portfolioDescription:
-        'A small collection of open-source WordPress plugins originally '
+        'A small collection of open-source WordPress plugins, originally '
         'written for freelance clients (ImmoWare-style listing pages, '
         'custom taxonomy management, a few small SEO helpers) and '
         'released back to the WordPress community under GPL. Each '
@@ -1225,134 +1000,62 @@ final List<ProjectItemData> recentWorks = <ProjectItemData>[
         'long-term compatibility.',
     isPublic: true,
     isLive: false,
-
     mockupType: 'laptop',
-    screenshots: <String>[
-      'assets/images/projects/wp-plugins/cover.png',
-    ],
+    screenshots: <String>['$_d/wp-plugins/cover.png'],
     decisions: <String>[
-      'Each plugin ships with PHPUnit tests and inline dartdoc-style docblocks; \'it boots on my server\' is not the bar.',
-      'Tracks the WordPress LTS line for long-term compatibility — every plugin survives at least three WP major versions.',
-      'Released under GPL so the client work can be re-used by other small teams without licensing friction.',
+      'Released the work-for-hire plugins back under **GPL** so the next freelancer can pick them up — small WordPress shops re-use each other\'s glue code constantly, and the licensing tax of "rebuild from scratch" is bad for everyone.',
+      'Required **PHPUnit tests + inline docblocks** before merging — "it boots on my server" is not a release criterion for community plugins, and the WordPress.org review process won\'t let it through without them.',
+      'Tracked the **WordPress LTS line** for long-term compatibility — every plugin survives at least three WP major versions, so client sites don\'t break on routine WP updates.',
     ],
     learnings: <String>[
-      'WordPress.org plugin review is more about coding-standards conformance than feature value — meeting the standards once made every subsequent release frictionless.',
+      'Passing WordPress.org\'s review is more about coding-standards conformance than feature value — meeting the standards once made every subsequent release frictionless.',
     ],
   ),
-  ProjectItemData(
-    title: 'Turtlebot Programming',
-    subtitle: 'B.Sc. coursework — ROS in C++',
-    category: 'ROBOTICS / ROS',
-    platform: 'Linux',
-    primaryColor: const Color(0xFFB91C1C),
-    image: '$_d/turtlebot/cover.png',
-    coverUrl: '$_d/turtlebot/cover.png',
-    technologyUsed: 'ROS · C++ · Gazebo · SLAM · Linux',
-    portfolioDescription:
-        'TU Dortmund coursework: programming a TurtleBot 3 in C++ on '
-        'ROS. Built a small navigation state machine on top of SLAM + '
-        'path planning, custom perception nodes for LiDAR processing '
-        'and AprilTag detection, and a Gazebo test harness so the '
-        'whole stack could be replayed in simulation before going to '
-        'real hardware. Project ended with a successful fetch-and-'
-        'deliver task on the physical robot.',
-    isPublic: false,
-    isLive: false,
 
-    mockupType: 'fullbleed',
-    screenshots: <String>[
-      'assets/images/projects/turtlebot/cover.png',
-    ],
-    decisions: <String>[
-      'ROS C++ as primary language — coursework-mandated, but it also turned out to be the right call for real-time control loops.',
-      'Modular nodes with message-passing IPC (canonical ROS pattern) instead of a monolithic controller.',
-      'Gazebo simulation as the first test harness; only after the SLAM + path planner passed simulation did we touch the physical robot.',
-    ],
-    learnings: <String>[
-      'ROS\'s publish/subscribe decoupling enforces disciplined state management more than any code-review process I\'ve been part of.',
-      'Hardware bugs feel different from software bugs — sensor jitter, motor torque variation, mechanical drift all show up as bizarre traces on the same wire you tested yesterday.',
-    ],
-  ),
-  ProjectItemData(
-    title: 'Object-Detection Paper',
-    subtitle: 'Companion to the night-detection thesis',
-    category: 'ML / RESEARCH',
-    platform: 'Python',
-    primaryColor: const Color(0xFF0E7490),
-    image: '$_d/paper-citysim/cover.png',
-    coverUrl: '$_d/paper-citysim/cover.png',
-    technologyUsed: 'YOLOv8 · Unreal Engine · Python · PyTorch',
-    portfolioDescription:
-        'A peer-reviewed scientific paper (graded 1.3 — top decile in '
-        'the German system) on the application and optimisation of '
-        'deep-learning object detection in a simulated urban '
-        'environment, viewed from the perspective of a moving car. '
-        'Companion piece to the B.Sc. thesis: the thesis built the '
-        'simulator and the dataset, the paper formalises the lighting '
-        'and training-parameter analysis and quantifies how each one '
-        'shifts the detector\'s behaviour.',
-    isPublic: false,
-    isLive: false,
-
-    mockupType: 'fullbleed',
-    screenshots: <String>[
-      'assets/images/projects/paper-citysim/cover.png',
-    ],
-    decisions: <String>[
-      'Companion paper to the thesis: thesis builds the simulator + dataset, the paper formalises the lighting/training-parameter analysis.',
-      'Grade 1.3 result — same as the thesis. Treating the paper as a separate artifact (not a section of the thesis) made the analysis sharper.',
-    ],
-    learnings: <String>[
-      'Writing the paper retroactively forced gaps in the experimental design to surface; the thesis could not have caught them on its own.',
-    ],
-  ),
+  // 29 ----------------------------------------------------------------------
   ProjectItemData(
     title: 'burakbasci.de',
-    subtitle: 'This portfolio site',
+    subtitle: 'This portfolio site — Flutter Web, Material 2, content-driven',
     category: 'WEB / PERSONAL',
     platform: 'Flutter Web',
     primaryColor: const Color(0xFF363636),
     image: '$_d/this-site/cover.png',
     coverUrl: '$_d/this-site/cover.png',
-    technologyUsed: 'Flutter Web · CanvasKit · GitHub Pages',
+    technologyUsed: 'Flutter Web · CanvasKit · GitHub Pages · Podman',
     portfolioDescription:
         'The site you are reading. Flutter Web on the CanvasKit '
         'renderer, deployed to GitHub Pages with a custom domain. '
-        'Source heavily restructured from David Cobbina\'s '
-        'open-source portfolio template into a new widget tree '
-        '(header / footer / page-wrapper / animation primitives), '
-        'rebuilt against current stable Flutter, and rewired so '
-        'every animation, font, route and project page is content-'
-        'driven by `lib/data/projects.dart`.',
+        'Source heavily restructured from David Cobbina\'s open-source '
+        'portfolio template into a new widget tree (header / footer / '
+        'page-wrapper / animation primitives), rebuilt against current '
+        'stable Flutter, and rewired so every animation, font, route '
+        'and project page is content-driven by `lib/data/projects.dart`.',
     isPublic: true,
     isLive: true,
     webUrl: 'https://www.burakbasci.de',
     gitHubUrl: 'https://github.com/burak-basci/burak_basci_website',
-
     mockupType: 'laptop',
-    screenshots: <String>[
-      'assets/images/projects/this-site/cover.png',
-    ],
+    screenshots: <String>['$_d/this-site/cover.png'],
     decisions: <String>[
-      'Forked david-legend\'s upstream Cobbina template, then maintained via cherry-pick (not direct rebase) — heavy customisations stay clean of upstream churn.',
-      '`useMaterial3: false` enforced to retain Material 2 ink ripples and elevation; M3 introduced visual drift in the top nav and footer that wasn\'t worth fighting.',
-      'Flutter 3.41.9 inside `ghcr.io/cirruslabs/flutter:stable` Podman container — no host Flutter install, builds reproduce on any machine.',
-      'Brand fonts: URW Gothic (Century Gothic substitute) + Carlito (Calibri, CanvasKit-compatible) + Inter — all OFL, no Microsoft DSIG blocker.',
-      'Two-repo pattern: source repo `burak_basci_website` for code, `burak-basci.github.io` for the deployed static site — independent release cycle, no live-site risk during dev.',
+      'Forked David Cobbina\'s upstream template and **maintained via cherry-pick, not direct rebase** — heavy customisations stay clean of upstream churn, and the small bug-fixes from upstream can still flow in selectively.',
+      'Enforced **`useMaterial3: false`** to retain Material 2 ink ripples and elevation — M3 introduced visual drift in the top nav and footer that wasn\'t worth fighting and that nobody asked for.',
+      'Picked **URW Gothic + Carlito + Inter** for the brand fonts (all OFL) because Microsoft\'s DSIG-signed Century Gothic and Calibri break CanvasKit — discovered the hard way.',
+      'Built **Flutter 3.41.9 strictly inside `ghcr.io/cirruslabs/flutter:stable` Podman** with no host install — every build reproduces on any machine, and CI is just "same command, somewhere else".',
+      'Used a **two-repo pattern**: source repo `burak_basci_website` for code, `burak-basci.github.io` for the deployed static site — independent release cycle, no live-site risk during dev.',
     ],
     learnings: <String>[
-      'Microsoft\'s DSIG-signed fonts break CanvasKit — discovered the hard way; OFL metric-compatible alternatives are non-negotiable for Flutter Web.',
-      'Plugging in real per-section animation controllers + VisibilityDetector lifts the perceived premium of the site more than any individual font or layout decision.',
+      'Microsoft\'s DSIG-signed fonts break CanvasKit; OFL metric-compatible alternatives are non-negotiable for Flutter Web.',
+      'Per-section animation controllers + `VisibilityDetector` lifts the perceived premium of the site more than any individual font or layout decision.',
     ],
   ),
 ];
 
-/// Subset shown on the home page "selection of recent work" — flagship picks.
+/// Subset shown on the home page "selection of recent work" — the top picks.
 final List<ProjectItemData> recentWorksHighlights = <ProjectItemData>[
-  recentWorks[0], // Patent AI Search
-  recentWorks[1], // Sovereign Cloud
-  recentWorks[2], // Postflow
-  recentWorks[3], // LuminaRep
-  recentWorks[7], // VR Anxiety
-  recentWorks[8], // Durak
+  recentWorks[0], // Volkswagen AI Patent Search
+  recentWorks[1], // Hetzner k3s Infrastructure
+  recentWorks[2], // PostPilot
+  recentWorks[6], // Night-Drive Object Detection
+  recentWorks[7], // VR Anxiety Trainer
+  recentWorks[8], // Durak Multiplayer
 ];

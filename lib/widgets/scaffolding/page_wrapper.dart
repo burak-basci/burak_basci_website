@@ -140,7 +140,10 @@ class PageWrapperState extends State<PageWrapper> with TickerProviderStateMixin 
                     isSlideForward: false,
                   )
                 : widget.customLoadingAnimation,
-            if (widget.showFloatingBack) const FloatingBackButton(),
+            if (widget.showFloatingBack)
+              FloatingBackButton(
+                controller: widget.navigationBarAnimationController,
+              ),
           ],
         ),
       ),
