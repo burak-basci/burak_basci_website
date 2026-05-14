@@ -1,4 +1,26 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+
+double widthOfScreen(BuildContext context) => MediaQuery.of(context).size.width;
+double heightOfScreen(BuildContext context) => MediaQuery.of(context).size.height;
+double assignWidth(BuildContext context, double factor) =>
+    widthOfScreen(context) * factor;
+double assignHeight(BuildContext context, double factor) =>
+    heightOfScreen(context) * factor;
+
+double responsiveValue(
+  BuildContext context,
+  double mobile,
+  double desktop, {
+  double? medium,
+  double? small,
+}) {
+  final double w = widthOfScreen(context);
+  if (w < 600) return small ?? mobile;
+  if (w < 1023) return medium ?? small ?? mobile;
+  if (w < 1439) return medium ?? desktop;
+  return desktop;
+}
 
 /// Manually define refined breakpoints
 ///

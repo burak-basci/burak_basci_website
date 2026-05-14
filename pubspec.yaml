@@ -70,18 +70,37 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-#    - assets/images/projects/
-#    - assets/images/projects/aerium-v1/
-#    - assets/images/projects/aerium-v2/
-#    - assets/images/projects/disneyplus/
-#    - assets/images/projects/drop/
-#    - assets/images/projects/flutter_catalog/
-#    - assets/images/projects/foodybite/
-#    - assets/images/projects/login_catalog/
-#    - assets/images/projects/nimbus/
-#    - assets/images/projects/otp_package/
-#    - assets/images/projects/roam/
-#    - assets/images/projects/outfitr/
+    - assets/images/projects/
+    - assets/images/projects/catersmart/
+    - assets/images/projects/csfloat/
+    - assets/images/projects/django-canva/
+    - assets/images/projects/durak/
+    - assets/images/projects/flappy-griffon/
+    - assets/images/projects/freelance/
+    - assets/images/projects/home-assistant/
+    - assets/images/projects/image-uploader/
+    - assets/images/projects/image-upscaler/
+    - assets/images/projects/immopilot/
+    - assets/images/projects/jumpnrun/
+    - assets/images/projects/k3s/
+    - assets/images/projects/llm-mail/
+    - assets/images/projects/nestnode/
+    - assets/images/projects/open-design/
+    - assets/images/projects/paper-citysim/
+    - assets/images/projects/patent-search/
+    - assets/images/projects/pscoat/
+    - assets/images/projects/shop-automation/
+    - assets/images/projects/steam-market/
+    - assets/images/projects/theater/
+    - assets/images/projects/thesis-night/
+    - assets/images/projects/this-site/
+    - assets/images/projects/turtlebot/
+    - assets/images/projects/unity-hackathon/
+    - assets/images/projects/utopia/
+    - assets/images/projects/voice-assistant/
+    - assets/images/projects/vr-anxiety/
+    - assets/images/projects/widgets-pkg/
+    - assets/images/projects/wp-plugins/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

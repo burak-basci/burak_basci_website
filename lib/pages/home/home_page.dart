@@ -3,7 +3,10 @@ import 'package:get/get.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../utils/adaptive_layout.dart';
+import '../../../utils/functions.dart';
 import '../../../utils/values/values.dart';
+import '../../data/projects.dart';
+import '../../widgets/project_item/project_item.dart';
 import '../../widgets/helper/custom_spacer.dart';
 import '../../widgets/scaffolding/footer/full_footer.dart';
 import '../../widgets/scaffolding/page_wrapper.dart';
@@ -168,7 +171,54 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
               );
             }),
           ),
-          const CustomSpacer(heightFactor: 0.1),
+          const CustomSpacer(heightFactor: 0.05),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final double itemH = responsiveSize(
+                mobile: 360,
+                tabletSmall: 480,
+                tabletNormal: 560,
+                desktop: 620,
+              );
+              final double subH = itemH * 0.32;
+              final List<ProjectItemData> projects = recentWorks;
+              return Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: responsiveSize(
+                    mobile: Get.width * 0.10,
+                    desktop: Get.width * 0.15,
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    for (int i = 0; i < projects.length; i++)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 48),
+                        child: ProjectItemLarge(
+                          projectNumber: (i + 1) > 9 ? "${i + 1}" : "0${i + 1}",
+                          imageUrl: projects[i].image,
+                          projectItemheight: itemH,
+                          subheight: subH,
+                          backgroundColor: CustomColors.accentColor2.withValues(alpha: 0.35),
+                          title: projects[i].title.toLowerCase(),
+                          subtitle: projects[i].category,
+                          containerColor: projects[i].primaryColor,
+                          onTap: () {
+                            final String url = projects[i].webUrl.isNotEmpty
+                                ? projects[i].webUrl
+                                : (projects[i].gitHubUrl.isNotEmpty ? projects[i].gitHubUrl : '');
+                            if (url.isNotEmpty) {
+                              Functions.launchUrl(url);
+                            }
+                          },
+                        ),
+                      ),
+                  ],
+                ),
+              );
+            },
+          ),
           // ResponsiveBuilder(
           //   builder: (context, sizingInformation) {
           //     double screenWidth = sizingInformation.screenSize.width;
