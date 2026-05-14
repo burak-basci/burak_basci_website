@@ -44,47 +44,62 @@ class _FloatingBackButtonState extends State<FloatingBackButton> {
         onTap: () {
           Navigator.maybePop(context);
         },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 220),
+        // One TweenAnimationBuilder drives the pill width (via the size of
+        // its `BACK` child) AND the text reveal (widthFactor + opacity).
+        // That way the text slides in *as* the button widens — no jump.
+        child: TweenAnimationBuilder<double>(
+          tween: Tween<double>(begin: 0, end: _hover ? 1 : 0),
+          duration: const Duration(milliseconds: 260),
           curve: Curves.easeOut,
-          width: _hover ? widget.size + 12 : widget.size,
-          height: widget.size,
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-          decoration: BoxDecoration(
-            color: widget.color,
-            borderRadius: BorderRadius.circular(widget.size),
-            boxShadow: const <BoxShadow>[
-              BoxShadow(
-                color: Color(0x33000000),
-                blurRadius: 16,
-                offset: Offset(0, 6),
-              ),
-            ],
-          ),
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Icon(
-                Icons.chevron_left,
-                color: widget.iconColor,
-                size: widget.size * 0.5,
-              ),
-              if (_hover) ...<Widget>[
-                const SizedBox(width: 4),
-                Text(
-                  'BACK',
-                  style: TextStyle(
-                    color: widget.iconColor,
-                    fontFamily: StringConst.INTER,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 2,
+          builder: (context, t, _) {
+            return Container(
+              height: widget.size,
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              decoration: BoxDecoration(
+                color: widget.color,
+                borderRadius: BorderRadius.circular(widget.size),
+                boxShadow: const <BoxShadow>[
+                  BoxShadow(
+                    color: Color(0x33000000),
+                    blurRadius: 16,
+                    offset: Offset(0, 6),
                   ),
-                ),
-              ],
-            ],
-          ),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Icon(
+                    Icons.chevron_left,
+                    color: widget.iconColor,
+                    size: widget.size * 0.5,
+                  ),
+                  ClipRect(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      widthFactor: t,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 6),
+                        child: Opacity(
+                          opacity: t,
+                          child: Text(
+                            'BACK',
+                            style: TextStyle(
+                              color: widget.iconColor,
+                              fontFamily: StringConst.INTER,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 2,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

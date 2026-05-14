@@ -11,8 +11,11 @@ import '../utils/values/values.dart';
 ///   - 'terminal'     window chrome with three traffic-light dots
 ///   - 'unreal-still' letter-boxed, slight grain, no bezel
 ///
-/// Applies a subtle 3D perspective tilt; flip [tiltLeft] for a mirrored shot.
-class DeviceMockup extends StatelessWidget {
+/// The mockup is interactive: it floats with a subtle base tilt, and
+/// follows the mouse pointer with a 3D perspective rotation. Drop the
+/// pointer to ease back to the resting tilt. Pass `tiltLeft: true` to
+/// flip the resting tilt direction (useful for mirrored galleries).
+class DeviceMockup extends StatefulWidget {
   const DeviceMockup({
     required this.imageAsset,
     this.type = 'phone',
@@ -29,9 +32,25 @@ class DeviceMockup extends StatelessWidget {
   final double maxWidth;
 
   @override
+  State<DeviceMockup> createState() => _DeviceMockupState();
+}
+
+class _DeviceMockupState extends State<DeviceMockup> {
+  // Position of the pointer relative to the widget's centre, normalised
+  // to [-1, 1] on each axis. (0, 0) = pointer at centre. Outside the
+  // widget = (0, 0) so the mockup eases back to the resting tilt.
+  Offset _ptr = Offset.zero;
+  Size? _size;
+
+  static const double _baseTiltY = 0.06; // resting Y rotation (radians)
+  static const double _baseTiltX = 0.04; // resting X rotation (radians)
+  static const double _hoverGainY = 0.18; // max additional Y on mouse-track
+  static const double _hoverGainX = 0.12; // max additional X on mouse-track
+
+  @override
   Widget build(BuildContext context) {
     final Widget frame;
-    switch (type) {
+    switch (widget.type) {
       case 'phone':
         frame = _phoneFrame();
         break;
@@ -49,22 +68,64 @@ class DeviceMockup extends StatelessWidget {
         frame = _fullBleed();
     }
 
-    final double rotY = tiltLeft ? 0.06 : -0.06;
-    final double rotX = 0.04;
+    // Resting tilt direction.
+    final double restY = widget.tiltLeft ? _baseTiltY : -_baseTiltY;
+    final double restX = _baseTiltX;
+    // Mouse drives an *additional* tilt on top of the resting one.
+    // Inverted X axis on rotateY so the side closer to the pointer
+    // tilts toward the viewer (intuitive parallax).
+    final double rotY = restY + (-_ptr.dx * _hoverGainY);
+    final double rotX = restX + (_ptr.dy * _hoverGainX);
 
     return Center(
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight),
-        child: Transform(
-          alignment: Alignment.center,
-          transform: Matrix4.identity()
-            ..setEntry(3, 2, 0.0009) // perspective
-            ..rotateY(rotY)
-            ..rotateX(rotX),
-          child: frame,
+        constraints:
+            BoxConstraints(maxWidth: widget.maxWidth, maxHeight: widget.maxHeight),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return MouseRegion(
+              onEnter: (event) => _onMove(event.localPosition, constraints),
+              onExit: (_) => setState(() => _ptr = Offset.zero),
+              onHover: (event) => _onMove(event.localPosition, constraints),
+              child: TweenAnimationBuilder<Offset>(
+                tween: Tween<Offset>(begin: Offset.zero, end: _ptr),
+                duration: const Duration(milliseconds: 240),
+                curve: Curves.easeOutCubic,
+                builder: (context, value, child) {
+                  final double smoothRotY =
+                      restY + (-value.dx * _hoverGainY);
+                  final double smoothRotX =
+                      restX + (value.dy * _hoverGainX);
+                  return Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, 0.0011) // a touch more perspective
+                      ..rotateY(smoothRotY)
+                      ..rotateX(smoothRotX),
+                    child: child,
+                  );
+                },
+                child: frame,
+              ),
+            );
+          },
         ),
       ),
     );
+  }
+
+  void _onMove(Offset local, BoxConstraints constraints) {
+    final double w = constraints.maxWidth;
+    final double h = constraints.maxHeight.isFinite
+        ? constraints.maxHeight
+        : widget.maxHeight;
+    // Clamp into [-1, 1].
+    final double nx = ((local.dx / w) * 2 - 1).clamp(-1.0, 1.0);
+    final double ny = ((local.dy / h) * 2 - 1).clamp(-1.0, 1.0);
+    setState(() {
+      _size = Size(w, h);
+      _ptr = Offset(nx, ny);
+    });
   }
 
   Widget _phoneFrame() {
@@ -86,9 +147,8 @@ class DeviceMockup extends StatelessWidget {
           child: Stack(
             children: <Widget>[
               Positioned.fill(
-                child: Image.asset(imageAsset, fit: BoxFit.cover),
+                child: Image.asset(widget.imageAsset, fit: BoxFit.cover),
               ),
-              // Notch
               Positioned(
                 top: 8,
                 left: 0,
@@ -133,11 +193,10 @@ class DeviceMockup extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.asset(imageAsset, fit: BoxFit.cover),
+                child: Image.asset(widget.imageAsset, fit: BoxFit.cover),
               ),
             ),
           ),
-          // Hinge
           Container(
             height: 14,
             decoration: const BoxDecoration(
@@ -178,7 +237,6 @@ class DeviceMockup extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         child: Column(
           children: <Widget>[
-            // Title bar with traffic lights
             Container(
               height: 32,
               color: const Color(0xFF161B20),
@@ -195,7 +253,7 @@ class DeviceMockup extends StatelessWidget {
             ),
             Expanded(
               child: Image.asset(
-                imageAsset,
+                widget.imageAsset,
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),
@@ -224,8 +282,7 @@ class DeviceMockup extends StatelessWidget {
         ),
         child: Stack(
           children: <Widget>[
-            Positioned.fill(child: Image.asset(imageAsset, fit: BoxFit.cover)),
-            // Subtle letterbox bars top + bottom (5% each)
+            Positioned.fill(child: Image.asset(widget.imageAsset, fit: BoxFit.cover)),
             Positioned(
               top: 0,
               left: 0,
@@ -255,8 +312,12 @@ class DeviceMockup extends StatelessWidget {
           ],
         ),
         clipBehavior: Clip.hardEdge,
-        child: Image.asset(imageAsset, fit: BoxFit.cover),
+        child: Image.asset(widget.imageAsset, fit: BoxFit.cover),
       ),
     );
   }
 }
+
+// Silence unused-field warning while we keep the size cache around for
+// future scroll-driven tilt work.
+// ignore_for_file: unused_field

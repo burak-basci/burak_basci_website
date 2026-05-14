@@ -111,10 +111,11 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
   final ScrollController _scrollController = ScrollController();
 
   // One controller per logical section, all gated by VisibilityDetector
-  // except _heroController (forwarded on page-load complete) and
-  // _waveController (loops forever).
+  // except _heroController (forwarded on page-load complete),
+  // _heroBreathController + _waveController (both loop forever).
   late AnimationController _navController;
   late AnimationController _heroController;
+  late AnimationController _heroBreathController;
   late AnimationController _waveController;
   late AnimationController _aboutController;
   late AnimationController _aboutBodyController;
@@ -134,9 +135,15 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
       vsync: this,
       duration: const Duration(milliseconds: 2000),
     );
+    // Continuous Ken-Burns "breathing" on the hero cover — slow zoom
+    // + Y-drift, reverses on completion so it never sits still.
+    _heroBreathController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 9000),
+    )..repeat(reverse: true);
     _waveController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 1600),
     )..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           _waveController.reverse();
@@ -182,6 +189,7 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
   void dispose() {
     _navController.dispose();
     _heroController.dispose();
+    _heroBreathController.dispose();
     _waveController.dispose();
     _aboutController.dispose();
     _aboutBodyController.dispose();
@@ -282,16 +290,27 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          // Cover image (parallax-style scale on load)
+          // Cover image — slow continuous Ken-Burns breathing (scale +
+          // Y-drift) on _heroBreathController which loops forever; never
+          // sits still, no "waiting" beat.
           Positioned.fill(
-            child: Image.asset(project.image, fit: BoxFit.cover)
-                .animate(controller: _heroController, autoPlay: false)
-                .scale(
-                  begin: const Offset(1.08, 1.08),
-                  end: const Offset(1.0, 1.0),
-                  duration: const Duration(milliseconds: 1800),
-                  curve: Curves.easeOutCubic,
-                ),
+            child: AnimatedBuilder(
+              animation: _heroBreathController,
+              builder: (context, child) {
+                final double t = Curves.easeInOut
+                    .transform(_heroBreathController.value);
+                final double scale = 1.0 + t * 0.06; // 1.00 -> 1.06
+                final double dy = -t * 24; // drift up by 24px over the cycle
+                return Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.identity()
+                    ..translate(0.0, dy)
+                    ..scale(scale, scale),
+                  child: child,
+                );
+              },
+              child: Image.asset(project.image, fit: BoxFit.cover),
+            ),
           ),
 
           // Dark gradient at the bottom for legibility
@@ -396,22 +415,23 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
   }) {
     final TextStyle? numberStyle = Get.textTheme.bodyLarge?.copyWith(
       fontFamily: StringConst.INTER,
-      fontSize: 12,
-      fontWeight: FontWeight.w600,
-      letterSpacing: 2,
+      fontSize: 13,
+      fontWeight: FontWeight.w700,
+      letterSpacing: 3,
       color: CustomColors.black,
     );
     final TextStyle? labelStyle = Get.textTheme.bodyLarge?.copyWith(
       fontFamily: StringConst.INTER,
-      fontSize: 12,
+      fontSize: 13,
       fontWeight: FontWeight.w500,
-      letterSpacing: 2,
+      letterSpacing: 3,
       color: CustomColors.grey700,
     );
     final TextStyle? headingStyle = Get.textTheme.headlineMedium?.copyWith(
       fontFamily: StringConst.VISUELT_PRO,
-      fontSize: responsiveSize(mobile: 28, desktop: 36),
+      fontSize: responsiveSize(mobile: 32, desktop: 44),
       fontWeight: FontWeight.w700,
+      height: 1.2,
       color: CustomColors.black,
     );
 
@@ -419,13 +439,17 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             AnimatedSlideBoxTransitionText(
               controller: controller,
               text: number,
               textStyle: numberStyle,
             ),
-            const SpaceW16(),
+            const SizedBox(width: 14),
+            // small accent rule
+            Container(width: 28, height: 2, color: CustomColors.black),
+            const SizedBox(width: 14),
             AnimatedSlideBoxTransitionText(
               controller: controller,
               text: label,
@@ -433,7 +457,7 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
             ),
           ],
         ),
-        const SpaceH16(),
+        const SpaceH24(),
         AnimatedSlideBoxTransitionText(
           controller: controller,
           text: heading,
@@ -550,15 +574,23 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
       )
           .animate(controller: _aboutBodyController, autoPlay: false)
           .fadeIn(
-            duration: const Duration(milliseconds: 700),
-            delay: const Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 1100),
+            delay: const Duration(milliseconds: 400),
+            curve: Curves.easeOut,
           )
           .slideY(
-            begin: 0.2,
+            begin: 0.35,
             end: 0,
-            duration: const Duration(milliseconds: 700),
-            delay: const Duration(milliseconds: 300),
-            curve: Curves.easeOut,
+            duration: const Duration(milliseconds: 1100),
+            delay: const Duration(milliseconds: 400),
+            curve: Curves.easeOutCubic,
+          )
+          .slideX(
+            begin: 0.04,
+            end: 0,
+            duration: const Duration(milliseconds: 1100),
+            delay: const Duration(milliseconds: 400),
+            curve: Curves.easeOutCubic,
           ),
     );
   }
@@ -765,18 +797,21 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            AnimatedSlideBoxTransitionText(
-              controller: _nextProjectController,
-              text: 'NEXT PROJECT',
-              textStyle: Get.textTheme.bodyLarge?.copyWith(
-                fontFamily: StringConst.INTER,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 2,
-                color: CustomColors.grey700,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: AnimatedSlideBoxTransitionText(
+                controller: _nextProjectController,
+                text: 'NEXT PROJECT',
+                textStyle: Get.textTheme.bodyLarge?.copyWith(
+                  fontFamily: StringConst.INTER,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 3,
+                  color: CustomColors.grey700,
+                ),
               ),
             ),
-            const SpaceH24(),
+            const SpaceH16(),
             InkWell(
               onTap: () {
                 Navigator.of(context).pushReplacementNamed(
