@@ -45,10 +45,10 @@ class _DeviceMockupState extends State<DeviceMockup> {
   double _scrollT = 0.0;
   final GlobalKey _key = GlobalKey();
 
-  static const double _baseTiltY = 0.06; // resting Y rotation (radians)
-  static const double _baseTiltX = 0.04; // resting X rotation (radians)
-  static const double _scrollGainX = 0.22; // X rotation gain on scroll
-  static const double _scrollDriftY = 28.0; // vertical drift in px
+  static const double _baseTiltY = 0.04; // resting Y rotation (radians)
+  static const double _baseTiltX = 0.02; // resting X rotation (radians)
+  static const double _scrollGainX = 0.08; // X rotation gain on scroll
+  static const double _scrollDriftY = 10.0; // vertical drift in px
 
   @override
   void initState() {
@@ -192,8 +192,10 @@ class _DeviceMockupState extends State<DeviceMockup> {
   }
 
   Widget _laptopFrame() {
+    // 16:9 to match the 1600x900 source images so the placeholder
+    // wordmark and any in-image text doesn't get cropped on the sides.
     return AspectRatio(
-      aspectRatio: 16 / 10.5,
+      aspectRatio: 16 / 9.5,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -213,7 +215,7 @@ class _DeviceMockupState extends State<DeviceMockup> {
               padding: const EdgeInsets.all(8),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.asset(widget.imageAsset, fit: BoxFit.cover),
+                child: Image.asset(widget.imageAsset, fit: BoxFit.contain),
               ),
             ),
           ),

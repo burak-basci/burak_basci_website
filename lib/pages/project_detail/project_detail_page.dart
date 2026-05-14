@@ -830,17 +830,29 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
             const SizedBox(height: 24),
             Container(width: 56, height: 2, color: CustomColors.black),
             const SizedBox(height: 72),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).pushReplacementNamed(
-                  '/projects/${next.slug}',
-                );
-              },
-              child: LayoutBuilder(builder: (context, constraints) {
-                final bool wide = constraints.maxWidth > 800;
-                final double titleWidth = wide
-                    ? (constraints.maxWidth - 40) * 0.55
-                    : constraints.maxWidth;
+            // The next-project tile itself: a soft card with explicit
+            // internal padding (40pt) so the big title never touches
+            // the surrounding container's edge.
+            Material(
+              color: CustomColors.grey100.withValues(alpha: 0.6),
+              borderRadius: BorderRadius.circular(12),
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).pushReplacementNamed(
+                    '/projects/${next.slug}',
+                  );
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: responsiveSize(mobile: 24, desktop: 40),
+                    vertical: responsiveSize(mobile: 28, desktop: 40),
+                  ),
+                  child: LayoutBuilder(builder: (context, constraints) {
+                    final bool wide = constraints.maxWidth > 800;
+                    final double titleWidth = wide
+                        ? (constraints.maxWidth - 40) * 0.55
+                        : constraints.maxWidth;
                 final Widget title = AnimatedSlideBoxTransitionText(
                   controller: _nextProjectController,
                   text: next.title,
@@ -882,11 +894,13 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
                     ],
                   );
                 }
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[title, const SpaceH24(), cover],
-                );
-              }),
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[title, const SpaceH24(), cover],
+                    );
+                  }),
+                ),
+              ),
             ),
           ],
         ),
