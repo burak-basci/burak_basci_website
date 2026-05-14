@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/adaptive_layout.dart';
+import '../../utils/functions.dart';
 import '../../utils/values/values.dart';
 import '../../utils/values/spaces.dart';
 import '../buttons/animated_bubble_button.dart';
@@ -61,6 +62,10 @@ class ProjectItemData {
   final List<String> decisions;
   final List<String> learnings;
   final String mockupType;
+
+  /// URL-safe slug derived from [title]. Used for per-project URLs
+  /// like `/projects/volkswagen-ai-patent-search`.
+  String get slug => Functions.slugify(title);
 }
 
 class ProjectData extends StatelessWidget {

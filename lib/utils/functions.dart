@@ -5,6 +5,21 @@ class Functions {
     await launch(url);
   }
 
+  /// Make a URL-safe slug out of a free-form title.
+  ///
+  ///   "Volkswagen AI Patent Search"  -> "volkswagen-ai-patent-search"
+  ///   "Hetzner k3s Infrastructure"   -> "hetzner-k3s-infrastructure"
+  ///   "PostPilot — Social-Media Automation" -> "postpilot-social-media-automation"
+  ///   "Binance → German Tax PDF"     -> "binance-german-tax-pdf"
+  static String slugify(String text) {
+    return text
+        .toLowerCase()
+        .replaceAll(RegExp(r'[^a-z0-9\s-]'), '')
+        .replaceAll(RegExp(r'\s+'), '-')
+        .replaceAll(RegExp(r'-+'), '-')
+        .replaceAll(RegExp(r'^-|-$'), '');
+  }
+
   // static Size textSize({
   //   required String text,
   //   required TextStyle? style,

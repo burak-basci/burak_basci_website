@@ -209,9 +209,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       containerColor: projects[i].primaryColor,
                       onTap: () {
                         Navigator.of(context).pushNamed(
-                          ProjectDetailPage.projectDetailPageRoute,
-                          arguments:
-                              ProjectDetailArguments(index: i),
+                          '/projects/${projects[i].slug}',
                         );
                       },
                     ),

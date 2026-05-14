@@ -65,6 +65,13 @@ class RouteConfiguration {
       (context, matches) => const PrivacyPolicyPage(),
     ),
 
+    // Per-project URLs: /projects/<slug>
+    Path(
+      r'^/projects/([\w-]+)$',
+      (context, slug) => ProjectDetailPage(slug: slug),
+    ),
+    // Back-compat: the old /project-detail route still works and
+    // uses the index argument as before.
     Path(
       ProjectDetailPage.projectDetailPageRoute,
       (context, matches) => const ProjectDetailPage(),

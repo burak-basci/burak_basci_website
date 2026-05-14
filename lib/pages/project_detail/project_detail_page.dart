@@ -98,7 +98,13 @@ class ProjectDetailArguments {
 }
 
 class ProjectDetailPage extends StatefulWidget {
-  const ProjectDetailPage({super.key});
+  const ProjectDetailPage({super.key, this.slug});
+
+  /// Optional URL slug (set by the per-project route
+  /// `^/projects/([\w-]+)\$` in `RouteConfiguration`). When non-null,
+  /// the page looks up the project in `recentWorks` by [ProjectItemData.slug].
+  /// When null we fall back to the legacy `ProjectDetailArguments` route.
+  final String? slug;
 
   static const String projectDetailPageRoute = StringConst.PROJECT_DETAIL_PAGE;
 
@@ -204,13 +210,24 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    final ProjectDetailArguments args =
-        ModalRoute.of(context)!.settings.arguments as ProjectDetailArguments? ??
-            ProjectDetailArguments(index: 0);
-    final int idx = args.index.clamp(0, recentWorks.length - 1);
+    // Find the project either by slug (per-project URL) or by index
+    // (legacy `ProjectDetailArguments`).
+    int idx;
+    if (widget.slug != null) {
+      final int found = recentWorks.indexWhere((p) => p.slug == widget.slug);
+      idx = found == -1 ? 0 : found;
+    } else {
+      final ProjectDetailArguments args =
+          ModalRoute.of(context)!.settings.arguments
+                  as ProjectDetailArguments? ??
+              ProjectDetailArguments(index: 0);
+      idx = args.index.clamp(0, recentWorks.length - 1);
+    }
     final ProjectItemData project = recentWorks[idx];
-    final ProjectItemData? nextProject =
-        recentWorks.length > 1 ? recentWorks[(idx + 1) % recentWorks.length] : null;
+    final ProjectItemData? nextProject = recentWorks.length > 1
+        ? recentWorks[(idx + 1) % recentWorks.length]
+        : null;
+    final int nextIdx = (idx + 1) % recentWorks.length;
 
     final double horizontalPadding = responsiveSize(
       mobile: Get.width * 0.10,
@@ -252,7 +269,7 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
           ],
           if (nextProject != null) ...<Widget>[
             const CustomSpacer(heightFactor: 0.15),
-            _nextProjectSection(nextProject, (idx + 1) % recentWorks.length,
+            _nextProjectSection(nextProject, nextIdx,
                 contentWidth, horizontalPadding),
           ],
           const CustomSpacer(heightFactor: 0.10),
@@ -798,7 +815,7 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SpaceH40(),
+            const SizedBox(height: 80),
             AnimatedSlideBoxTransitionText(
               controller: _nextProjectController,
               text: 'NEXT PROJECT',
@@ -810,12 +827,13 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
                 color: CustomColors.grey700,
               ),
             ),
-            const SpaceH40(),
+            const SizedBox(height: 24),
+            Container(width: 56, height: 2, color: CustomColors.black),
+            const SizedBox(height: 72),
             InkWell(
               onTap: () {
                 Navigator.of(context).pushReplacementNamed(
-                  ProjectDetailPage.projectDetailPageRoute,
-                  arguments: ProjectDetailArguments(index: nextIndex),
+                  '/projects/${next.slug}',
                 );
               },
               child: LayoutBuilder(builder: (context, constraints) {
