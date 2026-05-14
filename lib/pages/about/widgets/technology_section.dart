@@ -23,7 +23,8 @@ class TechnologySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextStyle? titleStyle = Get.textTheme.titleMedium?.copyWith(
-      fontSize: Sizes.TEXT_SIZE_16,
+      fontSize: Sizes.TEXT_SIZE_18,
+      fontWeight: FontWeight.w700,
       color: CustomColors.black,
     );
     return SizedBox(
@@ -206,9 +207,10 @@ class TechnologySection extends StatelessWidget {
     required double width,
   }) {
     final TextStyle? bodyText1Style = Get.textTheme.bodyLarge?.copyWith(
-      fontSize: Sizes.TEXT_SIZE_15,
+      fontSize: Sizes.TEXT_SIZE_16,
       color: CustomColors.grey750,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w300,
+      height: 1.6,
     );
     List<Widget> items = <Widget>[];
     for (var item in data) {

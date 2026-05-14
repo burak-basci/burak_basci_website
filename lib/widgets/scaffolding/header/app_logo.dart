@@ -27,6 +27,7 @@ class AppLogo extends StatelessWidget {
         style: Get.textTheme.displayMedium?.copyWith(
           color: titleColor,
           fontSize: fontSize,
+          fontFamily: StringConst.VISUELT_PRO,
         ),
       ),
     );

@@ -80,8 +80,11 @@ class AnimatedButtonState extends State<AnimatedButton> with SingleTickerProvide
   Widget build(BuildContext context) {
     final TextStyle? defaultTitleTextStyle = Get.textTheme.bodyLarge?.copyWith(
       color: _textAndIconColor.value,
-      fontSize: Sizes.TEXT_SIZE_14,
-      fontWeight: FontWeight.w400,
+      fontSize: Sizes.TEXT_SIZE_15,
+      fontWeight: FontWeight.w500,
+      letterSpacing: 1.2,
+      height: 1.0,
+      leadingDistribution: TextLeadingDistribution.even,
     );
     final ButtonStyle defaultButtonStyle = ElevatedButton.styleFrom(
       foregroundColor: widget.foregroundColor,

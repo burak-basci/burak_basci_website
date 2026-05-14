@@ -17,8 +17,10 @@ class BottomPartFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextStyle? textStyle = Get.textTheme.bodyLarge?.copyWith(
+      fontFamily: StringConst.INTER,
       color: CustomColors.accentColor,
       fontSize: Sizes.TEXT_SIZE_14,
+      fontWeight: FontWeight.w300,
     );
 
     return Container(
@@ -40,6 +42,7 @@ class BottomPartFooter extends StatelessWidget {
             AnimatedUnderlineTextButton(
               text: StringConst.PRIVACY_POLICY,
               underlineColor: CustomColors.white,
+              underlineBottomOffset: 3.0,
               textStyle: textStyle?.copyWith(
                 decoration: TextDecoration.underline,
               ),
@@ -136,6 +139,7 @@ class CreditTextButtons extends StatelessWidget {
         AnimatedUnderlineTextButton(
           text: StringConst.DESIGNED_BY,
           underlineColor: Colors.white,
+          underlineBottomOffset: 3.0,
           textStyle: style?.copyWith(
             decoration: TextDecoration.underline,
           ),
@@ -156,8 +160,10 @@ class BuiltWithFlutterText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextStyle? style = Get.textTheme.bodyLarge?.copyWith(
+      fontFamily: StringConst.INTER,
       color: CustomColors.accentColor,
       fontSize: Sizes.TEXT_SIZE_14,
+      fontWeight: FontWeight.w300,
     );
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

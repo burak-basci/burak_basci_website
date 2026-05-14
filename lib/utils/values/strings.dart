@@ -130,9 +130,66 @@ class StringConst {
   static const String ACADEMIC_CAREER = "Academic Career";
 
   /// Professional Career
+  /// Freelance DevSecOps (newest)
+  static const String EXPERIENCE_5_TIME = "Oct 2024 - Present";
+  static const String EXPERIENCE_5_TITLE = "Freelance DevSecOps & AI Automation Engineer";
+  static const String EXPERIENCE_5_URL = "";
+  static const String EXPERIENCE_5_SUBTITLE =
+      "Self-Employed, Bochum, Germany. I architect production-grade Kubernetes infrastructure, "
+      "GitOps workflows and LLM-powered automation for clients across Germany.";
+  static const String EXPERIENCE_5_BULLET_POINT_1 =
+      "I designed and deployed production-grade Kubernetes clusters (Hetzner Cloud) using Terraform "
+      "(IaC) and ArgoCD (GitOps), achieving 100% environment reproducibility and reducing "
+      "provisioning lead time from 4 days to 45 minutes (95% improvement).";
+  static const String EXPERIENCE_5_BULLET_POINT_2 =
+      "I implemented automated GitLab CI/CD pipelines and GitOps workflows; established a full-stack "
+      "Prometheus/Grafana monitoring solution that reduced Mean Time to Detection by 40% through "
+      "proactive alerting and log aggregation.";
+  static const String EXPERIENCE_5_BULLET_POINT_3 =
+      "I architected a sovereign, Linux-based infrastructure for a 700+ unit real estate portfolio; "
+      "migrated 15+ legacy services to self-hosted open-source alternatives, cutting annual OPEX by "
+      "20.000 € in licensing fees.";
+  static const String EXPERIENCE_5_BULLET_POINT_4 =
+      "I developed an LLM-powered automation service (FastAPI, RAG) for intent-based email "
+      "processing; increased throughput by 80% while maintaining a 95% accuracy rate, saving an "
+      "estimated 8 man-hours per week in manual triage.";
+  static const String EXPERIENCE_5_BULLET_POINT_5 =
+      "I engineered a Hardened Container Environment using rootless Podman/Docker, implementing "
+      "CIS-compliant security policies and automated off-site backup strategies, ensuring 99.6% "
+      "uptime and full GDPR compliance for sensitive PII data.";
+  static const String EXPERIENCE_5_BULLET_POINT_6 =
+      "I led and mentored a cross-functional team of 9 engineering students through the full SDLC, "
+      "implementing Agile (Scrum) methodologies that increased sprint velocity by 25% within the "
+      "first two quarters.";
+
+  /// VW AI Patent Search (working student)
+  static const String EXPERIENCE_4_TIME = "Dec 2024 - Aug 2025";
+  static const String EXPERIENCE_4_TITLE =
+      "Working Student: Full Stack Developer & Solution Architect - AI Patent Search Tool";
+  static const String EXPERIENCE_4_URL = "";
+  static const String EXPERIENCE_4_SUBTITLE =
+      "Volkswagen Infotainment GmbH, Bochum, Germany. I architected and delivered a production "
+      "AI patent search tool now scaled across 3 departments and 50+ internal users.";
+  static const String EXPERIENCE_4_BULLET_POINT_1 =
+      "I architected and independently delivered a production-grade AI patent search tool "
+      "(Flutter, Django, ElasticSearch, Docker) currently scaled across 3 departments, serving 50+ "
+      "internal employees.";
+  static const String EXPERIENCE_4_BULLET_POINT_2 =
+      "I utilized Enterprise Architect to design and document the entire system landscape (UML/SysML), "
+      "mapping 100% of infrastructure-to-code dependencies and ensuring seamless DevSecOps handovers "
+      "and security audits.";
+  static const String EXPERIENCE_4_BULLET_POINT_3 =
+      "I developed a hybrid semantic search engine (Keyword + Vector Embeddings) with A/B-tested "
+      "ranking logic, increasing search precision by 25% and reducing researcher time-to-discovery "
+      "by 40%.";
+  static const String EXPERIENCE_4_BULLET_POINT_4 =
+      "I conducted comprehensive psychological usability audits and user interviews; authored a "
+      "strategic User Pain-Point & UX Roadmap report that identified 4+ critical cognitive load "
+      "barriers for future iterations.";
+
   /// Section 1
-  static const String EXPERIENCE_3_TIME = "Since Mar 2023 ";
-  static const String EXPERIENCE_3_TITLE = "Chief Software Developer - Utopia-Community GbR (Startup)";
+  static const String EXPERIENCE_3_TIME = "Mar 2023 - Mar 2024";
+  static const String EXPERIENCE_3_TITLE = "Technical Lead - Web3 Environmental Platform (Utopia-Community GbR)";
   static const String EXPERIENCE_3_URL = "";
   static const String EXPERIENCE_3_SUBTITLE =
       "I led the creation of the Utopia Community web and app platform, which focuses on environmental "
@@ -165,6 +222,22 @@ class StringConst {
   static const String EXPERIENCE_2_BULLET_POINT_3 =
       "I also designed a variation of that script which captures segmented data from the simulation and "
       "saves it as training data.";
+
+  /// Multiplayer Card Game (co-founder)
+  static const String EXPERIENCE_GAME_TIME = "Nov 2019 - May 2022";
+  static const String EXPERIENCE_GAME_TITLE = "Co-Founder & Lead Developer - Multiplayer Card Game";
+  static const String EXPERIENCE_GAME_URL = "";
+  static const String EXPERIENCE_GAME_SUBTITLE =
+      "Gaming Startup, Dortmund, Germany. Cross-platform card game with custom rendering engine "
+      "and a scalable serverless backend.";
+  static const String EXPERIENCE_GAME_BULLET_POINT_1 =
+      "I engineered a high-performance cross-platform card game engine by extending the Flutter "
+      "framework with custom rendering logic, achieving 60 FPS across Android, iOS, Web, Windows, "
+      "macOS and Linux.";
+  static const String EXPERIENCE_GAME_BULLET_POINT_2 =
+      "I architected a scalable serverless backend using Firebase Cloud Functions and NoSQL "
+      "(Firestore), managing real-time game states and persistent user data for a potential global "
+      "player base.";
 
   /// Section 3
   static const String EXPERIENCE_1_TIME = "Sept 2019 - Oct 2019";
@@ -335,6 +408,9 @@ class StringConst {
   /// Font Family
   static const String VISUELT_PRO = "VisueltPro";
   static const String ROBOTO = "Roboto";
+  static const String CENTURY_GOTHIC = "CenturyGothic";
+  static const String CALIBRI = "Calibri";
+  static const String INTER = "Inter";
 
   /// API
   static const String BASE_URL = "https://portfolio-api-liart.vercel.app/api";

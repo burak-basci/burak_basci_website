@@ -11,8 +11,9 @@ class AppTheme {
 
   static ThemeData themeData(ColorScheme colorScheme, Color focusColor) {
     return ThemeData(
+      useMaterial3: false,
       colorScheme: colorScheme,
-      textTheme: _textTheme,
+      textTheme: _textTheme.apply(fontSizeDelta: 1.0),
       iconTheme: const IconThemeData(color: CustomColors.white),
       canvasColor: colorScheme.background,
       appBarTheme: const AppBarTheme(
@@ -53,14 +54,14 @@ class AppTheme {
 
   static const TextTheme _textTheme = TextTheme(
     displayLarge: TextStyle(
-      fontFamily: StringConst.VISUELT_PRO,
+      fontFamily: StringConst.CENTURY_GOTHIC,
       fontSize: Sizes.TEXT_SIZE_96,
       color: CustomColors.black,
       fontWeight: _bold,
       fontStyle: FontStyle.normal,
     ),
     displayMedium: TextStyle(
-      fontFamily: StringConst.VISUELT_PRO,
+      fontFamily: StringConst.CENTURY_GOTHIC,
       fontSize: Sizes.TEXT_SIZE_60,
       color: CustomColors.black,
       fontWeight: _bold,
@@ -74,7 +75,7 @@ class AppTheme {
       fontStyle: FontStyle.normal,
     ),
     headlineMedium: TextStyle(
-      fontFamily: StringConst.VISUELT_PRO,
+      fontFamily: StringConst.CENTURY_GOTHIC,
       fontSize: Sizes.TEXT_SIZE_34,
       color: CustomColors.black,
       fontWeight: _bold,
@@ -88,14 +89,14 @@ class AppTheme {
       fontStyle: FontStyle.normal,
     ),
     titleLarge: TextStyle(
-      fontFamily: StringConst.VISUELT_PRO,
+      fontFamily: StringConst.CENTURY_GOTHIC,
       fontSize: Sizes.TEXT_SIZE_20,
       color: CustomColors.black,
       fontWeight: _bold,
       fontStyle: FontStyle.normal,
     ),
     titleMedium: TextStyle(
-      fontFamily: StringConst.VISUELT_PRO,
+      fontFamily: StringConst.INTER,
       fontSize: Sizes.TEXT_SIZE_16,
       color: CustomColors.secondaryColor,
       fontWeight: _semiBold,
@@ -109,7 +110,7 @@ class AppTheme {
       fontStyle: FontStyle.normal,
     ),
     bodyLarge: TextStyle(
-      fontFamily: StringConst.VISUELT_PRO,
+      fontFamily: StringConst.INTER,
       fontSize: Sizes.TEXT_SIZE_16,
       color: CustomColors.secondaryColor,
       fontWeight: _light,
@@ -130,7 +131,7 @@ class AppTheme {
       fontWeight: _medium,
     ),
     bodySmall: TextStyle(
-      fontFamily: StringConst.VISUELT_PRO,
+      fontFamily: StringConst.INTER,
       fontSize: Sizes.TEXT_SIZE_12,
       color: CustomColors.white,
       fontWeight: _regular,

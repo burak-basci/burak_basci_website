@@ -107,17 +107,17 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
               );
 
               final TextStyle? bodyText1Style = Get.textTheme.bodyLarge?.copyWith(
+                fontFamily: StringConst.INTER,
                 fontSize: Sizes.TEXT_SIZE_18,
                 color: CustomColors.grey750,
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w300,
                 height: 2.0,
-                // letterSpacing: 2,
               );
               final TextStyle? titleStyle = Get.textTheme.titleMedium?.copyWith(
                 color: CustomColors.black,
                 fontSize: responsiveSize(
-                  mobile: Sizes.TEXT_SIZE_16,
-                  desktop: Sizes.TEXT_SIZE_20,
+                  mobile: Sizes.TEXT_SIZE_20,
+                  desktop: Sizes.TEXT_SIZE_24,
                 ),
               );
               final double widthOfBody = responsiveSize(
@@ -228,7 +228,11 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                               slideBoxController: _contactController,
                               text: StringConst.DEV_EMAIL,
                               hasSlideBoxAnimation: true,
+                              underlineBottomOffset: 1.0,
                               textStyle: Get.textTheme.bodyLarge?.copyWith(
+                                fontFamily: StringConst.INTER,
+                                fontSize: Sizes.TEXT_SIZE_16,
+                                fontWeight: FontWeight.w300,
                                 color: CustomColors.grey750,
                                 decoration: TextDecoration.underline,
                               ),
@@ -315,7 +319,11 @@ class AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
           slideBoxController: _contactController,
           text: data[index].name,
           hasSlideBoxAnimation: true,
+          underlineBottomOffset: 1.0,
           textStyle: Get.textTheme.bodyLarge?.copyWith(
+            fontFamily: StringConst.INTER,
+            fontSize: Sizes.TEXT_SIZE_16,
+            fontWeight: FontWeight.w300,
             color: CustomColors.grey750,
             decoration: TextDecoration.underline,
           ),

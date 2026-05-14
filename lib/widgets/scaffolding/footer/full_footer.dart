@@ -57,6 +57,7 @@ class FullFooter extends StatelessWidget {
                         textAlign: TextAlign.center,
                         width: Get.width,
                         textStyle: Get.textTheme.headlineMedium?.copyWith(
+                          fontFamily: StringConst.VISUELT_PRO,
                           color: CustomColors.accentColor,
                           fontSize: responsiveSize(
                             mobile: Sizes.TEXT_SIZE_30,
@@ -77,7 +78,7 @@ class FullFooter extends StatelessWidget {
                 width: Get.width,
                 textStyle: Get.textTheme.bodyLarge?.copyWith(
                   color: CustomColors.grey550,
-                  fontSize: Sizes.TEXT_SIZE_18,
+                  fontSize: Sizes.TEXT_SIZE_20,
                   fontWeight: FontWeight.w400,
                 ),
                 controller: controller,

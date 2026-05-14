@@ -21,11 +21,12 @@ class AboutHeaderDescription extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final TextStyle? style = Get.textTheme.bodyLarge?.copyWith(
+          fontFamily: StringConst.INTER,
           fontSize: responsiveSize(
-            mobile: 24,
-            desktop: 44,
-            tabletSmall: 24,
-            tabletNormal: 30,
+            mobile: 23,
+            desktop: 42,
+            tabletSmall: 23,
+            tabletNormal: 28,
           ),
           height: 1.2,
           fontWeight: FontWeight.w200,

@@ -14,6 +14,7 @@ class AnimatedUnderlineTextButton extends StatefulWidget {
     this.underlineColor = CustomColors.black,
     this.hoverTextColor,
     this.hasSlideBoxAnimation = false,
+    this.underlineBottomOffset = 0.0,
     this.onTap,
     super.key,
   }) : assert(hasSlideBoxAnimation == true && slideBoxController != null ||
@@ -27,6 +28,7 @@ class AnimatedUnderlineTextButton extends StatefulWidget {
   final Color underlineColor;
   final Color? hoverTextColor;
   final bool hasSlideBoxAnimation;
+  final double underlineBottomOffset;
   final GestureTapCallback? onTap;
 
   @override
@@ -97,6 +99,7 @@ class AnimatedUnderlineTextButtonState extends State<AnimatedUnderlineTextButton
         child: SizedBox(
           width: textWidth + 8,
           child: Stack(
+            clipBehavior: Clip.none,
             children: <Widget>[
               /// Slide box transition animation
               widget.hasSlideBoxAnimation
@@ -110,7 +113,7 @@ class AnimatedUnderlineTextButtonState extends State<AnimatedUnderlineTextButton
 
               /// Underline animation
               Positioned(
-                bottom: 4.0,
+                bottom: widget.underlineBottomOffset,
                 child: _isHovering
                     ? Container(
                         height: 2.0,
@@ -247,10 +250,11 @@ class AnimatedUnderlineTextState extends State<AnimatedUnderlineText> {
     return SizedBox(
       width: textWidth + 8,
       child: Stack(
+        clipBehavior: Clip.none,
         children: <Widget>[
           /// Underline animation
           Positioned(
-            bottom: 4.0,
+            bottom: 0.0,
             child: _isHovering
                 ? Container(
                     height: 2.0,

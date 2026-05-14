@@ -24,9 +24,15 @@ class SelfPositioningWidget extends StatelessWidget {
     return SizedBox(
       height: height,
       width: width,
-      child: Stack(
-        children: <Widget>[
-          child
+      child: ClipRect(
+        child: Stack(
+          clipBehavior: Clip.hardEdge,
+          children: <Widget>[
+          SizedBox(
+            height: height,
+            width: width,
+            child: child,
+          )
               .animate(
                 controller: controller,
                 autoPlay: false,
@@ -52,7 +58,8 @@ class SelfPositioningWidget extends StatelessWidget {
               ),
             ),
           ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -37,9 +37,10 @@ class ContentBuilder extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final TextStyle? defaultNumberStyle = Get.textTheme.bodyLarge?.copyWith(
-          fontSize: Sizes.TEXT_SIZE_10,
+          fontFamily: StringConst.INTER,
+          fontSize: Sizes.TEXT_SIZE_12,
           color: CustomColors.black,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
           height: 2.0,
           letterSpacing: 2,
         );

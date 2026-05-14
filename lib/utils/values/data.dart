@@ -142,8 +142,14 @@ class Data {
   ];
 
   static const List<String> applications = <String>[
-    "Unreal Engine",
     "Flutter",
+    "Django",
+    "FastAPI",
+    "ElasticSearch",
+    "Unreal Engine",
+    "Enterprise Architect",
+    "Home Assistant",
+    "n8n",
     "Android Studio",
     "Visual Studio",
     "Remix Ethereum IDE",
@@ -158,15 +164,28 @@ class Data {
   ];
 
   static const List<String> otherSoftware = <String>[
+    "Kubernetes",
+    "Docker",
+    "Podman",
+    "Terraform",
+    "ArgoCD",
+    "GitLab CI/CD",
+    "Prometheus",
+    "Grafana",
     "Git",
     "Firebase",
     "Hardhat",
+    "RAG",
+    "Vector Databases",
+    "Proxmox",
+    "openSUSE",
+    "OpenWRT",
     "YOLOv8",
     "MidJourney",
     "Stable Diffusion",
     "Auto GPT",
     "Wordpress",
-    "MuseScore"
+    "MuseScore",
   ];
 
   // static List<ProjectItemData> recentWorks = <ProjectItemData>[
@@ -271,6 +290,32 @@ class Data {
 //
   static final List<ExperienceData> workData = <ExperienceData>[
     ExperienceData(
+      time: StringConst.EXPERIENCE_5_TIME,
+      title: StringConst.EXPERIENCE_5_TITLE,
+      subtitle: StringConst.EXPERIENCE_5_SUBTITLE,
+      url: StringConst.EXPERIENCE_5_URL,
+      bulletPoint: <String>[
+        StringConst.EXPERIENCE_5_BULLET_POINT_1,
+        StringConst.EXPERIENCE_5_BULLET_POINT_2,
+        StringConst.EXPERIENCE_5_BULLET_POINT_3,
+        StringConst.EXPERIENCE_5_BULLET_POINT_4,
+        StringConst.EXPERIENCE_5_BULLET_POINT_5,
+        StringConst.EXPERIENCE_5_BULLET_POINT_6,
+      ],
+    ),
+    ExperienceData(
+      time: StringConst.EXPERIENCE_4_TIME,
+      title: StringConst.EXPERIENCE_4_TITLE,
+      subtitle: StringConst.EXPERIENCE_4_SUBTITLE,
+      url: StringConst.EXPERIENCE_4_URL,
+      bulletPoint: <String>[
+        StringConst.EXPERIENCE_4_BULLET_POINT_1,
+        StringConst.EXPERIENCE_4_BULLET_POINT_2,
+        StringConst.EXPERIENCE_4_BULLET_POINT_3,
+        StringConst.EXPERIENCE_4_BULLET_POINT_4,
+      ],
+    ),
+    ExperienceData(
       time: StringConst.EXPERIENCE_3_TIME,
       title: StringConst.EXPERIENCE_3_TITLE,
       subtitle: StringConst.EXPERIENCE_3_SUBTITLE,
@@ -291,6 +336,16 @@ class Data {
         StringConst.EXPERIENCE_2_BULLET_POINT_1,
         StringConst.EXPERIENCE_2_BULLET_POINT_2,
         StringConst.EXPERIENCE_2_BULLET_POINT_3,
+      ],
+    ),
+    ExperienceData(
+      time: StringConst.EXPERIENCE_GAME_TIME,
+      title: StringConst.EXPERIENCE_GAME_TITLE,
+      subtitle: StringConst.EXPERIENCE_GAME_SUBTITLE,
+      url: StringConst.EXPERIENCE_GAME_URL,
+      bulletPoint: <String>[
+        StringConst.EXPERIENCE_GAME_BULLET_POINT_1,
+        StringConst.EXPERIENCE_GAME_BULLET_POINT_2,
       ],
     ),
     ExperienceData(

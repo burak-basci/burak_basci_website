@@ -254,6 +254,7 @@ class ContactPageState extends State<ContactPage> with SingleTickerProviderState
                     width: contentAreaWidth,
                     text: StringConst.GET_IN_TOUCH,
                     textStyle: Get.textTheme.displayMedium?.copyWith(
+                      fontFamily: StringConst.VISUELT_PRO,
                       color: CustomColors.black,
                       fontSize: responsiveSize(
                         mobile: 40,
@@ -267,8 +268,10 @@ class ContactPageState extends State<ContactPage> with SingleTickerProviderState
                     width: contentAreaWidth,
                     text: StringConst.CONTACT_MSG,
                     textStyle: Get.textTheme.bodyLarge?.copyWith(
+                      fontFamily: StringConst.INTER,
                       color: CustomColors.grey700,
                       height: 2.0,
+                      fontWeight: FontWeight.w300,
                       fontSize: responsiveSize(
                         mobile: Sizes.TEXT_SIZE_16,
                         desktop: Sizes.TEXT_SIZE_18,

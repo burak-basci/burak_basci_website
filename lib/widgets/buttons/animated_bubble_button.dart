@@ -66,12 +66,17 @@ class AnimatedBubbleButtonState extends State<AnimatedBubbleButton>
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle? buttonStyle = widget.titleStyle ??
+    final TextStyle? baseTitleStyle = widget.titleStyle ??
         Get.textTheme.bodyLarge?.copyWith(
           color: CustomColors.accentColor,
           fontSize: Sizes.TEXT_SIZE_16,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 1.2,
         );
+    final TextStyle? buttonStyle = baseTitleStyle?.copyWith(
+      height: 1.0,
+      leadingDistribution: TextLeadingDistribution.even,
+    );
 
     return MouseRegion(
       onEnter: (e) => _mouseEnter(true),
@@ -97,12 +102,11 @@ class AnimatedBubbleButtonState extends State<AnimatedBubbleButton>
                 curve: Curves.fastOutSlowIn,
                 duration: widget.duration,
               ),
-              Positioned(
-                top: (widget.height / 2) - 10,
-                width: widget.targetWidth,
+              Positioned.fill(
                 child: Center(
                   child: widget.child ??
                       Row(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
@@ -114,9 +118,9 @@ class AnimatedBubbleButtonState extends State<AnimatedBubbleButton>
                           const SpaceW8(),
                           Image.asset(
                             width: 20.0,
-                            height: 24.0,
+                            height: 20.0,
                             color: widget.imageColor,
-                            alignment: Alignment.topCenter,
+                            fit: BoxFit.contain,
                             ImagePath.ARROW_RIGHT,
                           ),
                         ],

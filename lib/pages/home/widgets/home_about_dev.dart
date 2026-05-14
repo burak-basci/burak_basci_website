@@ -107,7 +107,9 @@ class HomeAboutDevState extends State<HomeAboutDev> {
             controller: widget.controller,
             width: 240,
             height: 60,
-            child: AnimatedBubbleButton(
+            child: Align(
+              alignment: Alignment.center,
+              child: AnimatedBubbleButton(
               bubbleColor: CustomColors.grey100,
               imageColor: CustomColors.black,
               targetWidth: 200,
@@ -116,15 +118,17 @@ class HomeAboutDevState extends State<HomeAboutDev> {
                 color: CustomColors.black,
                 fontSize: responsiveSize(
                   mobile: Sizes.TEXT_SIZE_14,
-                  tabletSmall: Sizes.TEXT_SIZE_15,
+                  tabletSmall: Sizes.TEXT_SIZE_16,
                   desktop: Sizes.TEXT_SIZE_16,
                 ),
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1.2,
               ),
               onTap: () {
                 // TODO: Reimplement when WorksPage is ready
                 Navigator.pushNamed(context, AboutPage.aboutPageRoute);
               },
+              ),
             ),
           ),
           const SpaceH40(),

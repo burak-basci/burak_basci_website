@@ -1,5 +1,6 @@
 import 'package:burak_basci_website/widgets/text/self_positioning_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -253,8 +254,8 @@ class ExperiencePageState extends State<ExperiencePage> with TickerProviderState
     TextStyle? defaultTitleStyle = Get.textTheme.titleMedium?.copyWith(
       color: CustomColors.black,
       fontSize: responsiveSize(
-        mobile: Sizes.TEXT_SIZE_18,
-        desktop: Sizes.TEXT_SIZE_20,
+        mobile: 19.0,
+        desktop: 23.0,
       ),
     );
 
@@ -293,8 +294,8 @@ class ExperiencePageState extends State<ExperiencePage> with TickerProviderState
                   width: width,
                   textStyle: defaultTitleStyle?.copyWith(
                     fontSize: responsiveSize(
-                      mobile: Sizes.TEXT_SIZE_16,
-                      desktop: Sizes.TEXT_SIZE_18,
+                      mobile: 15.0,
+                      desktop: 17.0,
                     ),
                     fontWeight: FontWeight.w300,
                   ),
@@ -334,23 +335,36 @@ class ExperiencePageState extends State<ExperiencePage> with TickerProviderState
             const Icon(
               Icons.play_arrow_outlined,
               color: CustomColors.black,
-              size: 12,
-            ),
+              size: 14,
+            )
+                .animate(
+                  controller: selfPositioningController,
+                  autoPlay: false,
+                )
+                .fadeIn(
+                  duration: const Duration(milliseconds: 300),
+                  delay: Duration(milliseconds: 600 + index * 100),
+                  curve: Curves.easeOut,
+                )
+                .slideX(
+                  begin: -0.5,
+                  end: 0,
+                  duration: const Duration(milliseconds: 400),
+                  delay: Duration(milliseconds: 600 + index * 100),
+                  curve: Curves.fastOutSlowIn,
+                ),
             const SpaceW8(),
             Flexible(
               child: SelfPositioningText(
                 controller: selfPositioningController,
                 width: width,
-                delay: const Duration(milliseconds: 800),
+                delay: Duration(milliseconds: 800 + index * 100),
                 text: roles[index],
                 textStyle: Get.textTheme.bodyLarge?.copyWith(
-                  fontSize: responsiveSize(
-                    mobile: Sizes.TEXT_SIZE_16,
-                    desktop: Sizes.TEXT_SIZE_16,
-                  ),
+                  fontSize: 17.0,
                   color: CustomColors.grey750,
                   fontWeight: FontWeight.w300,
-                  height: 1.5,
+                  height: 1.6,
                 ),
               ),
             ),
