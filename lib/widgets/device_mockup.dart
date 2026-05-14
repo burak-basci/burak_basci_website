@@ -11,10 +11,10 @@ import '../utils/values/values.dart';
 ///   - 'terminal'     window chrome with three traffic-light dots
 ///   - 'unreal-still' letter-boxed, slight grain, no bezel
 ///
-/// The mockup is interactive: it floats with a subtle base tilt, and
-/// follows the mouse pointer with a 3D perspective rotation. Drop the
-/// pointer to ease back to the resting tilt. Pass `tiltLeft: true` to
-/// flip the resting tilt direction (useful for mirrored galleries).
+/// When [scrollController] is provided, the mockup's tilt + Y-offset
+/// are driven by the widget's position in the viewport: it enters
+/// tilted up, levels out as it crosses centre, and tilts down as it
+/// exits. Without a controller it just floats with the resting tilt.
 class DeviceMockup extends StatefulWidget {
   const DeviceMockup({
     required this.imageAsset,
@@ -22,6 +22,7 @@ class DeviceMockup extends StatefulWidget {
     this.tiltLeft = false,
     this.maxHeight = 540,
     this.maxWidth = 920,
+    this.scrollController,
     super.key,
   });
 
@@ -30,22 +31,61 @@ class DeviceMockup extends StatefulWidget {
   final bool tiltLeft;
   final double maxHeight;
   final double maxWidth;
+  final ScrollController? scrollController;
 
   @override
   State<DeviceMockup> createState() => _DeviceMockupState();
 }
 
 class _DeviceMockupState extends State<DeviceMockup> {
-  // Position of the pointer relative to the widget's centre, normalised
-  // to [-1, 1] on each axis. (0, 0) = pointer at centre. Outside the
-  // widget = (0, 0) so the mockup eases back to the resting tilt.
-  Offset _ptr = Offset.zero;
-  Size? _size;
+  /// Normalised viewport position of the widget centre, in [-1, 1]:
+  ///   -1 = bottom of widget just below the top of the viewport
+  ///    0 = widget perfectly centred
+  ///   +1 = top of widget just above the bottom of the viewport
+  double _scrollT = 0.0;
+  final GlobalKey _key = GlobalKey();
 
   static const double _baseTiltY = 0.06; // resting Y rotation (radians)
   static const double _baseTiltX = 0.04; // resting X rotation (radians)
-  static const double _hoverGainY = 0.18; // max additional Y on mouse-track
-  static const double _hoverGainX = 0.12; // max additional X on mouse-track
+  static const double _scrollGainX = 0.22; // X rotation gain on scroll
+  static const double _scrollDriftY = 28.0; // vertical drift in px
+
+  @override
+  void initState() {
+    super.initState();
+    widget.scrollController?.addListener(_onScroll);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _onScroll());
+  }
+
+  @override
+  void didUpdateWidget(covariant DeviceMockup oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.scrollController != widget.scrollController) {
+      oldWidget.scrollController?.removeListener(_onScroll);
+      widget.scrollController?.addListener(_onScroll);
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.scrollController?.removeListener(_onScroll);
+    super.dispose();
+  }
+
+  void _onScroll() {
+    final RenderObject? ro = _key.currentContext?.findRenderObject();
+    if (ro is! RenderBox || !ro.attached) return;
+    final Offset topLeft = ro.localToGlobal(Offset.zero);
+    final double widgetCentreY = topLeft.dy + ro.size.height / 2;
+    final double viewportH = MediaQuery.of(context).size.height;
+    // (-1, 1): widgetCentre below the top of the viewport on its
+    // way in is negative; once past viewport centre it goes positive.
+    final double t = ((widgetCentreY - viewportH / 2) / (viewportH / 2))
+        .clamp(-1.5, 1.5);
+    if ((t - _scrollT).abs() > 0.005) {
+      setState(() => _scrollT = t);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,64 +108,44 @@ class _DeviceMockupState extends State<DeviceMockup> {
         frame = _fullBleed();
     }
 
-    // Resting tilt direction.
     final double restY = widget.tiltLeft ? _baseTiltY : -_baseTiltY;
-    final double restX = _baseTiltX;
-    // Mouse drives an *additional* tilt on top of the resting one.
-    // Inverted X axis on rotateY so the side closer to the pointer
-    // tilts toward the viewer (intuitive parallax).
-    final double rotY = restY + (-_ptr.dx * _hoverGainY);
-    final double rotX = restX + (_ptr.dy * _hoverGainX);
+    // X rotation: tilt down when the widget is above centre, tilt up
+    // when it's below — invert because positive scrollT means the
+    // widget has moved past viewport centre (i.e. user scrolled it
+    // upward and is reading it).
+    final double rotX = _baseTiltX + (-_scrollT * _scrollGainX);
+    // Subtle vertical drift, opposite to the rotation, so the mockup
+    // feels like a 3D card being read.
+    final double dy = _scrollT * _scrollDriftY;
 
     return Center(
       child: ConstrainedBox(
-        constraints:
-            BoxConstraints(maxWidth: widget.maxWidth, maxHeight: widget.maxHeight),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return MouseRegion(
-              onEnter: (event) => _onMove(event.localPosition, constraints),
-              onExit: (_) => setState(() => _ptr = Offset.zero),
-              onHover: (event) => _onMove(event.localPosition, constraints),
-              child: TweenAnimationBuilder<Offset>(
-                tween: Tween<Offset>(begin: Offset.zero, end: _ptr),
-                duration: const Duration(milliseconds: 240),
-                curve: Curves.easeOutCubic,
-                builder: (context, value, child) {
-                  final double smoothRotY =
-                      restY + (-value.dx * _hoverGainY);
-                  final double smoothRotX =
-                      restX + (value.dy * _hoverGainX);
-                  return Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.identity()
-                      ..setEntry(3, 2, 0.0011) // a touch more perspective
-                      ..rotateY(smoothRotY)
-                      ..rotateX(smoothRotX),
-                    child: child,
-                  );
-                },
-                child: frame,
-              ),
-            );
-          },
+        constraints: BoxConstraints(
+          maxWidth: widget.maxWidth,
+          maxHeight: widget.maxHeight,
+        ),
+        child: KeyedSubtree(
+          key: _key,
+          child: TweenAnimationBuilder<double>(
+            tween: Tween<double>(begin: rotX, end: rotX),
+            duration: const Duration(milliseconds: 180),
+            curve: Curves.easeOut,
+            builder: (context, smoothRotX, child) {
+              return Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.identity()
+                  ..setEntry(3, 2, 0.0011)
+                  ..translate(0.0, dy)
+                  ..rotateY(restY)
+                  ..rotateX(smoothRotX),
+                child: child,
+              );
+            },
+            child: frame,
+          ),
         ),
       ),
     );
-  }
-
-  void _onMove(Offset local, BoxConstraints constraints) {
-    final double w = constraints.maxWidth;
-    final double h = constraints.maxHeight.isFinite
-        ? constraints.maxHeight
-        : widget.maxHeight;
-    // Clamp into [-1, 1].
-    final double nx = ((local.dx / w) * 2 - 1).clamp(-1.0, 1.0);
-    final double ny = ((local.dy / h) * 2 - 1).clamp(-1.0, 1.0);
-    setState(() {
-      _size = Size(w, h);
-      _ptr = Offset(nx, ny);
-    });
   }
 
   Widget _phoneFrame() {

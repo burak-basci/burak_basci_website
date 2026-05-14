@@ -201,6 +201,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       imageUrl: projects[i].image,
                       projectItemheight: itemH,
                       subheight: subH,
+                      duration: const Duration(milliseconds: 900),
                       backgroundColor:
                           CustomColors.accentColor2.withValues(alpha: 0.35),
                       title: projects[i].title,

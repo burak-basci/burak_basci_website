@@ -457,7 +457,7 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
             ),
           ],
         ),
-        const SpaceH24(),
+        const SpaceH40(),
         AnimatedSlideBoxTransitionText(
           controller: controller,
           text: heading,
@@ -752,13 +752,14 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
             const SpaceH40(),
             for (int i = 0; i < p.screenshots.length; i++)
               Padding(
-                padding: EdgeInsets.only(bottom: i == p.screenshots.length - 1 ? 0 : 56),
+                padding: EdgeInsets.only(bottom: i == p.screenshots.length - 1 ? 0 : 80),
                 child: DeviceMockup(
                   imageAsset: p.screenshots[i],
                   type: p.mockupType,
                   tiltLeft: i.isOdd,
                   maxWidth: width * 0.9,
                   maxHeight: responsiveSize(mobile: 420, desktop: 640),
+                  scrollController: _scrollController,
                 )
                     .animate(controller: _galleryController, autoPlay: false)
                     .fadeIn(
@@ -797,21 +798,19 @@ class ProjectDetailPageState extends State<ProjectDetailPage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: AnimatedSlideBoxTransitionText(
-                controller: _nextProjectController,
-                text: 'NEXT PROJECT',
-                textStyle: Get.textTheme.bodyLarge?.copyWith(
-                  fontFamily: StringConst.INTER,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 3,
-                  color: CustomColors.grey700,
-                ),
+            const SpaceH40(),
+            AnimatedSlideBoxTransitionText(
+              controller: _nextProjectController,
+              text: 'NEXT PROJECT',
+              textStyle: Get.textTheme.bodyLarge?.copyWith(
+                fontFamily: StringConst.INTER,
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 3,
+                color: CustomColors.grey700,
               ),
             ),
-            const SpaceH16(),
+            const SpaceH40(),
             InkWell(
               onTap: () {
                 Navigator.of(context).pushReplacementNamed(
