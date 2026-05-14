@@ -7,6 +7,7 @@ import '../../../utils/functions.dart';
 import '../../../utils/values/values.dart';
 import '../../data/projects.dart';
 import '../../widgets/project_item/project_item.dart';
+import '../project_detail/project_detail_page.dart';
 import '../../widgets/helper/custom_spacer.dart';
 import '../../widgets/scaffolding/footer/full_footer.dart';
 import '../../widgets/scaffolding/page_wrapper.dart';
@@ -181,13 +182,13 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 desktop: Get.height * 0.7,
               );
               final double subH = itemH * 0.75;
-              final List<ProjectItemData> projects = recentWorksHighlights;
+              final List<ProjectItemData> projects = recentWorks;
               final int n = projects.length;
 
               // Build cards top-down: card 0 added FIRST (bottom z),
-              // card n-1 added LAST (top z). The later card's header overlaps
-              // the previous card's image, both visually and for clicks —
-              // each card's exclusive hit area is its own header row.
+              // card n-1 added LAST (top z). Each card's exclusive hit area
+              // is its own visible header — the image-bottom is covered by
+              // the next card both visually and for click testing.
               final List<Widget> cascade = <Widget>[];
               for (int i = 0; i < n; i++) {
                 final double topMargin = subH * i;
@@ -206,13 +207,11 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       subtitle: projects[i].category,
                       containerColor: projects[i].primaryColor,
                       onTap: () {
-                        final p = projects[i];
-                        final String url = p.webUrl.isNotEmpty
-                            ? p.webUrl
-                            : (p.gitHubUrl.isNotEmpty ? p.gitHubUrl : '');
-                        if (url.isNotEmpty) {
-                          Functions.launchUrl(url);
-                        }
+                        Navigator.of(context).pushNamed(
+                          ProjectDetailPage.projectDetailPageRoute,
+                          arguments:
+                              ProjectDetailArguments(index: i),
+                        );
                       },
                     ),
                   ),
@@ -224,23 +223,6 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: Stack(children: cascade),
               );
             },
-          ),
-          const CustomSpacer(heightFactor: 0.05),
-          Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: responsiveSize(
-                mobile: Get.width * 0.10,
-                desktop: Get.width * 0.15,
-              ),
-            ),
-            child: Text(
-              "${recentWorks.length} projects total · tap any card to open the live link.",
-              style: Get.textTheme.bodyLarge?.copyWith(
-                fontSize: 14,
-                color: CustomColors.grey700,
-                fontStyle: FontStyle.italic,
-              ),
-            ),
           ),
           // ResponsiveBuilder(
           //   builder: (context, sizingInformation) {

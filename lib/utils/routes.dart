@@ -5,6 +5,7 @@ import '../pages/about/about_page.dart';
 import '../pages/contact/contact_page.dart';
 import '../pages/experience/experience_page.dart';
 import '../pages/home/home_page.dart';
+import '../pages/project_detail/project_detail_page.dart';
 
 typedef PathWidgetBuilder = Widget Function(BuildContext, String? /*Map<String, String>*/);
 
@@ -64,10 +65,10 @@ class RouteConfiguration {
       (context, matches) => const PrivacyPolicyPage(),
     ),
 
-    // Path(
-    //   r'^' + ProjectDetailPage.projectDetailPageRoute,
-    //   (context, matches) => const ProjectDetailPage(),
-    // ),
+    Path(
+      ProjectDetailPage.projectDetailPageRoute,
+      (context, matches) => const ProjectDetailPage(),
+    ),
 
     // Path(
     //   r'^' + CertificationPage.certificationPageRoute,
