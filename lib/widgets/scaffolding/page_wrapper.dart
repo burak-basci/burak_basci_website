@@ -1,11 +1,10 @@
 import "package:flutter/material.dart";
 
-import '../../../utils/adaptive_layout.dart';
 import '../../../utils/values/values.dart';
 import '../../pages/home/home_page.dart';
-import 'app_drawer.dart';
-import 'loading_slider.dart';
-import 'top_navigation_bar.dart';
+import 'header/app_drawer.dart';
+import 'header/top_navigation_bar.dart';
+import 'page_loading_slider.dart';
 
 class NavigationArguments {
   bool showUnVeilPageAnimation;
@@ -19,35 +18,29 @@ class NavigationArguments {
 
 class PageWrapper extends StatefulWidget {
   const PageWrapper({
+    required this.navigationBarAnimationController,
     required this.selectedRoute,
     required this.selectedPageName,
-    required this.navigationBarAnimationController,
     required this.child,
+    this.hasSideTitle = true,
+    this.backgroundColor,
     this.customLoadingAnimation = const SizedBox(),
     this.onLoadingAnimationDone,
-    this.hasSideTitle = true,
-    this.hasUnveilPageAnimation = true,
-    this.reverseAnimationOnPop = true,
-    this.backgroundColor,
-    this.navigationBarTitleColor = AppColors.grey600,
-    this.navigationBarSelectedTitleColor = Colors.black,
-    this.appLogoColor = Colors.black,
-    Key? key,
-  }) : super(key: key);
+    this.hasStandardPageUnveilAnimation = true,
+    this.reverseUnveilPageAnimationOnPop = true,
+    super.key,
+  });
 
+  final AnimationController navigationBarAnimationController;
   final String selectedRoute;
   final String selectedPageName;
-  final AnimationController navigationBarAnimationController;
-  final VoidCallback? onLoadingAnimationDone;
   final Widget child;
-  final Widget customLoadingAnimation;
   final bool hasSideTitle;
-  final bool hasUnveilPageAnimation;
-  final bool reverseAnimationOnPop;
   final Color? backgroundColor;
-  final Color navigationBarTitleColor;
-  final Color navigationBarSelectedTitleColor;
-  final Color appLogoColor;
+  final Widget customLoadingAnimation;
+  final VoidCallback? onLoadingAnimationDone;
+  final bool hasStandardPageUnveilAnimation;
+  final bool reverseUnveilPageAnimationOnPop;
 
   @override
   PageWrapperState createState() => PageWrapperState();
@@ -58,17 +51,6 @@ class PageWrapperState extends State<PageWrapper> with TickerProviderStateMixin 
   late AnimationController unveilPageSlideController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final Duration duration = const Duration(milliseconds: 1000);
-
-  loadPage() {
-    forwardSlideController.forward();
-    forwardSlideController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        if (widget.onLoadingAnimationDone != null) {
-          widget.onLoadingAnimationDone!();
-        }
-      }
-    });
-  }
 
   @override
   void initState() {
@@ -81,7 +63,7 @@ class PageWrapperState extends State<PageWrapper> with TickerProviderStateMixin 
       duration: duration,
     );
 
-    if (widget.hasUnveilPageAnimation) {
+    if (widget.hasStandardPageUnveilAnimation) {
       unveilPageSlideController.forward();
       unveilPageSlideController.addStatusListener((status) {
         if (status == AnimationStatus.completed) {
@@ -104,76 +86,59 @@ class PageWrapperState extends State<PageWrapper> with TickerProviderStateMixin 
 
   @override
   Widget build(BuildContext context) {
-    // simple hack to reverse animation when navigation is popped
-    // I don't know if there's a better way to do this, but for now it works
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (forwardSlideController.isCompleted && widget.reverseAnimationOnPop) {
-        forwardSlideController.reverse();
-      }
-    });
-
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: widget.backgroundColor,
-      drawer: AppDrawer(
-        controller: widget.navigationBarAnimationController,
-        menuList: Data.menuItems,
-        selectedItemRouteName: widget.selectedRoute,
-      ),
-      body: Stack(
-        children: <Widget>[
-          widget.child,
-          TopNavigationBar(
-            selectedRouteTitle: widget.selectedPageName,
-            controller: widget.navigationBarAnimationController,
-            selectedRouteName: widget.selectedRoute,
-            hasSideTitle: widget.hasSideTitle,
-            appLogoColor: widget.appLogoColor,
-            titleColor: widget.navigationBarTitleColor,
-            selectedTitleColor: widget.navigationBarSelectedTitleColor,
-            onNavItemWebTap: (String route) {
-              forwardSlideController.forward();
-              forwardSlideController.addStatusListener((status) {
-                if (status == AnimationStatus.completed) {
-                  if (route == HomePage.homePageRoute) {
-                    Navigator.of(context).pushNamed(
-                      route,
-                      arguments: NavigationArguments(
-                        showUnVeilPageAnimation: true,
-                      ),
-                    );
-                  } else {
-                    Navigator.of(context).pushNamed(route);
-                  }
+    return SelectionArea(
+      child: Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: widget.backgroundColor,
+        drawer: AppDrawer(
+          controller: widget.navigationBarAnimationController,
+          menuList: Data.menuItems,
+          selectedItemRouteName: widget.selectedRoute,
+        ),
+        body: Stack(
+          children: <Widget>[
+            widget.child,
+            TopNavigationBar(
+              controller: widget.navigationBarAnimationController,
+              selectedRouteTitle: widget.selectedPageName,
+              selectedRouteName: widget.selectedRoute,
+              hasSideTitle: widget.hasSideTitle,
+              onMenuTap: () {
+                if (_scaffoldKey.currentState!.isEndDrawerOpen) {
+                  _scaffoldKey.currentState?.openEndDrawer();
+                } else {
+                  _scaffoldKey.currentState?.openDrawer();
                 }
-              });
-            },
-            onMenuTap: () {
-              if (_scaffoldKey.currentState!.isEndDrawerOpen) {
-                _scaffoldKey.currentState?.openEndDrawer();
-              } else {
-                _scaffoldKey.currentState?.openDrawer();
-              }
-            },
-          ),
-          LoadingSlider(
-            controller: forwardSlideController,
-            width: widthOfScreen(context),
-            height: heightOfScreen(context),
-          ),
-          widget.hasUnveilPageAnimation
-              ? Positioned(
-                  right: 0,
-                  child: LoadingSlider(
+              },
+              onNavItemWebTap: (String route) async {
+                forwardSlideController.forward();
+                forwardSlideController.addStatusListener((status) {
+                  if (status == AnimationStatus.completed) {
+                    if (route == HomePage.homePageRoute) {
+                      Navigator.of(context).pushNamed(
+                        route,
+                        arguments: NavigationArguments(
+                          showUnVeilPageAnimation: true,
+                        ),
+                      );
+                    } else {
+                      Navigator.of(context).pushNamed(route);
+                    }
+                  }
+                });
+              },
+            ),
+            PageLoadingSlider(
+              controller: forwardSlideController,
+            ),
+            widget.hasStandardPageUnveilAnimation
+                ? PageLoadingSlider(
                     controller: unveilPageSlideController,
-                    curve: Curves.fastOutSlowIn,
-                    width: widthOfScreen(context),
-                    height: heightOfScreen(context),
                     isSlideForward: false,
-                  ),
-                )
-              : widget.customLoadingAnimation,
-        ],
+                  )
+                : widget.customLoadingAnimation,
+          ],
+        ),
       ),
     );
   }

@@ -1,49 +1,44 @@
 import "package:flutter/material.dart";
+import 'package:get/get.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../utils/adaptive_layout.dart';
 import '../../../utils/values/values.dart';
-import '../../widgets/animations/animated_text_slide_box_transition.dart';
 import '../../widgets/helper/custom_spacer.dart';
-import '../../widgets/scaffolding/animated_footer.dart';
+import '../../widgets/scaffolding/footer/full_footer.dart';
 import '../../widgets/scaffolding/page_wrapper.dart';
+import '../../widgets/text/slide_box_transitioning_text.dart';
 import 'widgets/home_page_header.dart';
-import 'widgets/initial_loading_page.dart';
+import 'widgets/initial_loading_page_animation.dart';
 
 class HomePage extends StatefulWidget {
   static const String homePageRoute = StringConst.HOME_PAGE;
 
   const HomePage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   HomePageState createState() => HomePageState();
 }
 
 class HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  GlobalKey key = GlobalKey();
   final ScrollController _scrollController = ScrollController();
-  late AnimationController _viewProjectsController;
+  // late AnimationController _viewProjectsController;
   late AnimationController _recentWorksController;
-  late AnimationController _slideTextController;
+  late AnimationController _headerTextController;
+  late AnimationController _headerCircleController;
+  late AnimationController _footerController;
   late NavigationArguments _arguments;
 
   @override
   void initState() {
     _arguments = NavigationArguments();
-    _viewProjectsController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _slideTextController = AnimationController(
-      vsync: this,
-      duration: Animations.slideAnimationDurationLong,
-    );
-    _recentWorksController = AnimationController(
-      vsync: this,
-      duration: Animations.slideAnimationDurationLong,
-    );
+    // _viewProjectsController = AnimationController(vsync: this);
+    _headerTextController = AnimationController(vsync: this);
+    _headerCircleController = AnimationController(vsync: this);
+    _recentWorksController = AnimationController(vsync: this);
+    _footerController = AnimationController(vsync: this);
 
     super.initState();
   }
@@ -62,46 +57,44 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _viewProjectsController.dispose();
-    _slideTextController.dispose();
+    // _viewProjectsController.dispose();
+    _headerTextController.dispose();
+    _headerCircleController.dispose();
+    _recentWorksController.dispose();
     _scrollController.dispose();
+    _footerController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     getArguments();
-    final double projectItemHeight = assignHeight(context, 0.4);
-    final double subHeight = (3 / 4) * projectItemHeight;
-    final double extra = projectItemHeight - subHeight;
-    final TextTheme textTheme = Theme.of(context).textTheme;
-    final TextStyle? textButtonStyle = textTheme.headline4?.copyWith(
-      color: AppColors.black,
-      fontSize: responsiveSize(context, 30, 40, medium: 36, small: 32),
-      height: 2.0,
-    );
-    final EdgeInsets margin = EdgeInsets.only(
-      left: responsiveSize(
-        context,
-        assignWidth(context, 0.10),
-        assignWidth(context, 0.15),
-        small: assignWidth(context, 0.15),
-      ),
-    );
+    // final double projectItemHeight = Get.height * 0.4;
+    // final double subHeight = (3 / 4) * projectItemHeight;
+    // final double extra = projectItemHeight - subHeight;
+    // final TextTheme textTheme = Get.textTheme;
+    // final TextStyle? textButtonStyle = textTheme.headlineMedium?.copyWith(
+    //   color: AppColors.black,
+    //   fontSize: responsiveSize(context, 30, 40, medium: 36, small: 32),
+    //   height: 2.0,
+    // );
+
     return PageWrapper(
       selectedRoute: HomePage.homePageRoute,
       selectedPageName: StringConst.HOME,
-      navigationBarAnimationController: _slideTextController,
+      navigationBarAnimationController: _headerTextController,
       hasSideTitle: false,
-      hasUnveilPageAnimation: _arguments.showUnVeilPageAnimation,
+      hasStandardPageUnveilAnimation: _arguments.showUnVeilPageAnimation,
       onLoadingAnimationDone: () {
-        _slideTextController.forward();
+        _headerTextController.forward();
+        _headerCircleController.forward();
       },
       customLoadingAnimation: LoadingHomePageAnimation(
         loadingText: StringConst.DEV_NAME,
-        style: textTheme.headline4!.copyWith(color: AppColors.white),
+        style: Get.textTheme.headlineMedium!.copyWith(color: CustomColors.white),
         onLoadingDone: () {
-          _slideTextController.forward();
+          _headerTextController.forward();
+          _headerCircleController.forward();
         },
       ),
       child: ListView(
@@ -112,60 +105,68 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
         children: <Widget>[
           HomePageHeader(
-            controller: _slideTextController,
-            scrollToWorksKey: key,
+            scrollController: _scrollController,
+            textController: _headerTextController,
+            circleController: _headerCircleController,
           ),
           const CustomSpacer(heightFactor: 0.1),
           VisibilityDetector(
             key: const Key('recent-projects'),
             onVisibilityChanged: (visibilityInfo) {
-              double visiblePercentage = visibilityInfo.visibleFraction * 100;
-              if (visiblePercentage > 45) {
+              if (visibilityInfo.visibleFraction > 0.25) {
                 _recentWorksController.forward();
               }
             },
-            child: Container(
-              key: key,
-              margin: margin,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  AnimatedTextSlideBoxTransition(
-                    controller: _recentWorksController,
-                    text: StringConst.CRAFTED_WITH_LOVE,
-                    width: responsiveSize(
-                      context,
-                      assignWidth(context, 0.80),
-                      assignWidth(context, 0.70),
-                      small: assignWidth(context, 0.70),
+            child: LayoutBuilder(builder: (context, constraints) {
+              final EdgeInsets margin = EdgeInsets.only(
+                left: responsiveSize(
+                  mobile: Get.width * 0.10,
+                  tabletSmall: Get.width * 0.15,
+                  desktop: Get.width * 0.15,
+                ),
+              );
+
+              return Container(
+                margin: margin,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    AnimatedSlideBoxTransitionText(
+                      controller: _recentWorksController,
+                      text: StringConst.CRAFTED_WITH_LOVE,
+                      width: Get.width * 0.70,
+                      textStyle: Get.textTheme.headlineMedium?.copyWith(
+                        color: CustomColors.black,
+                        fontSize: responsiveSize(
+                          mobile: 30,
+                          tabletSmall: 36,
+                          tabletNormal: 40,
+                          desktop: 48,
+                        ),
+                        height: 2.0,
+                      ),
                     ),
-                    maxLines: 5,
-                    textStyle: textTheme.headline4?.copyWith(
-                      color: AppColors.black,
-                      fontSize: responsiveSize(context, 30, 48, medium: 40, small: 36),
-                      height: 2.0,
-                    ),
-                  ),
-                  // const SpaceH16(),
-                  // AnimatedPositionedText(
-                  //   controller: CurvedAnimation(
-                  //     parent: _recentWorksController,
-                  //     curve: const Interval(0.6, 1.0, curve: Curves.fastOutSlowIn),
-                  //   ),
-                  //   text: StringConst.SELECTION,
-                  //   textStyle: textTheme.bodyText1?.copyWith(
-                  //     fontSize: responsiveSize(
-                  //       context,
-                  //       Sizes.TEXT_SIZE_16,
-                  //       Sizes.TEXT_SIZE_18,
-                  //     ),
-                  //     height: 2,
-                  //     fontWeight: FontWeight.w400,
-                  //   ),
-                  // ),
-                ],
-              ),
-            ),
+                    // const SpaceH16(),
+                    // AnimatedPositionedText(
+                    //   controller: CurvedAnimation(
+                    //     parent: _recentWorksController,
+                    //     curve: const Interval(0.6, 1.0, curve: Curves.fastOutSlowIn),
+                    //   ),
+                    //   text: StringConst.SELECTION,
+                    //   textStyle: textTheme.bodyText1?.copyWith(
+                    //     fontSize: responsiveSize(
+                    //       context,
+                    //       Sizes.TEXT_SIZE_16,
+                    //       Sizes.TEXT_SIZE_18,
+                    //     ),
+                    //     height: 2,
+                    //     fontWeight: FontWeight.w400,
+                    //   ),
+                    // ),
+                  ],
+                ),
+              );
+            }),
           ),
           const CustomSpacer(heightFactor: 0.1),
           // ResponsiveBuilder(
@@ -218,7 +219,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
           //           targetOffset: const Offset(0.05, 0),
           //           child: TextButton(
           //             onPressed: () {
-          //               // TODO: Reimplement when WorksPage is ready
+          //               // TOD O: Reimplement when WorksPage is ready
           //               Navigator.pushNamed(context, AboutPage.aboutPageRoute);
           //             },
           //             child: Row(
@@ -247,7 +248,17 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
           //   ),
           // ),
           const CustomSpacer(heightFactor: 0.15),
-          const AnimatedFooter(),
+          VisibilityDetector(
+            key: const Key('animated-footer'),
+            onVisibilityChanged: (visibilityInfo) {
+              if (visibilityInfo.visibleFraction > 0.25) {
+                _footerController.forward();
+              }
+            },
+            child: FullFooter(
+              controller: _footerController,
+            ),
+          ),
         ],
       ),
     );

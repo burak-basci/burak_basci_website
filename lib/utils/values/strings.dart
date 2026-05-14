@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-part of values;
+part of 'values.dart';
 
 class StringConst {
   ///
@@ -37,10 +37,12 @@ class StringConst {
   static const String AVAILABLE_FOR_FREELANCE = "I'm available for Consultancy & Freelancing.";
   static const String SAY_HELLO = "Say Hello";
 
-  static const String COPYRIGHT = "©  2023  Built by  $DEV_NAME, based on";
-  static const String BASED_ON = "David Cobbina's source.";
-  static const String BASED_ON_LINK = "https://github.com/david-legend/david-legend.github.io";
-  static const String DESIGNED_BY = "Designed by Julius G.";
+  static const String COPYRIGHT = "©  2023  Built by  $DEV_NAME,";
+  static const String COPYRIGHT2 = "©  2023  Built by  $DEV_NAME";
+  static const String COPYRIGHT3 = " based on the design of ";
+  // static const String BASED_ON = "David Cobbina's source.";
+  // static const String BASED_ON_LINK = "https://github.com/david-legend/david-legend.github.io";
+  static const String DESIGNED_BY = "Julius G.";
   static const String DESIGN_LINK =
       "https://www.behance.net/gallery/63574251/Personal-Portfolio-Website-Design";
 
@@ -50,7 +52,7 @@ class StringConst {
   static const String HI = "Hi,";
   static const String DEV_INTRO = "I'm Burak.";
   static const String DEV_TITLE = "A Software Developer \n& Problem Solver.";
-  static const String DEV_DESC = "Flutter / Unreal Engine / Blockchain / AI";
+  static const String DEV_DESC = "Flutter / Unreal Engine / AI / Blockchain";
   static const String SEE_MY_WORK = "See my work";
   static const String SCROLL_DOWN = "Scroll Down";
   static const String CRAFTED_WITH_LOVE = "Crafted with love.";
@@ -91,18 +93,12 @@ class StringConst {
 
   static const String ABOUT_DEV_STORY_TITLE = "A little bit about myself";
   static const String ABOUT_DEV_STORY_CONTENT_1 =
-      "With a rational and exploring nature, I have embarked on a journey of exploration across "
-      "various fields, delving mostly into entrepreneurship, computer science and psychology. These "
-      "interests have provided me with valuable insights and knowledge in my personal and "
-      "professional Life. Currently, I am pursuing a dual degree in Industrial Engineering and "
-      "Psychology, a unique blend that fuels my analytical and social mind.\n"
-      "My love for coding ignited during my initial programming course in university, and it has grown "
-      "ever since. Through a combination of self-teaching and university projects, I've honed my "
-      "skills. These experiences have culminated in numerous achievements in my professional career.\n"
-      "My strength are my keen eyes for details and finding unique ways to solving complex problems. "
-      "I enjoy pushing the boundaries of my Knowledge and finding ways to manifest my Ideas into the"
-      "real world. As I am an avid reader, I am also a lover of all forms of art, music, poetry, "
-      "science of engineering and human and animal psychology.";
+      "I'm pursuing a dual degree in Industrial Engineering and Psychology, with a keen interest in "
+      "entrepreneurship, information technology, philosophy, and personal growth I enjoy learning new "
+      "skills and applying them to diverse projects, such as developing a website, a VR application, "
+      "a driving robot, a side-scroller game or an AI training data generator. Outside of academics "
+      "and work, I find fulfillment in playing the piano, calisthenics, hiking, juggling, and "
+      "exploring new topics.";
 
   /// Section 2
   static const String ABOUT_DEV_TECHNOLOGY = "Technology";
@@ -113,13 +109,13 @@ class StringConst {
       "Listed below are the tools and technologies that I have used over the years.";
 
   static const String PROGRAMMING_LANGUAGES = "Programming Languages";
-  static const String APPLICATIONS = "Applications";
+  static const String APPLICATIONS = "Applications & Frameworks";
   static const String OTHER_SOFTWARE = "Other Software";
 
   /// Section 3
   static const String ABOUT_DEV_CONTACT = "Contact";
 
-  static const String ABOUT_DEV_CONTACT_SOCIAL = "Social";
+  static const String ABOUT_DEV_CONTACT_SOCIAL = "Social Media";
   static const String ABOUT_DEV_CONTACT_EMAIL = "Email";
 
   /// Quote Section
@@ -130,62 +126,87 @@ class StringConst {
   /// Experience
   ///
 
+  static const String PROFESSIONAL_CAREER = "Professional Career";
+  static const String ACADEMIC_CAREER = "Academic Career";
+
+  /// Professional Career
   /// Section 1
-  static const String EXPERIENCE_3_DURATION = "Since Mar 2023 ";
-  static const String EXPERIENCE_3 = "Lead Software Developer - Utopia-Community GbR (Startup)";
+  static const String EXPERIENCE_3_TIME = "Since Mar 2023 ";
+  static const String EXPERIENCE_3_TITLE = "Chief Software Developer - Utopia-Community GbR (Startup)";
   static const String EXPERIENCE_3_URL = "";
-  static const String EXPERIENCE_3_POSITION =
-      "Responsible for the development of a web and app platform for "
-      "environmental protection and charitable purposes, based on a proprietary crypto token on the "
-      "Polygon Blockchain";
-  static const String EXPERIENCE_3_ROLE_1 =
-      "Established a comprehensive requirements analysis and created designs and wireframes according to "
-      "the founder's vision.";
-  static const String EXPERIENCE_3_ROLE_2 =
-      "Built a flexible infrastructure and a streamlined production pipeline, optimizing the software "
-      "iteration loop.";
-  static const String EXPERIENCE_3_ROLE_3 =
-      "Created and implemented the crypto token, including its smart contract, utilizing Solidity.";
-  static const String EXPERIENCE_3_ROLE_4 =
-      "Developed the prototype using Flutter and Dart and presented it at the KUER.NRW Green "
-      "Entrepreneurship Fair in Gelsenkirchen.";
-  static const String EXPERIENCE_3_ROLE_5 = "Currently developing the Minimum Viable Product .";
-  static const String EXPERIENCE_3_LOCATION = "";
+  static const String EXPERIENCE_3_SUBTITLE =
+      "I led the creation of the Utopia Community web and app platform, which focuses on environmental "
+      "protection and charity.";
+  static const String EXPERIENCE_3_BULLET_POINT_1 =
+      "This involved designing a unique crypto token on the Polygon Blockchain.";
+  static const String EXPERIENCE_3_BULLET_POINT_2 =
+      "I analyzed requirements, designed interfaces, and established an efficient production process.";
+  static const String EXPERIENCE_3_BULLET_POINT_3 =
+      "Additionally, I crafted the crypto token's smart contract using Solidity and developed the "
+      "prototype app platform using Flutter and Dart.";
+  static const String EXPERIENCE_3_BULLET_POINT_4 =
+      "I showcased the prototype at the KUER.NRW Green Entrepreneurship Fair in Gelsenkirchen. ";
 
   /// Section 2
-  static const String EXPERIENCE_2_DURATION = "Since Dec 2022";
-  static const String EXPERIENCE_2 = "Student Assistant - Technical University of Dortmund";
+  static const String EXPERIENCE_2_TIME = "Dec 2022 - Dec 2023";
+  static const String EXPERIENCE_2_TITLE =
+      "Student Research Assistant - Institute for Robotics Research";
   static const String EXPERIENCE_2_URL = "";
-  static const String EXPERIENCE_2_POSITION =
-      "Supporting research at the Institute of Robotics Research in the "
-      "field of glare-free high beams and pixel light.";
-  static const String EXPERIENCE_2_ROLE_1 =
-      "Developed a control system for a physically simulated car to track a spline path in Unreal "
-      "Engine using Blueprints.";
-  static const String EXPERIENCE_2_ROLE_2 =
-      "Created and optimized a C++ script for a camera attached to a physics simulated car to "
-      "capture and transformed 3D bounding boxes of cars and pedestrians into 2D camera space and "
-      "saving the information in PNG and TXT files.";
-  static const String EXPERIENCE_2_ROLE_3 =
-      "Currently writing a scientific report on the application and optimization of the mentioned "
-      "script for training the YOLOv8 AI using automatically generated day and night data for car and "
-      "pedestrian detection.";
-  static const String EXPERIENCE_2_LOCATION = "";
+  static const String EXPERIENCE_2_SUBTITLE =
+      "At the Technical University of Dortmund, I supported research at the Institute for Robotics in "
+      "the field of glare-free high beams.";
+  static const String EXPERIENCE_2_BULLET_POINT_1 =
+      "There, I successfully developed a control system for a physics-simulated car to track a spline "
+      "path in Unreal Engine using Blueprints.";
+  static const String EXPERIENCE_2_BULLET_POINT_2 =
+      "I independently created and optimized a C++ script for a simulated car camera, capturing and "
+      "calculating 2D bounding boxes for pedestrians and cars and saving them as training data for "
+      "artificial intelligences.";
+  static const String EXPERIENCE_2_BULLET_POINT_3 =
+      "I also designed a variation of that script which captures segmented data from the simulation and "
+      "saves it as training data.";
 
   /// Section 3
-  static const String EXPERIENCE_1_DURATION = "Sept 2019 - Oct 2019";
-  static const String EXPERIENCE_1 = "Intern - IMA Schelling GmbH";
+  static const String EXPERIENCE_1_TIME = "Sept 2019 - Oct 2019";
+  static const String EXPERIENCE_1_TITLE =
+      "Intern in Mechanical & Electrical Engineering - IMA Schelling GmbH";
   static const String EXPERIENCE_1_URL = "";
-  static const String EXPERIENCE_1_POSITION = "8-week basic internship in mechanical engineering and "
-      "electrical engineering as part of the industrial engineering degree program.";
-  static const String EXPERIENCE_1_ROLE_1 =
-      "Developed and optimized electrical control systems using TwinCAT.";
-  static const String EXPERIENCE_1_ROLE_2 =
-      "Assembled, installed, tested, and maintained pneumatic systems.";
-  static const String EXPERIENCE_1_ROLE_3 =
-      "Manufactured various metal components using various production methods with the help of hand "
-      "tools, lathes, and milling machines.";
-  static const String EXPERIENCE_1_LOCATION = "";
+  static const String EXPERIENCE_1_SUBTITLE = "During my 8-week basic internship at IMA Schelling GmbH "
+      "in the fields of mechanical engineering and electrical engineering, I had the opportunity to "
+      "work on various tasks.";
+  static const String EXPERIENCE_1_BULLET_POINT_1 =
+      "This included the development and optimization of electrical control systems using TwinCAT.";
+  static const String EXPERIENCE_1_BULLET_POINT_2 =
+      "I was involved in the assembly, installation, testing, inspection, and maintenance of "
+      "pneumatic systems.";
+  static const String EXPERIENCE_1_BULLET_POINT_3 =
+      "Additionally, I gained practical experience in manufacturing various metallic components through "
+      "different production methods, utilizing hand tools as well as lathes and milling machines.";
+
+  /// Academic Career
+  /// Section 1
+  static const String ACADEMIC_2_TIME = "Since 2020";
+  static const String ACADEMIC_2_TITLE = "IU International University (Distance Study)";
+  static const String ACADEMIC_2_URL = "";
+  static const String ACADEMIC_2_SUBTITLE = "Degree Program: Psychology (B.Sc.)";
+
+  /// Section 2
+  static const String ACADEMIC_1_TIME = "Since Oct 2018";
+  static const String ACADEMIC_1_TITLE = "Technical University in Dortmund";
+  static const String ACADEMIC_1_URL = "";
+  static const String ACADEMIC_1_SUBTITLE = "Degree Program: Industrial Engineering (B.Sc.)\n"
+      "Profile: Management of Electrical Systems";
+  static const String ACADEMIC_1_BULLET_POINT_1 = "3D-Printing and Laser Woodcutter Workshop";
+  static const String ACADEMIC_1_BULLET_POINT_2 = "Programming of a Micro Controller ";
+  static const String ACADEMIC_1_BULLET_POINT_3 = "Analyzing and Modifying Signals via an Oscilloscope";
+  static const String ACADEMIC_1_BULLET_POINT_4 = "Programming a Turtlebot with ROS in C++";
+  static const String ACADEMIC_1_BULLET_POINT_5 = "I wrote a scientific paper on the application and "
+      "optimization of object detection at night using Deep Learning (YOLOv8) in a simulated urban "
+      "environment from the perspective of a moving car.";
+  static const String ACADEMIC_1_BULLET_POINT_6 = "Currently I am engaged in my Bachelor's Thesis, "
+      "titled:\n"
+      "\"Evaluation of the Influence of Lighting and Training Parameters on Object Detection by "
+      "Artificial Neural Networks in Virtual Night Drives.\".";
 
   ///
   /// Privacy Policy
@@ -193,7 +214,7 @@ class StringConst {
 
   // static const String h1 = "Privacy Policy";
   static const String PARAGRAPH1 =
-      "At Burak Basci, accessible from https://burak-basci.github.io/, one of our main "
+      "At Burak Basci, accessible from https://burak-basci.github.io/ and https://www.burakbasci.de/, one of our main "
       "priorities is the privacy of our visitors. This Privacy Policy document contains types of "
       "information that is collected and recorded by Burak Basci and how we use it.\n";
   static const String PARAGRAPH2 =

@@ -35,7 +35,7 @@ class RouteConfiguration {
   /// take priority.
   static List<Path> paths = <Path>[
     Path(
-      r'^' + HomePage.homePageRoute,
+      HomePage.homePageRoute,
       (context, matches) => const HomePage(),
     ),
 
@@ -45,22 +45,22 @@ class RouteConfiguration {
     // ),
 
     Path(
-      r'^' + AboutPage.aboutPageRoute,
+      AboutPage.aboutPageRoute,
       (context, matches) => const AboutPage(),
     ),
 
     Path(
-      r'^' + ExperiencePage.experiencePageRoute,
+      ExperiencePage.experiencePageRoute,
       (context, matches) => const ExperiencePage(),
     ),
 
     Path(
-      r'^' + ContactPage.contactPageRoute,
+      ContactPage.contactPageRoute,
       (context, matches) => const ContactPage(),
     ),
 
     Path(
-      r'^' + PrivacyPolicyPage.privacyPolicyPageRoute,
+      PrivacyPolicyPage.privacyPolicyPageRoute,
       (context, matches) => const PrivacyPolicyPage(),
     ),
 
@@ -126,9 +126,9 @@ class RouteConfiguration {
 
 class NoAnimationMaterialPageRoute<T> extends MaterialPageRoute<T> {
   NoAnimationMaterialPageRoute({
-    required WidgetBuilder builder,
-    RouteSettings? settings,
-  }) : super(builder: builder, settings: settings);
+    required super.builder,
+    super.settings,
+  });
 
   @override
   Widget buildTransitions(
